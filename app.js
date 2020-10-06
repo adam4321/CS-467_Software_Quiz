@@ -78,7 +78,6 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
 );
 
 // LOG OUT ROUTE - for all pages
-//Logout
 app.get('/logout', (req, res) => {
     req.session = null;
     req.logout();
@@ -88,17 +87,20 @@ app.get('/logout', (req, res) => {
 
 /* ERROR ROUTES ------------------------------------------------------------ */
 
+// Middleware - Function to Check user is Logged in
+const checkUserLoggedIn = (req, res, next) => {
+    req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
+}
+
 // PAGE NOT FOUND - Route for bad path error page
-app.use((req, res) => {
-    res.status(404);
-    res.render('404');
+app.use(checkUserLoggedIn, (req, res) => {
+    res.status(404).render('404');
 });
    
 // INTERNAL SERVER ERROR - Route for a server-side error
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500);
-    res.render('500');
+    res.status(500).render('500');
 });
 
 

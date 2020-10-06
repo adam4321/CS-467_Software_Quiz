@@ -13,7 +13,7 @@ const router = express.Router();
 
 // Middleware - Function to Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
-    req.user ? next(): res.sendStatus(401);
+    req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
 
