@@ -20,7 +20,7 @@ passport.use(new GoogleStrategy({
         clientSecret: GOOG_CREDS.CLIENT_SECRET,
         callbackURL: GOOG_CREDS.CALLBACK_URL
     },
-        function(accessToken, refreshToken, profile, cb) {
+    function(accessToken, refreshToken, profile, cb) {
         return cb(null, profile);
     }
 ));
