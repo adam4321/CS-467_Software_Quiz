@@ -17,7 +17,7 @@ const checkUserLoggedIn = (req, res, next) => {
 }
 
 
-// USER BUGS - Function to render user's bugs ------------------------------ */
+// QUIZZES - Function to render user's quizzes ----------------------------- */
 function renderQuizzes(req, res, next) {
     let context = {};
 
@@ -25,7 +25,7 @@ function renderQuizzes(req, res, next) {
 };
 
 
-/* USER HOME PAGE ROUTES --------------------------------------------------- */
+/* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
 router.get('/', checkUserLoggedIn, renderQuizzes);
 

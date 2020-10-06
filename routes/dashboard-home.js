@@ -17,7 +17,7 @@ const checkUserLoggedIn = (req, res, next) => {
 }
 
 
-// USER BUGS - Function to render user's bugs ------------------------------ */
+// INITIAL DASHBOARD - Function to render the main dashboard --------------- */
 function renderDashboard(req, res, next) {
     let context = {};
 
@@ -25,7 +25,7 @@ function renderDashboard(req, res, next) {
 };
 
 
-/* USER HOME PAGE ROUTES --------------------------------------------------- */
+/* DASHBOARD PAGE ROUTES --------------------------------------------------- */
 
 router.get('/', checkUserLoggedIn, renderDashboard);
 

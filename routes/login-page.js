@@ -13,7 +13,7 @@ const express = require('express');
 const router = express.Router();
 
 
-// USER BUGS - Function to render user's bugs ------------------------------ */
+// LOGIN - Function to render the login page ------------------------------- */
 function renderLogin(req, res, next) {
     let context = {};
 
@@ -21,7 +21,7 @@ function renderLogin(req, res, next) {
 };
 
 
-// USER BUGS - Function to render user's bugs ------------------------------ */
+// FAILED - Function to render a failed login ------------------------------ */
 function renderFailedLogin(req, res, next) {
     let context = {};
 
@@ -29,7 +29,7 @@ function renderFailedLogin(req, res, next) {
 };
 
 
-/* USER HOME PAGE ROUTES --------------------------------------------------- */
+/* LOGIN PAGE ROUTES ------------------------------------------------------- */
 
 router.get('/', renderLogin);
 router.get('/failed', renderFailedLogin);
