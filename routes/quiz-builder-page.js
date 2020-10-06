@@ -4,7 +4,8 @@
 **  Root path:  localhost:3500/quiz_builder
 **
 **  Contains:   /
-**              
+**
+**  SECURED ROUTES!  --  All routes must call checkUserLoggedIn              
 ******************************************************************************/
 
 const express = require('express');

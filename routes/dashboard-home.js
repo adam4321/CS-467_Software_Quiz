@@ -4,7 +4,8 @@
 **  Root path:  localhost:3500/dashboard
 **
 **  Contains:   /
-**              
+**
+**  SECURED ROUTES!  --  All routes must call checkUserLoggedIn        
 ******************************************************************************/
 
 const express = require('express');
