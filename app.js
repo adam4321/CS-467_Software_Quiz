@@ -28,7 +28,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Set up mongodb
-
+const {MongoClient} = require('mongodb');
+const uri = `mongodb+srv://${username}:${password}@${cluster-url}/test?retryWrites=true&w=majority`;
+const client = new MongoClient(uri);
+await client.connect();
 
 // Set up path to static files
 app.use('/', express.static('public'));

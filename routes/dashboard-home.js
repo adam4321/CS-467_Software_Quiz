@@ -22,6 +22,11 @@ function renderDashboard(req, res, next) {
     let context = req.user;
     console.log(context);
 
+
+
+
+    
+
     res.render("dashboard-home", context);
 };
 
