@@ -27,11 +27,33 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+
+
+
 // Set up mongodb
-const {MongoClient} = require('mongodb');
-const uri = `mongodb+srv://${username}:${password}@${cluster-url}/test?retryWrites=true&w=majority`;
-const client = new MongoClient(uri);
-await client.connect();
+const credentials = require('./MONGODB-credentials.js');
+const mongo = require('mongodb').MongoClient;
+const url = `mongodb://localhost:27017`;
+mongo.connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }, (err, client) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log('Mongodb connected\n');
+
+        const db = client.db('quiz_soft');
+        const collection = db.collection('app_users');
+
+        collection.find().toArray((err, items) => {
+            console.log(items)
+        })
+    }
+)
+
+
 
 // Set up path to static files
 app.use('/', express.static('public'));
@@ -103,7 +125,7 @@ app.use(checkUserLoggedIn, (req, res) => {
 // INTERNAL SERVER ERROR - Route for a server-side error
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).render('500');
+    res.status(err.status || 500).render('500');
 });
 
 
