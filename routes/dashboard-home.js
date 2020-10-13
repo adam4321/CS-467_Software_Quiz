@@ -20,6 +20,8 @@ const checkUserLoggedIn = (req, res, next) => {
 // INITIAL DASHBOARD - Function to render the main dashboard --------------- */
 function renderDashboard(req, res, next) {
     let context = {};
+    context = req.user;
+    console.log(context);
 
     res.render("dashboard-home", context);
 };

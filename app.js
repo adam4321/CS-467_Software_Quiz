@@ -67,10 +67,10 @@ app.use('/settings', require('./routes/settings-page.js'));
 
 /* AUTHENTICATION ROUTES ---------------------------------------------------- */
 
-// REQUEST AUTH
+// GOOGLE AUTH REQUEST 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// POST-AUTH REDIRECT
+// GOOGLE POST-AUTH REDIRECT
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login/failed' }),
     function(req, res) {
         res.redirect('/dashboard');
