@@ -3,8 +3,8 @@
 ******************************************************************************/
 
 #login-container {
-    width: 400px;
-    margin-top: 40px;
+    width: 450px;
+    margin-top: 60px;
     padding: 0;
     margin-left: auto;
     margin-right: auto;
@@ -12,7 +12,7 @@
 }
 
 .signin-btn-text {
-    margin-top: 50px;
+    margin-top: 45px;
     margin-left: -15px;
     font-size: large;
     font-weight: bold;
@@ -20,6 +20,7 @@
 
 .login-btns {
     margin-left: -15px;
+    margin-bottom: 15px;
     cursor: pointer;
 }
 
@@ -31,9 +32,27 @@
 
 #g-signin {
     height: 40px;
+    width: 166px;
+}
+
+#f-signin {
+    height: 35px;
+    width: 165px;
 }
 
 #register-button {
     width: 170px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+}
+
+#attribution {
+    margin-top: -10px;
+    margin-bottom: -20px;
+}
+
+@media only screen and (max-width: 600px) {
+    #login-container {
+        width: 250px;
+        margin-top: 40px;
+    }
 }
