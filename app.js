@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 // Set up mongodb
 const credentials = require('./MONGODB-credentials.js');
 const mongo = require('mongodb').MongoClient;
-const url = `mongodb://localhost:27017`;
+const url = `mongodb+srv://${credentials.USER}:${credentials.PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
 mongo.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -44,8 +44,8 @@ mongo.connect(url, {
         }
         console.log('Mongodb connected\n');
 
-        const db = client.db('quiz_soft');
-        const collection = db.collection('app_users');
+        const db = client.db('QuizSoftTest');
+        const collection = db.collection('HelloWorld');
 
         collection.find().toArray((err, items) => {
             console.log(items)
