@@ -34,7 +34,13 @@ const credentials = require('./credentials.js');
 
 const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
 
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, function (err, res) {
+    if (err) {
+        console.log ('ERROR connecting ' + err);
+    } else {
+        console.log ('Successful connection');
+    }
+});
 
 
 
