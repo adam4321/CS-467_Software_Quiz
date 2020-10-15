@@ -58,9 +58,6 @@ function renderDashboard(req, res, next) {
                 console.log(err);
                 res.render("dashboard-home", context);
             });
-
-            console.log("save");
-            res.render("dashboard-home", context);
         }
         else{
             console.log("email already exists");
