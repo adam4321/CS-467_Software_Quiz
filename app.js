@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 // Set up Mongoose
 const mongoose = require('mongoose');
 
-const credentials = require('./MONGODB-credentials.js');
+const credentials = require('./credentials.js');
 
 const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
 
