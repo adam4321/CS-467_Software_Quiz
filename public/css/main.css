@@ -9,17 +9,7 @@ a {
 }
 
 .btn-style {
-    background-color: rgb(72, 157, 190);
-    color: #fff;
-    border: none;
     cursor: pointer;
-    border-radius: 2px;
-    margin-top: 10px !important;
-    padding: 10px !important;
-}
-
-.btn-style:hover {
-    background-color: #226078;
 }
 
 .textarea-label {
@@ -60,6 +50,10 @@ a {
     background-color: #f0efef;
 }
 
+#logout-button:hover {
+    background-color: #bdc0c0;
+}
+
 .mdl-layout__drawer-button {
     padding-top: 20px;
 }
@@ -85,6 +79,10 @@ a {
     width: 200px;
     margin-top: 20px;
     margin-left: 35px;
+}
+
+#logout-button-drawer:hover {
+    background-color: #bdc0c0;
 }
 
 
