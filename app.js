@@ -27,13 +27,18 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Set up Mongoose
+const mongoose = require('mongoose');
 
-
-
-// Set up mongodb
 const credentials = require('./MONGODB-credentials.js');
-const mongo = require('mongodb').MongoClient;
-const url = `mongodb+srv://${credentials.USER}:${credentials.PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
+
+const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
+
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
+
+
+
+/*
 mongo.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -51,7 +56,7 @@ mongo.connect(url, {
             console.log(items)
         })
     }
-)
+)*/
 
 
 
