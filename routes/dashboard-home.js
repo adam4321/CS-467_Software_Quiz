@@ -39,14 +39,14 @@ function renderDashboard(req, res, next) {
         console.log(err);
         res.render("dashboard-home", context);
     })*/
-    
+
     // Find object with id from helloworlds
     let id = '5f87a534e9b7981d24a6ba3e';
    HelloWorld.findById(id)
     .exec()
     .then(doc => {
         console.log(doc);
-        //console.log(context);
+        context.helloworld = doc.email;
 
         res.render("dashboard-home", context);
     })
