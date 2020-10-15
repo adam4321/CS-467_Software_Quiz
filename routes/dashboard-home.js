@@ -1,5 +1,5 @@
 /******************************************************************************
-**  Description: DASHBOARD HOME - server side node.js routes
+**  Description: DASHBOARD HOME / JOB POSTING - server side node.js routes
 **
 **  Root path:  localhost:3500/dashboard
 **
@@ -45,6 +45,18 @@ function renderDashboard(req, res, next) {
    HelloWorld.findById(id)
     .exec()
     .then(doc => {
+        
+        // Test for the auth provider (Google vs Facebook) and create context object
+        if (req.user.provider === 'google') {
+            context.email = req.user.email;
+            context.name = req.user.displayName;
+            context.photo = req.user.picture;
+        } else {
+            context.email = req.user.emails[0].value;
+            context.name = req.user.displayName;
+            context.photo = req.user.photos[0].value;
+        }
+        //console.log(req.user);
         console.log(doc);
         context.helloworld = doc.email;
 
@@ -54,7 +66,6 @@ function renderDashboard(req, res, next) {
         console.log(err);
         res.render("dashboard-home", context);
     });
-
 };
 
 

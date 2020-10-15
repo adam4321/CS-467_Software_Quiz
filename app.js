@@ -85,23 +85,33 @@ app.use('/login', require('./routes/login-page.js'));
 // MAIN DASHBOARD PAGE ROUTES
 app.use('/dashboard', require('./routes/dashboard-home.js'));
 
-// QUIZZES PAGE ROUTES
-app.use('/quizzes', require('./routes/quizzes-page.js'));
+// RANKING PAGE ROUTES
+app.use('/ranking', require('./routes/ranking-page.js'));
 
 // QUIZ BUILDER PAGE ROUTES
 app.use('/quiz_builder', require('./routes/quiz-builder-page.js'));
 
-// SETTINGS PAGE ROUTES
-app.use('/settings', require('./routes/settings-page.js'));
+// QUIZZES PAGE ROUTES
+app.use('/quizzes', require('./routes/quizzes-page.js'));
 
 
 /* AUTHENTICATION ROUTES ---------------------------------------------------- */
 
-// REQUEST AUTH
+// GOOGLE AUTH REQUEST 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// POST-AUTH REDIRECT
+// GOOGLE POST-AUTH REDIRECT
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login/failed' }),
+    function(req, res) {
+        res.redirect('/dashboard');
+    }
+);
+
+// FACEBOOK AUTH REQUEST 
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'] }));
+
+// FACEBOOK POST-AUTH REDIRECT
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login/failed' }),
     function(req, res) {
         res.redirect('/dashboard');
     }

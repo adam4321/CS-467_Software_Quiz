@@ -1,7 +1,7 @@
 /******************************************************************************
-**  Description: SETTINGS - server side node.js routes
+**  Description: RANKING PAGE - server side node.js routes
 **
-**  Root path:  localhost:3500/settings
+**  Root path:  localhost:3500/ranking
 **
 **  Contains:   /
 **  
@@ -17,16 +17,16 @@ const checkUserLoggedIn = (req, res, next) => {
 }
 
 
-// SETTINGS PAGE - Function to render user's settings page ----------------- */
-function renderSettings(req, res, next) {
+// RANKING PAGE - Function to render user's ranking page ----------------- */
+function renderRanking(req, res, next) {
     let context = {};
 
-    res.render("settings-page", context);
+    res.render("ranking-page", context);
 };
 
 
-/* SETTINGS PAGE ROUTES ---------------------------------------------------- */
+/* RANKING PAGE ROUTES ---------------------------------------------------- */
 
-router.get('/', checkUserLoggedIn, renderSettings);
+router.get('/', checkUserLoggedIn, renderRanking);
 
 module.exports = router;
