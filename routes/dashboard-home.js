@@ -60,6 +60,7 @@ function renderDashboard(req, res, next) {
             });
         }
         else{
+            console.log(req.user);
             console.log("email already exists");
             res.render("dashboard-home", context);
         }

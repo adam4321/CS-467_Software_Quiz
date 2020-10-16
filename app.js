@@ -42,30 +42,6 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, functio
     }
 });
 
-
-
-/*
-mongo.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }, (err, client) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log('Mongodb connected\n');
-
-        const db = client.db('QuizSoftTest');
-        const collection = db.collection('HelloWorld');
-
-        collection.find().toArray((err, items) => {
-            console.log(items)
-        })
-    }
-)*/
-
-
-
 // Set up path to static files
 app.use('/', express.static('public'));
 
