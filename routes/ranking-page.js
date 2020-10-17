@@ -29,7 +29,6 @@ function renderRanking(req, res, next) {
     JobPosting.findById(id)
     .exec()
     .then(doc => {
-        console.log(doc);
         context.score = doc.quizResponses[0].quizScore;
         context.title = doc.title;
         let id = doc.quizResponses[0].candidate_id;

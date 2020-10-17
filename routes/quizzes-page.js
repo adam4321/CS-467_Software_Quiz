@@ -28,9 +28,8 @@ function renderQuizzes(req, res, next) {
     Quiz.findById(id)
     .exec()
     .then(doc => {
-        console.log(doc);
-        context.question1 = doc.questions[0].quizQuestion;
-        context.answer1 = doc.questions[0].quizAnswers;
+       //console.log(doc);
+        context.questions = doc.questions;
         res.render("quizzes-page", context);
     })
     .catch(err => {

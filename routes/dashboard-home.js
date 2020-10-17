@@ -109,7 +109,6 @@ function renderDashboard(req, res, next) {
                 JobPosting.findById(id)
                 .exec()
                 .then(doc => {
-                    console.log(doc);
                     context.title = doc.title;
                     context.description = doc.description;
                     res.render("dashboard-home", context);
@@ -125,14 +124,12 @@ function renderDashboard(req, res, next) {
             });
         }
         else{
-            console.log(req.user);
             console.log("email already exists");
             // Find object with id from jobpostings data model
             let id = '5f8a4d3ae5e2b93edc72f301';
             JobPosting.findById(id)
             .exec()
             .then(doc => {
-                console.log(doc);
                 context.title = doc.title;
                 context.description = doc.description;
                 res.render("dashboard-home", context);
