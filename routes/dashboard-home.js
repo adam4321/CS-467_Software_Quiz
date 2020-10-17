@@ -14,7 +14,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 // Get schema
-const HelloWorld = require('../models/helloworld.js');
+const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
 
 // Middleware - Function to Check user is Logged in
@@ -22,6 +22,57 @@ const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
+
+    /*
+    SAMPLES 
+    for testing displays of Data Models:
+    quiz_id: 5f8a4903274de7478c48b4c1
+    employer_id: 5f87b245e587de4bfc0aca0f
+    candidate_id: 5f8a4c6cf6f66534c417a374
+    jpbposting_id: 5f8a4d3ae5e2b93edc72f301
+    quiz_response_id: 5f8a4d3ae5e2b93edc72f304
+    */
+
+    /*const cand = new Candidate({
+        _id: new mongoose.Types.ObjectId,
+        email: "joe.schmoe@email.com",
+        firstName: "Joe",
+        lastName: "Schmoe",
+        quizResponseId: []
+    });*/
+
+    /*const quiz = new Quiz({
+        _id: new mongoose.Types.ObjectId,
+        questions : [{
+            quizQuestion: "How old is the universe?",
+            quizAnswers: ["12.8 billion years", "7 billion years", "13.8 billion years", "14.4 billion years"],
+            quizKey: "2",
+            quizType: "multiple_choice"
+        },{
+            quizQuestion: "What year did Neil Armstrong walk on the moon?",
+            quizAnswers: ["1966", "1969", "1950", "2000"],
+            quizKey: "1",
+            quizType: "multiple_choice"
+        }
+        ]
+    });*/
+
+    /*const jobposting = new JobPosting({
+    _id: new mongoose.Types.ObjectId,
+    title: "Software Engineer I",
+    description: "Agile Rockstar",
+    associatedQuiz : [{
+        quiz_id : "5f8a4903274de7478c48b4c1",
+        employer_id : "5f87b245e587de4bfc0aca0f"
+    }],
+    quizResponses : [{
+        quiz_response_id : new mongoose.Types.ObjectId,
+        candidate_id : "5f8a4c6cf6f66534c417a374",
+        quiz_id : "5f8a4903274de7478c48b4c1",
+        candidateAnswers: ["2", "1"],
+        quizScore: 100.0
+    }]
+    });*/
 
 // INITIAL DASHBOARD - Function to render the main dashboard --------------- */
 function renderDashboard(req, res, next) {
@@ -42,6 +93,7 @@ function renderDashboard(req, res, next) {
         email: context.email,
         name: context.name
     });
+
     // Check if email is already registered in collection/employers
     var query = Employer.find({});
     query.where('email').equals(req.user.email);
@@ -52,7 +104,20 @@ function renderDashboard(req, res, next) {
             emp.save()
             .then(result => {
                 console.log(result);
-                res.render("dashboard-home", context);
+                // Find object with id from jobpostings data model
+                let id = '5f8a4d3ae5e2b93edc72f301';
+                JobPosting.findById(id)
+                .exec()
+                .then(doc => {
+                    console.log(doc);
+                    context.title = doc.title;
+                    context.description = doc.description;
+                    res.render("dashboard-home", context);
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.render("dashboard-home", context);
+                });   
             })
             .catch(err => {
                 console.log(err);
@@ -62,40 +127,26 @@ function renderDashboard(req, res, next) {
         else{
             console.log(req.user);
             console.log("email already exists");
-            res.render("dashboard-home", context);
+            // Find object with id from jobpostings data model
+            let id = '5f8a4d3ae5e2b93edc72f301';
+            JobPosting.findById(id)
+            .exec()
+            .then(doc => {
+                console.log(doc);
+                context.title = doc.title;
+                context.description = doc.description;
+                res.render("dashboard-home", context);
+            })
+            .catch(err => {
+                console.log(err);
+                res.render("dashboard-home", context);
+            });
         }
     })
     .catch(err => {
         console.log(err);
         res.render("dashboard-home", context);
     });
-
-    // Find object with id from employers data model
-    /*let id = '5f87a534e9b7981d24a6ba3e';
-    Employers.findById(id)
-    .exec()
-    .then(doc => {
-        
-        // Test for the auth provider (Google vs Facebook) and create context object
-        if (req.user.provider === 'google') {
-            context.email = req.user.email;
-            context.name = req.user.displayName;
-            context.photo = req.user.picture;
-        } else {
-            context.email = req.user.emails[0].value;
-            context.name = req.user.displayName;
-            context.photo = req.user.photos[0].value;
-        }
-        //console.log(req.user);
-        console.log(doc);
-        context.helloworld = doc.email;
-
-        res.render("dashboard-home", context);
-    })
-    .catch(err => {
-        console.log(err);
-        res.render("dashboard-home", context);
-    });*/
 };
 
 
