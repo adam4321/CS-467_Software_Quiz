@@ -5,7 +5,7 @@ const candidateSchema = mongoose.Schema({
     email: String,
     firstName: String,
     lastName: String,
-    quizResponseId: Int32Array
+    quizResponseId: mongoose.Schema.Types.ObjectId
 });
 
 module.exports = mongoose.model('Candidate', candidateSchema);

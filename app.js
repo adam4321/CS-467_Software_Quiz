@@ -111,7 +111,7 @@ app.get('/logout', (req, res) => {
 
 // Middleware - Function to Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
-    req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
+    req.user ? next(): res.status(401).render('dashboard-register', {layout: 'login'});
 }
 
 // PAGE NOT FOUND - Route for bad path error page
