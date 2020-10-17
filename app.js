@@ -27,8 +27,20 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Set up mongodb
+// Set up Mongoose
+const mongoose = require('mongoose');
 
+const credentials = require('./credentials.js');
+
+const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
+
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, function (err, res) {
+    if (err) {
+        console.log ('ERROR connecting ' + err);
+    } else {
+        console.log ('Successful connection');
+    }
+});
 
 // Set up path to static files
 app.use('/', express.static('public'));
@@ -55,23 +67,33 @@ app.use('/login', require('./routes/login-page.js'));
 // MAIN DASHBOARD PAGE ROUTES
 app.use('/dashboard', require('./routes/dashboard-home.js'));
 
-// QUIZZES PAGE ROUTES
-app.use('/quizzes', require('./routes/quizzes-page.js'));
+// RANKING PAGE ROUTES
+app.use('/ranking', require('./routes/ranking-page.js'));
 
 // QUIZ BUILDER PAGE ROUTES
 app.use('/quiz_builder', require('./routes/quiz-builder-page.js'));
 
-// SETTINGS PAGE ROUTES
-app.use('/settings', require('./routes/settings-page.js'));
+// QUIZZES PAGE ROUTES
+app.use('/quizzes', require('./routes/quizzes-page.js'));
 
 
 /* AUTHENTICATION ROUTES ---------------------------------------------------- */
 
-// REQUEST AUTH
+// GOOGLE AUTH REQUEST 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// POST-AUTH REDIRECT
+// GOOGLE POST-AUTH REDIRECT
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login/failed' }),
+    function(req, res) {
+        res.redirect('/dashboard');
+    }
+);
+
+// FACEBOOK AUTH REQUEST 
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'] }));
+
+// FACEBOOK POST-AUTH REDIRECT
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login/failed' }),
     function(req, res) {
         res.redirect('/dashboard');
     }
@@ -89,7 +111,7 @@ app.get('/logout', (req, res) => {
 
 // Middleware - Function to Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
-    req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
+    req.user ? next(): res.status(401).render('dashboard-register', {layout: 'login'});
 }
 
 // PAGE NOT FOUND - Route for bad path error page
@@ -100,7 +122,7 @@ app.use(checkUserLoggedIn, (req, res) => {
 // INTERNAL SERVER ERROR - Route for a server-side error
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).render('500');
+    res.status(err.status || 500).render('500');
 });
 
 

@@ -11,6 +11,9 @@
 const express = require('express');
 const router = express.Router();
 
+// Get Schema
+const Quiz = require('../models/quiz.js');
+
 // Middleware - Function to Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
@@ -20,8 +23,20 @@ const checkUserLoggedIn = (req, res, next) => {
 // QUIZZES - Function to render user's quizzes ----------------------------- */
 function renderQuizzes(req, res, next) {
     let context = {};
-
-    res.render("quizzes-page", context);
+    // Find object with id from quizzes data model
+    let id = '5f8a4903274de7478c48b4c1';
+    Quiz.findById(id)
+    .exec()
+    .then(doc => {
+        console.log(doc);
+        context.question1 = doc.questions[0].quizQuestion;
+        context.answer1 = doc.questions[0].quizAnswers;
+        res.render("quizzes-page", context);
+    })
+    .catch(err => {
+        console.log(err);
+        res.render("quizzes-page", context);
+    });
 };
 
 
