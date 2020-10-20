@@ -19,7 +19,43 @@ app.set('view engine', '.hbs');
 app.engine('.hbs', handlebars({
     layoutsDir: __dirname + '/views/layouts',
     defaultLayout: 'main',
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: {
+        // Define helpers for this handlebars instance.
+        'eq': function () {
+            const args = Array.prototype.slice.call(arguments, 0, -1);
+            return args.every(function (expression) {
+                return args[0] === expression; });
+        },
+        'quiz_question_expose': function () {
+            const args = Array.prototype.slice.call(arguments, 0, -1);
+            let obj = args[0];
+            return obj.quizQuestion;
+        },
+        'quiz_answer_expose': function () {
+            const args = Array.prototype.slice.call(arguments, 0, -1);
+            let obj = args[0].quizAnswers;
+            return obj;
+        },
+        'each_question': function(quiz_obj, max, options) {
+            let ary = quiz_obj;
+            if((ary.length < max) || ary.length == 0)
+                return options.inverse(this);
+            var result = [];
+            for(var i = 0; i < max; ++i)
+                result.push(options.fn(ary[i]));
+            return result.join('');
+        },
+        'each_answer': function(quiz_obj, options) {
+            let ary = quiz_obj.quizAnswers;
+            if(ary.length == 0)
+                return options.inverse(this);
+            var result = [];
+            for(var i = 0; i < ary.length; ++i)
+                result.push(options.fn(ary[i]));
+            return result.join('');
+          }
+    }
 }));
 
 // Set up body-parser
