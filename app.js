@@ -106,8 +106,11 @@ app.use('/dashboard', require('./routes/dashboard-home.js'));
 // RANKING PAGE ROUTES
 app.use('/ranking', require('./routes/ranking-page.js'));
 
+// QUIZ SETUP PAGE ROUTES
+app.use('/quiz_builder', require('./routes/quiz-setup-page.js'));
+
 // QUIZ BUILDER PAGE ROUTES
-app.use('/quiz_builder', require('./routes/quiz-builder-page.js'));
+app.use('/quiz_create', require('./routes/quiz-builder-page.js'));
 
 // QUIZZES PAGE ROUTES
 app.use('/quizzes', require('./routes/quizzes-page.js'));
