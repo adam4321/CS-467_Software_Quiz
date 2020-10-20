@@ -1,6 +1,7 @@
 {{!-- Home dashboard view - using express handlebars --}}
 
 <title>Quiz Soft | Builder</title>
+<link type="text/css" rel="stylesheet" href="css/quiz-builder-page.css">
 
 {{!-- Container for the dashboard --}}
 <div id="top-row-container">
@@ -10,16 +11,38 @@
             <h2 class="mdl-card__title-text">Quiz Builder</h2>
         </div>
 
-            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                <p style="font-size: large; font-weight: bold;">Hello Quiz Builder World!</p>
-
-
-
+        <div id="quiz-container">
+            <!--Unwritten route in action -->
+            <form id="quiz_form" action="/quiz_builder/save_quiz">
+                <label class="quiz_title">NAME QUIZ</label>
+                <br>
+                <input type="text" id="quiz_title" placeholder="Enter quiz name">
+                <p></p>
                 
-                
-            </div>
+                <label for="question">QUESTION: </label>
+                <br>
+                <input type="text" id="question" placeholder="Enter Question">
 
-        </div>
+                <p>Choose Question Type</p>
+                <!-- Colored raised button -->
+                <button id="true_false_btn" class="mdl-button mdl-js-button mdl-button--raised  mdl-button--colored question-btn"> 
+                    True | False
+                </button>
+
+                <button id="multiple_c_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored question-btn"> 
+                    Multiple Choice
+                </button>
+
+                <button id="fill_in_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored question-btn"> 
+                    Fill in the Blank
+                </button>
+
+                <button id="choose_all_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored question-btn"> 
+                    All That Apply
+                </button>
+            </form>
+        </div> 
     </div>
-
 </div>
+
+<script src="js/quiz-builder-page.js"></script>
