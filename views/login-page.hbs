@@ -15,17 +15,13 @@
         <p id="g-signin-text" class="signin-btn-text">
             Sign in with Google
         </p>
-        <a href = 'http://localhost:3500/auth/google'>
-            <img class="login-btns" id="g-signin" src="images/g_signin.png" alt="Google sign in button">
-        </a>
+        <img class="login-btns" id="g-signin" src="images/g_signin.png" alt="Google sign in button" onclick="google_auth();">
 
         <hr>
         <p class="signin-btn-text">
             Sign in with Facebook
         </p>
-        <a href = 'http://localhost:3500/auth/facebook'>
-            <img class="login-btns" id="f-signin" src="images/f_signin.png" alt="Facebook sign in button">
-        </a>
+        <img class="login-btns" id="f-signin" src="images/f_signin.png" alt="Facebook sign in button" onclick="google_auth();">
         
         {{!-- <hr>
         <p class="signin-btn-text">
@@ -44,4 +40,5 @@
     </div>
 </div>
 
+<script src="js/login.js"></script>
 

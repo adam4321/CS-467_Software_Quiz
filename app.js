@@ -176,5 +176,5 @@ app.use((err, req, res, next) => {
 
 // Set to render on a static port set globally
 app.listen(PORT, () => {
-    console.log(`\nExpress started at http://localhost:${app.get('port')}/login\nPress ctrl-C to terminate.\n`);
+    console.log(`\nExpress started at http://localhost:${PORT}/login\nPress ctrl-C to terminate.\n`);
 });
