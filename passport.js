@@ -7,7 +7,7 @@ const passport = require('passport');
 
 // Include Oauth2 strategies
 let GOOG_CREDS;
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production'){
     GOOG_CREDS = process.env;
 }
 else{
