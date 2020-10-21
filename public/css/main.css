@@ -77,7 +77,7 @@ a {
   
 .mdl-layout__drawer.is-visible {
     left: 0;
-    width: 180px;
+    width: 200px;
 }
 
 #logout-button-drawer {

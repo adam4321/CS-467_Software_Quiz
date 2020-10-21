@@ -1,0 +1,19 @@
+/******************************************************************************
+**  Description: QUIZ SETUP PAGE - css file for the page
+******************************************************************************/
+
+#dashboard-container {
+    height: 370px;
+    width: 400px;
+}
+
+#setup-container {
+    margin: 40px auto 0px auto;
+}
+
+@media only screen and (max-width: 600px) {
+    #dashboard-container {
+        width: 250px;
+        margin-top: 40px;
+    }
+}
