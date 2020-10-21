@@ -67,11 +67,11 @@ app.use(bodyParser.json());
 const mongoose = require('mongoose');
 let credentials;
 
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production'){
     credentials = process.env;
 }
 else{
-    credentials = require('./credentials.js');
+    //credentials = require('./credentials.js');
 }
 
 

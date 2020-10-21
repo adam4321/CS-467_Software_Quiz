@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production'){
     GOOG_CREDS = process.env;
 }
 else{
-    GOOG_CREDS = require('./credentials.js');
+    //GOOG_CREDS = require('./credentials.js');
 }
 
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
