@@ -1,3 +1,8 @@
+/******************************************************************************
+**  Description: QUIZ BUILDER PAGE - client side javascript file that creates
+**               a quiz dynamically and submits the form to the server
+******************************************************************************/
+
 let true_false_btn = document.getElementById('true_false_btn');
 let multiple_c_btn = document.getElementById('multiple_c_btn');
 let fill_in_btn = document.getElementById('fill_in_btn');
