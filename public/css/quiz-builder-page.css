@@ -2,8 +2,12 @@
 **  Description: QUIZ BUILDER PAGE - css file for the page
 ******************************************************************************/
 
+#dashboard-container {
+    width: 1000px;
+}
+
 #quiz-container{
-    padding: 10px;
+    margin: 20px 0px 30px 20px;
 }
 
 .question-btn {
