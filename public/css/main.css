@@ -77,14 +77,14 @@ a {
   
 .mdl-layout__drawer.is-visible {
     left: 0;
-    width: 300px;
+    width: 180px;
 }
 
 #logout-button-drawer {
     background-color: #e0e0e0;
-    width: 200px;
+    width: 140px;
     margin-top: 20px;
-    margin-left: 35px;
+    margin-left: 20px;
 }
 
 

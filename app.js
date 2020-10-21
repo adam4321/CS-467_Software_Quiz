@@ -54,7 +54,7 @@ app.engine('.hbs', handlebars({
             for(var i = 0; i < ary.length; ++i)
                 result.push(options.fn(ary[i]));
             return result.join('');
-          }
+        }
     }
 }));
 
@@ -63,25 +63,26 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Set up Mongoose
+// Set up Mongodb, Mongoose, and authentication credentials
 const mongoose = require('mongoose');
 let credentials;
 
-if(process.env.NODE_ENV === 'production'){
+// Choose credentials for dev or prod
+if (process.env.NODE_ENV === 'production'){
     credentials = process.env;
-}
-else{
+} else {
     credentials = require('./credentials.js');
 }
 
-
+// Create database url using credentials
 const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
 
+// Connect to Atlas remote database
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, function (err, res) {
     if (err) {
-        console.log ('ERROR connecting ' + err);
+        console.error('ERROR connecting ' + err);
     } else {
-        console.log ('Successful connection');
+        console.log('Successful connection');
     }
 });
 
