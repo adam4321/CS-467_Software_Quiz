@@ -149,7 +149,7 @@ trueFalseBtn.addEventListener('click', (e) => {
                 tfValue = false;
             }
 
-            // Create question object
+            // Create question object (No answers because they are always 'True' and 'False')
             let obj = {
                 quizQuestion: questionBox.value,
                 quizKey: tfValue,
@@ -376,7 +376,7 @@ fillInBtn.addEventListener('click', (e) => {
 
         // Check if the required fields are filled
         if (questionBox1.value !== '' && questionBox2.value !== '' && answerBox.value !== '') {
-            // Create question object
+            // Create question object (No answers because it is always an empty string)
             let obj = {
                 quizQuestion: [questionBox1.value, questionBox2.value],
                 quizKey: answerBox.value,
