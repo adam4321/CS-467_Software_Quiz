@@ -3,7 +3,7 @@
 ******************************************************************************/
 
 #dashboard-container {
-    width: 1000px;
+    width: 960px;
 }
 
 #quiz-container{
@@ -17,6 +17,33 @@
     margin-bottom: 10px;
 }
 
+.questionNum {
+    font-size: large;
+}
+
 .question_input{
     display: block;
+    margin-bottom: 20px;
+}
+
+.complete-button {
+    margin: 20px 0px 0px 0px;
+}
+
+@media only screen and (max-width: 1020px) {
+    #dashboard-container {
+        width: 560px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #dashboard-container {
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    #dashboard-container {
+        width: 250px;
+    }
 }

@@ -24,9 +24,16 @@ function renderBuilder(req, res, next) {
     res.render("quiz-builder-page", context);
 };
 
+// SUBMIT QUIZ - Function to store the completed quiz into the db ---------- */
+function submitQuiz(req, res, next) {
+    let context = {};
+    
+}
+
 
 /* QUIZ BUILDER PAGE ROUTES ------------------------------------------------ */
 
 router.get('/', checkUserLoggedIn, renderBuilder);
+router.post('/quiz_submit', checkUserLoggedIn, submitQuiz);
 
 module.exports = router;
