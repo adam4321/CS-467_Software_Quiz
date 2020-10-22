@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 const quizSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    name: String,
+    category: String,
+    timeLimit: Number,
     questions : [{
         quizQuestion: String,
         quizAnswers: [String],
