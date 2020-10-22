@@ -4,6 +4,7 @@
 **  Root path:  localhost:3500/quiz_builder
 **
 **  Contains:   /
+**              /
 **
 **  SECURED ROUTES!  --  All routes must call checkUserLoggedIn              
 ******************************************************************************/
@@ -17,13 +18,14 @@ const url = require('url');
 // Get schema
 const Quiz = require('../models/quiz.js');
 
+
 // Middleware - Function to Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
 
-// QUIZ SETUP - Function to render quiz setup page --------------------- */
+// QUIZ SETUP - Function to render quiz setup page ------------------------- */
 function renderSetup(req, res, next) {
     let context = {};
 
@@ -31,11 +33,8 @@ function renderSetup(req, res, next) {
 };
 
 
-/* QUIZ SETUP PAGE ROUTES ------------------------------------------------ */
-
-router.get('/', checkUserLoggedIn, renderSetup);
-
-router.post('/', checkUserLoggedIn, (req, res) => {
+// SUBMIT INITIAL QUIZ PROPS - Function to submit setup -------------------- */
+function submitInitial(req, res) {
     // Save new object to database collection
     init_quiz = new Quiz({
         _id: new mongoose.Types.ObjectId,
@@ -52,14 +51,19 @@ router.post('/', checkUserLoggedIn, (req, res) => {
             pathname:"/quiz_create",
             query: {
                "id":`${quiz_id_post}`
-             }
-          }));
+            }
+        }));
     })
     .catch(err => {
         console.log(err);
         res.status(404).end();
     });
-    
-});
+};
+
+
+/* QUIZ SETUP PAGE ROUTES -------------------------------------------------- */
+
+router.get('/', checkUserLoggedIn, renderSetup);
+router.post('/', checkUserLoggedIn, submitInitial);
 
 module.exports = router;
