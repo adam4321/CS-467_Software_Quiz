@@ -87,11 +87,12 @@ function renderDashboard(req, res, next) {
         context.name = req.user.displayName;
         context.photo = req.user.photos[0].value;
     }
-    // Save new object to database collection test
+    // Save new object to database collection
     const emp = new Employer({
         _id: new mongoose.Types.ObjectId,
         email: context.email,
-        name: context.name
+        name: context.name,
+        jobPostings: []
     });
 
     // Check if email is already registered in collection/employers

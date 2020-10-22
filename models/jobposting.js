@@ -11,7 +11,6 @@ const jobpostingSchema = mongoose.Schema({
     }],
     quizResponses : [{
         quiz_response_id : mongoose.Schema.Types.ObjectId,
-        candidate_id : mongoose.Schema.Types.ObjectId,
         quiz_id : mongoose.Schema.Types.ObjectId,
         candidateAnswers: [String],
         quizScore: mongoose.Schema.Types.Decimal128
