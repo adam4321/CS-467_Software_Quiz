@@ -43,7 +43,9 @@ function submitInitial(req, res) {
         timeLimit: req.body.time_limit
     });
 
-    init_quiz.save()
+    var quiz_id_post = "id_here"
+
+    /*init_quiz.save()
     .then(result => {
         console.log(result);
         var quiz_id_post = init_quiz._id;
@@ -57,7 +59,14 @@ function submitInitial(req, res) {
     .catch(err => {
         console.log(err);
         res.status(404).end();
-    });
+    });*/
+
+    res.redirect(url.format({
+        pathname:"/quiz_create",
+        query: {
+           "id":`${quiz_id_post}`
+        }
+    }));
 };
 
 
