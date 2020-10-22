@@ -152,7 +152,7 @@ trueFalseBtn.addEventListener('click', (e) => {
             // Create question object
             let obj = {
                 quizQuestion: questionBox.value,
-                quizAnswers: tfValue,
+                quizKey: tfValue,
                 quizType: 'true-false'
             }
         
@@ -269,7 +269,7 @@ multBtn.addEventListener('click', (e) => {
             // Create question object
             let obj = {
                 quizQuestion: questionBox.value,
-                quizAnswers: tfValue,
+                quizKey: tfValue,
                 quizType: 'mult-choice'
             }
         
@@ -379,7 +379,7 @@ fillInBtn.addEventListener('click', (e) => {
             // Create question object
             let obj = {
                 quizQuestion: [questionBox1.value, questionBox2.value],
-                quizAnswers: answerBox.value,
+                quizKey: answerBox.value,
                 quizType: 'fill-blank'
             }
         
