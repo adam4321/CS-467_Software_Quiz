@@ -540,8 +540,29 @@ quiz_form.addEventListener('submit', (e) => {
     // Remove navigation prompt on form submission
     window.onbeforeunload = null;
 
+    let req = new XMLHttpRequest();
+    let path = '/quiz_create/save_quiz';
 
-    // TODO - HTTP POST quiz object properties onsubmit
+    // String that holds the form data
+    let reqBody = {
+        name: quiz.name,
+        category: quiz.category,
+        timeLimit: quiz.limit,
+        questions: quiz.questions
+    };
 
+    reqBody = JSON.stringify(reqBody);
 
+    // Ajax HTTP POST request
+    req.open('POST', path, true);
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.addEventListener('load', () => {
+        if (req.status >= 200 && req.status < 400) {
+            console.log('Quiz sent to server');
+        } else {
+            console.error('Database return error');
+        }
+    });
+
+    req.send(reqBody);
 });
