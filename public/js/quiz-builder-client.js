@@ -3,7 +3,6 @@
 **               a quiz dynamically and submits the form to the node server
 **               POST route /quiz_create/submit_quiz
 ******************************************************************************/
-
 // Confirm back button page exit
 window.onbeforeunload = function() {
     return true;
@@ -167,6 +166,9 @@ trueFalseBtn.addEventListener('click', (e) => {
 
             // Increment question count
             questionCount.textContent = ++QUESTION_COUNT;
+
+            // Display saved question
+            appendQuestionTF(QUESTION_COUNT, questionBox.value, tfValue);
 
             // Display submit button
             line.style.display      = 'block';

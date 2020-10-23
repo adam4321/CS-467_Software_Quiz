@@ -65,6 +65,21 @@
     width: 130px;
 }
 
+#quiz_display_container {
+    display: block;
+    align-items: center;
+    width: auto;
+}
+
+#quiz_display_table {
+    margin:auto;
+}
+
+#quiz_display {
+    display: block;
+    width: auto;
+}
+
 @media only screen and (max-width: 1020px) {
     #dashboard-container {
         width: 560px;

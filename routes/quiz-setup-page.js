@@ -73,6 +73,5 @@ function submitInitial(req, res) {
 /* QUIZ SETUP PAGE ROUTES -------------------------------------------------- */
 
 router.get('/', checkUserLoggedIn, renderSetup);
-// router.post('/', checkUserLoggedIn, submitInitial);
 
 module.exports = router;
