@@ -171,7 +171,7 @@ trueFalseBtn.addEventListener('click', (e) => {
             questionCount.textContent = ++QUESTION_COUNT;
 
             // Display saved question
-            appendQuestionTF(QUESTION_COUNT, questionBox.value, tfValue);
+            displayQuizHandler(QUESTION_COUNT, quiz.questions);
 
             // Display submit button
             line.style.display      = 'block';
