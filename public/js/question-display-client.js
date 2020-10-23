@@ -2,11 +2,19 @@
 **  Description: QUIZ BUILDER PAGE - client side javascript file that creates
 **               a quiz and displays entries while building
 ******************************************************************************/
-// Target quiz display
+// Target quiz display div
+let quiz_container= document.getElementById('quiz_display_container');
+quiz_container.style.display = 'none';
+
+// Target quiz display tbody
 let quiz_display = document.getElementById('quiz_display');
 
 // Append True/False Question
 function appendQuestionTF(question_num, question_text, tfValue){
+        // 
+        if (quiz_container.style.display === 'none'){
+                quiz_container.style.display = 'block';
+        }
         let tableRowDisplay = document.createElement('tr');
         tableRowDisplay.id  = "tableRow_" + question_num;
         quiz_display.appendChild(tableRowDisplay);
