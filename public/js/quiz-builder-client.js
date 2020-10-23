@@ -545,7 +545,7 @@ quiz_form.addEventListener('submit', (e) => {
 
     // String that holds the form data
     let reqBody = {
-        name: quiz.name,
+        name: quiz.title,
         category: quiz.category,
         timeLimit: quiz.limit,
         questions: quiz.questions

@@ -11,6 +11,14 @@
 
 const express = require('express');
 const router = express.Router();
+const url = require('url'); 
+const mongoose = require('mongoose');
+
+// Debug constant
+DEBUG = 1;
+
+// Get schema
+const Quiz = require('../models/quiz.js');
 
 // Middleware - Function to Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
@@ -30,10 +38,37 @@ function submitQuiz(req, res, next) {
     let context = {};
 
     // TODO - HTTP POST route to submit quiz data
+    // Save new object to database collection
+    if (req.body.questions.length != 0){
+        const saved_quiz = new Quiz({
+            _id: new mongoose.Types.ObjectId,
+            name: req.body.name,
+            category: req.body.category,
+            timeLimit: req.body.timeLimit,
+            questions : req.body.questions
+        });
 
-    
+        // Save quiz to database and TODO: redirect to myquizzes to display it
+        if (DEBUG === 0){
+        saved_quiz.save()
+        .then(result => {
+            console.log(result);
+            var quiz_id_post = saved_quiz._id;
+            res.render("quiz-setup-page", context);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(404).end();
+        }); 
+        }
+        else{
+            console.log("debug works");
+            res.render("quiz-setup-page", context);
+        }
+    }else{
+        console.log("No questions in body!!");
+    }
 }
-
 
 /* QUIZ BUILDER PAGE ROUTES ------------------------------------------------ */
 
