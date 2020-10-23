@@ -6,10 +6,19 @@
 const passport = require('passport');
 
 // Include Oauth2 strategies
-const GOOG_CREDS = require('./credentials.js');
+let GOOG_CREDS;
+let FACE_CREDS;
+if (process.env.NODE_ENV === 'production'){
+    GOOG_CREDS = process.env;
+    FACE_CREDS = process.env;
+}
+else{
+    GOOG_CREDS = require('./credentials.js');
+    FACE_CREDS = require('./credentials.js')
+}
+
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
-const FACE_CREDS = require('./credentials.js')
 const FacebookStrategy = require('passport-facebook').Strategy;
 
 // Process the user's token

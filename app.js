@@ -11,7 +11,7 @@ const express = require('express');
 const app = express();
 
 // PORT NUMBER - Set a static port for the appliction 
-app.set('port', 3500);
+const PORT = process.env.PORT || 3500;
 
 // Set up express-handlebars
 const handlebars = require('express-handlebars');
@@ -176,6 +176,6 @@ app.use((err, req, res, next) => {
 /* LISTEN ON PORT ---------------------------------------------------------- */
 
 // Set to render on a static port set globally
-app.listen(app.get('port'), () => {
-    console.log(`\nExpress started at http://localhost:${app.get('port')}/login\nPress ctrl-C to terminate.\n`);
+app.listen(PORT, () => {
+    console.log(`\nExpress started at http://localhost:${PORT}/login\nPress ctrl-C to terminate.\n`);
 });
