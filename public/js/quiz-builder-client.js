@@ -8,6 +8,9 @@ window.onbeforeunload = function() {
     return true;
 };
 
+// Test multipl choice TODO: modify to add another answerBox
+function answerOnClick(event) { alert("Answer onclick handler") };
+
 // Function to confirm quiz exit
 function confirmExit() {
     if (confirm('Are you sure that you want to exit?')) {
@@ -229,6 +232,7 @@ multBtn.addEventListener('click', (e) => {
     answerBox.placeholder = 'Answer in blank';
     answerBox.id          = 'answerBox';
     answerBox.className   = 'answer_input';
+    answerBox.onclick     = answerOnClick;
     answerBox.setAttribute('data-lpignore','true');
     createBox.appendChild(lineBreak);
     createBox.appendChild(answerBox);
