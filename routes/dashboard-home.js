@@ -105,13 +105,13 @@ function renderDashboard(req, res, next) {
             emp.save()
             .then(result => {
                 console.log(result);
-                // Find object with id from jobpostings data model
-                let id = '5f8a4d3ae5e2b93edc72f301';
-                JobPosting.findById(id)
+                // Find object one object in job postings data model
+                JobPosting.findOne()
                 .exec()
                 .then(doc => {
                     context.title = doc.title;
                     context.description = doc.description;
+                    req.session.jobposting_selected = doc._id;
                     res.render("dashboard-home", context);
                 })
                 .catch(err => {
@@ -126,13 +126,14 @@ function renderDashboard(req, res, next) {
         }
         else{
             console.log("email already exists");
-            // Find object with id from jobpostings data model
+            // Find object one object in job postings data model
             let id = '5f8a4d3ae5e2b93edc72f301';
-            JobPosting.findById(id)
+            JobPosting.findOne()
             .exec()
             .then(doc => {
                 context.title = doc.title;
                 context.description = doc.description;
+                req.session.jobposting_selected = doc._id;
                 res.render("dashboard-home", context);
             })
             .catch(err => {

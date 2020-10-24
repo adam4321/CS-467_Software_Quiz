@@ -565,4 +565,6 @@ quiz_form.addEventListener('submit', (e) => {
     });
 
     req.send(reqBody);
+
+    
 });
