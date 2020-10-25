@@ -3,24 +3,6 @@
 **               a quiz dynamically and submits the form to the node server
 **               POST route /quiz_create/submit_quiz
 ******************************************************************************/
-// Confirm back button page exit
-window.onbeforeunload = function() {
-    return true;
-};
-
-// Test multipl choice TODO: modify to add another answerBox
-function answerOnClick(event) { alert("Answer onclick handler") };
-
-// Function to confirm quiz exit
-function confirmExit() {
-    if (confirm('Are you sure that you want to exit?')) {
-        // Remove navigation prompt on form submission
-        window.onbeforeunload = null;
-        window.location.href='/quiz_builder';
-    } else {
-        return false;
-    }
-};
 
 // Declare an empty quiz object
 let quiz = {};
@@ -55,11 +37,41 @@ submitBtn.id          = 'submit-btn';
 submitBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored';
 submitBtn.textContent = 'Submit Quiz';
 
+// Confirm back button page exit
+window.onbeforeunload = function() {
+    return true;
+};
+
+// Target Cancel Build button
+let cancelBuildBtn = document.getElementById('exit_btn');
+
 
 /* ----------------------- BUTTON FUNCTIONS -------------------------------- */
 
+// Test multipl choice TODO: modify to add another answerBox
+function answerOnClick(event) { 
+    alert("Answer onclick handler") 
+};
+
+
+/* CANCEL BUILD BUTTON - Function to confirm quiz exit --------------------- */
+cancelBuildBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    if (confirm('Are you sure that you want to exit?')) {
+        // Remove navigation prompt on form submission
+        window.onbeforeunload = null;
+        window.location.href='/quiz_builder';
+    } else {
+        return false;
+    }
+})
+
+
 /* TRUE/FALSE BUTTON - Function to create true false question -------------- */
 trueFalseBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
     // Create a div to append to
     let createBox = document.createElement('div');
     createBox.id  = 'createBox';
@@ -201,6 +213,8 @@ trueFalseBtn.addEventListener('click', (e) => {
 
 /* MULTIPLE CHOICE BUTTON - Function to create mult choice question -------- */
 multBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
     // Create a div to append to
     let createBox = document.createElement('div');
     createBox.id  = 'createBox';
@@ -319,6 +333,8 @@ multBtn.addEventListener('click', (e) => {
 
 /* FILL IN THE BLANK - Function to create fill in blank question ----------- */
 fillInBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
     // Create a div to append to
     let createBox = document.createElement('div');
     createBox.id  = 'createBox';
@@ -429,6 +445,8 @@ fillInBtn.addEventListener('click', (e) => {
 
 /* CHECK ALL THAT APPLY - Function to create check all question ------------ */
 checkAllBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
     // Create a div to append to
     let createBox = document.createElement('div');
     createBox.id  = 'createBox';
@@ -559,12 +577,11 @@ quiz_form.addEventListener('submit', (e) => {
     req.addEventListener('load', () => {
         if (req.status >= 200 && req.status < 400) {
             console.log('Quiz sent to server');
+            window.location.href = '/quiz_builder';
         } else {
             console.error('Database return error');
         }
     });
 
     req.send(reqBody);
-
-    
 });
