@@ -2,6 +2,11 @@
 **  Description: QUIZ BUILDER PAGE - client side javascript file that creates
 **               a quiz dynamically and submits the form to the node server
 **               POST route /quiz_create/submit_quiz
+**
+**  Contains:    4 functions which each handle the creation of a quiz question.
+**               4 functions which each handle the display of a created
+**               question and its associated delete button which are called by
+**               the factory function displayQuizHandler. 
 ******************************************************************************/
 
 // Declare an empty quiz object
@@ -37,20 +42,29 @@ submitBtn.id          = 'submit-btn';
 submitBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored';
 submitBtn.textContent = 'Submit Quiz';
 
-// Confirm back button page exit
-window.onbeforeunload = function() {
-    return true;
-};
-
 // Target Cancel Build button
 let cancelBuildBtn = document.getElementById('exit_btn');
+
+// Target quiz display div
+let quiz_container = document.getElementById('quiz_display_container');
+quiz_container.style.display = 'none';
+
+// Target quiz display tbody and track order of questions added (to use in deletion)
+let quiz_display  = document.getElementById('quiz_display');
+let INITIAL_ORDER = 0;
 
 
 /* ----------------------- BUTTON FUNCTIONS -------------------------------- */
 
-// Test multipl choice TODO: modify to add another answerBox
+/* Test multipl choice TODO: modify to add another answerBox --------------- */
 function answerOnClick(event) { 
     alert("Answer onclick handler") 
+};
+
+
+/* Confirm back button page exit ------------------------------------------- */
+window.onbeforeunload = function() {
+    return true;
 };
 
 
@@ -65,7 +79,192 @@ cancelBuildBtn.addEventListener('click', (e) => {
     } else {
         return false;
     }
-})
+});
+
+
+/* Handles what function to add to the display from the quiz object -------- */
+function displayQuizHandler(question_num, question_arr){
+    // Retreive last added question
+    let q_obj = question_arr[question_arr.length-1];
+    let quiz_type = q_obj.quizType;
+    let question_text = q_obj.quizQuestion;
+    let question_key = q_obj.quizKey;
+    
+    switch (quiz_type) {
+    // If True False Question
+        case "true-false":
+            renderQuestionTF(question_num, question_text, question_key);
+            break;
+        // If Multiple Choices Question
+        case "mult-choice":
+            //appendQuestionMultChoice();
+            break;
+        // If Fill in the Blank Question
+        case "fill-blank":
+            renderQuestionFillBlank(question_num, question_text, question_key);
+            break;
+        // If Check All Question
+        case "check-all":
+            //appendQuestionCheckAll();
+            break;
+    }
+};
+
+
+/* Append True/False Question ---------------------------------------------- */
+function renderQuestionTF(question_num, question_text, tfValue) {
+    // If adding question show container
+    if (quiz_container.style.display === 'none') {
+        quiz_container.style.display = 'block';
+    }
+
+    // Increment the question added index for possible deletion later
+    INITIAL_ORDER++;
+
+    // Add a new row to display the question
+    let tableRowDisplay = document.createElement('tr');
+    tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
+    quiz_display.appendChild(tableRowDisplay);
+
+    let tableDisplay = document.createElement('td');
+    tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
+    tableRowDisplay.appendChild(tableDisplay);
+
+    // Use the correct question_num value to track the question count
+    let headerDisplay = document.createElement('h5');
+    headerDisplay.innerText  = "Q" + question_num;
+    tableDisplay.appendChild(headerDisplay);
+
+    let questionDisplay = document.createElement('i');
+    questionDisplay.innerText  = question_text;
+    tableDisplay.appendChild(questionDisplay);
+
+    let ansTrueDisplay = document.createElement('li');
+    ansTrueDisplay.id  = 'ansTrueDisplay' + INITIAL_ORDER;
+    ansTrueDisplay.innerHTML  = "True " + (tfValue ? "&#x2611" : "");
+    tableDisplay.appendChild(ansTrueDisplay);
+
+    let ansFalseDisplay = document.createElement('li');
+    ansFalseDisplay .id  = 'ansFalseDisplay' + INITIAL_ORDER;
+    ansFalseDisplay .innerHTML  = "False " + (tfValue ? "" :  "&#x2611");
+    tableDisplay.appendChild(ansFalseDisplay);
+
+    let tableDeleteDisplay = document.createElement('td');
+    tableDeleteDisplay.id  = "tableDeleteDisplay_" + INITIAL_ORDER;
+    tableDeleteDisplay.innerHTML = "<button>Delete</button>"
+    tableRowDisplay.appendChild(tableDeleteDisplay);
+
+    // Delete button handler to remove the question for the quiz object and the DOM
+    tableDeleteDisplay.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Find array index of the question to remove
+        let qIndex = headerDisplay.innerText.substring(1, headerDisplay.innerText.length);
+        qIndex--;
+
+        // Remove the question from the quiz object
+        quiz.questions.splice(qIndex, 1);
+
+        // Remove the displayed question
+        tableRowDisplay.remove();
+
+        // Update the question count
+        questionCount.textContent = --QUESTION_COUNT;
+
+        // Remove the submit button if there are no questions
+        if (QUESTION_COUNT === 0) {
+            quiz_container.style.display = 'none';
+            line.style.display           = 'none';
+            submitBtn.style.display      = 'none';
+        }
+        else {
+            // Update the Q numbers of remaining questions
+            for (var i = 0, row; row = quiz_display.rows[i]; i++) {
+                row.children[0].childNodes[0].innerText = `Q${i + 1}`;
+            }
+        }
+
+        // Display for testing and REMOVE FOR DEPLOYMENT
+        console.log(quiz);
+    })
+};
+
+
+/* Append Multiple Choice Question ----------------------------------------- */
+
+
+
+/* Append Fill in the Blank Question --------------------------------------- */
+function renderQuestionFillBlank(question_num, question_text, question_key) {
+    // If adding question show container
+    if (quiz_container.style.display === 'none') {
+        quiz_container.style.display = 'block';
+    }
+
+    // Increment the question added index for possible deletion later
+    INITIAL_ORDER++;
+
+    // Add a new row to display the question
+    let tableRowDisplay = document.createElement('tr');
+    tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
+    quiz_display.appendChild(tableRowDisplay);
+
+    let tableDisplay = document.createElement('td');
+    tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
+    tableRowDisplay.appendChild(tableDisplay);
+
+    // Use the correct question_num value to track the question count
+    let headerDisplay = document.createElement('h5');
+    headerDisplay.innerText  = "Q" + question_num;
+    tableDisplay.appendChild(headerDisplay);
+
+    let questionDisplay = document.createElement('i');
+    questionDisplay.innerText  = `${question_text[0]} ${question_key} ${question_text[1]}`;
+    tableDisplay.appendChild(questionDisplay);
+
+    let tableDeleteDisplay = document.createElement('td');
+    tableDeleteDisplay.id  = "tableDeleteDisplay_" + INITIAL_ORDER;
+    tableDeleteDisplay.innerHTML = "<button>Delete</button>"
+    tableRowDisplay.appendChild(tableDeleteDisplay);
+
+    // Delete button handler to remove the question for the quiz object and the DOM
+    tableDeleteDisplay.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Find array index of the question to remove
+        let qIndex = headerDisplay.innerText.substring(1, headerDisplay.innerText.length);
+        qIndex--;
+
+        // Remove the question from the quiz object
+        quiz.questions.splice(qIndex, 1);
+
+        // Remove the displayed question
+        tableRowDisplay.remove();
+
+        // Update the question count
+        questionCount.textContent = --QUESTION_COUNT;
+
+        // Remove the submit button if there are no questions
+        if (QUESTION_COUNT === 0) {
+            quiz_container.style.display = 'none';
+            line.style.display           = 'none';
+            submitBtn.style.display      = 'none';
+        }
+        else {
+            // Update the Q numbers of remaining questions
+            for (var i = 0, row; row = quiz_display.rows[i]; i++) {
+                row.children[0].childNodes[0].innerText = `Q${i + 1}`;
+            }
+        }
+
+        // Display for testing and REMOVE FOR DEPLOYMENT
+        console.log(quiz);
+    })
+};
+
+
+/* Append Check all Question ----------------------------------------------- */
+
 
 
 /* TRUE/FALSE BUTTON - Function to create true false question -------------- */
@@ -416,6 +615,9 @@ fillInBtn.addEventListener('click', (e) => {
 
             // Increment question count
             questionCount.textContent = ++QUESTION_COUNT;
+
+            // Display saved question
+            displayQuizHandler(QUESTION_COUNT, quiz.questions);
 
             // Display submit button
             line.style.display      = 'block';
