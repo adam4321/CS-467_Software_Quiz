@@ -64,7 +64,7 @@ function addAnswerOnClick(event) {
     let anchorNode = document.getElementById("appendBefore");
     if (MC_ANSWER_COUNT < MC_ANSWER_LIMIT){
         MC_ANSWER_COUNT++;
-        console.log(MC_ANSWER_COUNT);
+
         // Create the answer in the blank input
         let breakDiv = document.createElement('br');
         let answerBox = document.createElement('input');
@@ -85,7 +85,7 @@ function addAnswerOnClick(event) {
         answerLabel.appendChild(answerInput);
         createBox.insertBefore(breakDiv, anchorNode);
     }
-    else{
+    else {
         checkAnswerLimit();
     }
 };
@@ -94,7 +94,6 @@ function addAnswerOnClick(event) {
 /* Multiple choice removes the last answerBox ------------------------------ */
 function removeAnswerOnClick(event) { 
     event.preventDefault();
-    console.log(MC_ANSWER_COUNT);
 
     if (MC_ANSWER_COUNT > 1) {
         document.getElementById("answerBox"+MC_ANSWER_COUNT).outerHTML = "";
@@ -134,7 +133,8 @@ cancelBuildBtn.addEventListener('click', (e) => {
         // Remove navigation prompt on form submission
         window.onbeforeunload = null;
         window.location.href='/quiz_builder';
-    } else {
+    }
+    else {
         return false;
     }
 });
@@ -200,9 +200,9 @@ function renderQuestionTF(question_num, question_text, tfValue) {
     questionDisplay.innerText  = question_text;
     tableDisplay.appendChild(questionDisplay);
 
-    let ansTrueDisplay = document.createElement('li');
-    ansTrueDisplay.id  = 'ansTrueDisplay' + INITIAL_ORDER;
-    ansTrueDisplay.innerHTML  = "True " + (tfValue ? "&#x2611" : "");
+    let ansTrueDisplay       = document.createElement('li');
+    ansTrueDisplay.id        = 'ansTrueDisplay' + INITIAL_ORDER;
+    ansTrueDisplay.innerHTML = "True " + (tfValue ? "&#x2611" : "");
     tableDisplay.appendChild(ansTrueDisplay);
 
     let ansFalseDisplay         = document.createElement('li');
@@ -279,9 +279,6 @@ function renderQuestionMultChoice(question_num, question_text, question_key, que
     let questionDisplay       = document.createElement('i');
     questionDisplay.innerText = question_text;
     tableDisplay.appendChild(questionDisplay);
-
-    console.log(question_answers)
-    console.log(question_key)
 
     // Loop to display the associated number of answer strings
     for (let i = 0; i < question_answers.length; i++) {
@@ -1121,7 +1118,6 @@ checkAllBtn.addEventListener('click', (e) => {
         for (let i = 1; i <= ANSWER_COUNT; i++) {
             let requireBox = document.getElementById('ansLine_' + i);
             requireBox.children[1].required = 'true';
-            console.log(requireBox);
 
             // Pull the answer strings
             answerArray.push(requireBox.children[1].value);

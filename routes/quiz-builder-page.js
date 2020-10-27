@@ -14,7 +14,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 // Debug constant
-DEBUG = 0;
+DEBUG = 1;
 
 // Get schema
 const Quiz = require('../models/quiz.js');
@@ -38,7 +38,7 @@ function submitQuiz(req, res, next) {
 
     // TODO - HTTP POST route to submit quiz data
     // Save new object to database collection
-    if (req.body.questions.length != 0){
+    if (req.body.questions.length != 0) {
         const saved_quiz = new Quiz({
             _id: new mongoose.Types.ObjectId,
             name: req.body.name,
@@ -48,23 +48,24 @@ function submitQuiz(req, res, next) {
         });
 
         // Save quiz to database and TODO: redirect to myquizzes to display it
-        if (DEBUG === 0){
+        if (DEBUG === 0) {
         saved_quiz.save()
-        .then(result => {
-            console.log(result);
-            var quiz_id_post = saved_quiz._id;
-            res.render("quiz-setup-page", context);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(404).end();
-        }); 
+            .then(result => {
+                console.log(result);
+                var quiz_id_post = saved_quiz._id;
+                res.render("quiz-setup-page", context);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(404).end();
+            }); 
         }
-        else{
+        else {
             console.log("debug works");
             res.render("quiz-setup-page", context);
         }
-    }else{
+    }
+    else {
         console.log("No questions in body!!");
     }
 }
