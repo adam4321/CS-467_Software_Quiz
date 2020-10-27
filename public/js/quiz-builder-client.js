@@ -453,14 +453,17 @@ function renderQuestionCheckAll(question_num, question_text, question_key, quest
         let ansDisplay = document.createElement('li');
         ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
         
+        // No boxes checked
+        ansDisplay.innerHTML = question_answers[i]; 
+
         // Add the checkbox to correct answers
         for (let j = 0; j < question_key.length; j++) {
             if (question_key[j] == i) {
-                ansDisplay.innerHTML  = question_answers[i] + " &#x2611";
+                ansDisplay.innerHTML = question_answers[i] + " &#x2611";
                 break;
             }
             else {
-                ansDisplay.innerHTML  = question_answers[i];
+                ansDisplay.innerHTML = question_answers[i];
             }
         }
 
