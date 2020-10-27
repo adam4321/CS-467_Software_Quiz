@@ -14,7 +14,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 // Debug constant
-DEBUG = 1;
+DEBUG = 0;
 
 // Get schema
 const Quiz = require('../models/quiz.js');
