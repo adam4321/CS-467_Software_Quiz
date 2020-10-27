@@ -56,12 +56,6 @@ let INITIAL_ORDER = 0;
 
 /* ----------------------- BUTTON FUNCTIONS -------------------------------- */
 
-/* Test multipl choice TODO: modify to add another answerBox --------------- */
-function answerOnClick(event) { 
-    alert("Answer onclick handler") 
-};
-
-
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function() {
     return true;
@@ -83,21 +77,22 @@ cancelBuildBtn.addEventListener('click', (e) => {
 
 
 /* Handles what function to add to the display from the quiz object -------- */
-function displayQuizHandler(question_num, question_arr){
+function displayQuizHandler(question_num, question_arr) {
     // Retreive last added question
-    let q_obj = question_arr[question_arr.length-1];
-    let quiz_type = q_obj.quizType;
-    let question_text = q_obj.quizQuestion;
-    let question_key = q_obj.quizKey;
+    let q_obj           = question_arr[question_arr.length-1];
+    let quiz_type       = q_obj.quizType;
+    let question_text   = q_obj.quizQuestion;
+    let question_key    = q_obj.quizKey;
+    let qustion_answers = q_obj.quizAnswers;
     
     switch (quiz_type) {
-    // If True False Question
+        // If True False Question
         case "true-false":
             renderQuestionTF(question_num, question_text, question_key);
             break;
         // If Multiple Choices Question
         case "mult-choice":
-            //appendQuestionMultChoice();
+            renderQuestionMultChoice(question_num, question_text, question_key);
             break;
         // If Fill in the Blank Question
         case "fill-blank":
@@ -105,7 +100,7 @@ function displayQuizHandler(question_num, question_arr){
             break;
         // If Check All Question
         case "check-all":
-            //appendQuestionCheckAll();
+            renderQuestionCheckAll(question_num, question_text, question_key, qustion_answers);
             break;
     }
 };
@@ -131,11 +126,11 @@ function renderQuestionTF(question_num, question_text, tfValue) {
     tableRowDisplay.appendChild(tableDisplay);
 
     // Use the correct question_num value to track the question count
-    let headerDisplay = document.createElement('h5');
+    let headerDisplay        = document.createElement('h5');
     headerDisplay.innerText  = "Q" + question_num;
     tableDisplay.appendChild(headerDisplay);
 
-    let questionDisplay = document.createElement('i');
+    let questionDisplay        = document.createElement('i');
     questionDisplay.innerText  = question_text;
     tableDisplay.appendChild(questionDisplay);
 
@@ -144,15 +139,16 @@ function renderQuestionTF(question_num, question_text, tfValue) {
     ansTrueDisplay.innerHTML  = "True " + (tfValue ? "&#x2611" : "");
     tableDisplay.appendChild(ansTrueDisplay);
 
-    let ansFalseDisplay = document.createElement('li');
-    ansFalseDisplay .id  = 'ansFalseDisplay' + INITIAL_ORDER;
+    let ansFalseDisplay         = document.createElement('li');
+    ansFalseDisplay .id         = 'ansFalseDisplay' + INITIAL_ORDER;
     ansFalseDisplay .innerHTML  = "False " + (tfValue ? "" :  "&#x2611");
     tableDisplay.appendChild(ansFalseDisplay);
 
-    let tableDeleteDisplay = document.createElement('td');
-    tableDeleteDisplay.id  = "tableDeleteDisplay_" + INITIAL_ORDER;
-    tableDeleteDisplay.innerHTML = "<button>Delete</button>"
+    let tableDeleteDisplay       = document.createElement('td');
+    tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
+    tableDeleteDisplay.innerHTML = "<button>Delete</button>";
     tableRowDisplay.appendChild(tableDeleteDisplay);
+    tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
 
     // Delete button handler to remove the question for the quiz object and the DOM
     tableDeleteDisplay.addEventListener('click', (e) => {
@@ -191,7 +187,11 @@ function renderQuestionTF(question_num, question_text, tfValue) {
 
 
 /* Append Multiple Choice Question ----------------------------------------- */
+function renderQuestionMultChoice(question_num, question_text, question_key) {
 
+
+
+};
 
 
 /* Append Fill in the Blank Question --------------------------------------- */
@@ -214,18 +214,29 @@ function renderQuestionFillBlank(question_num, question_text, question_key) {
     tableRowDisplay.appendChild(tableDisplay);
 
     // Use the correct question_num value to track the question count
-    let headerDisplay = document.createElement('h5');
+    let headerDisplay        = document.createElement('h5');
     headerDisplay.innerText  = "Q" + question_num;
     tableDisplay.appendChild(headerDisplay);
 
-    let questionDisplay = document.createElement('i');
-    questionDisplay.innerText  = `${question_text[0]} ${question_key} ${question_text[1]}`;
-    tableDisplay.appendChild(questionDisplay);
+    let questionDisplay1        = document.createElement('i');
+    questionDisplay1.innerText  = `${question_text[0]} `;
+    tableDisplay.appendChild(questionDisplay1);
 
-    let tableDeleteDisplay = document.createElement('td');
-    tableDeleteDisplay.id  = "tableDeleteDisplay_" + INITIAL_ORDER;
-    tableDeleteDisplay.innerHTML = "<button>Delete</button>"
+    let ansDisplay                  = document.createElement('i');
+    ansDisplay.innerText            = `${question_key}`;
+    ansDisplay.style.textDecoration = 'underline';
+    tableDisplay.appendChild(ansDisplay);
+
+    let questionDisplay2        = document.createElement('i');
+    questionDisplay2.innerText  = ` ${question_text[1]}`;
+    tableDisplay.appendChild(questionDisplay2);
+
+    // Display the delete button
+    let tableDeleteDisplay       = document.createElement('td');
+    tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
+    tableDeleteDisplay.innerHTML = "<button>Delete</button>";
     tableRowDisplay.appendChild(tableDeleteDisplay);
+    tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
 
     // Delete button handler to remove the question for the quiz object and the DOM
     tableDeleteDisplay.addEventListener('click', (e) => {
@@ -264,7 +275,94 @@ function renderQuestionFillBlank(question_num, question_text, question_key) {
 
 
 /* Append Check all Question ----------------------------------------------- */
+function renderQuestionCheckAll(question_num, question_text, question_key, question_answers) {
+    // If adding question show container
+    if (quiz_container.style.display === 'none') {
+        quiz_container.style.display = 'block';
+    }
 
+    // Increment the question added index for possible deletion later
+    INITIAL_ORDER++;
+
+    // Add a new row to display the question
+    let tableRowDisplay = document.createElement('tr');
+    tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
+    quiz_display.appendChild(tableRowDisplay);
+
+    let tableDisplay = document.createElement('td');
+    tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
+    tableRowDisplay.appendChild(tableDisplay);
+
+    // Use the correct question_num value to track the question count
+    let headerDisplay        = document.createElement('h5');
+    headerDisplay.innerText  = "Q" + question_num;
+    tableDisplay.appendChild(headerDisplay);
+
+    let questionDisplay       = document.createElement('i');
+    questionDisplay.innerText = question_text;
+    tableDisplay.appendChild(questionDisplay);
+
+    // Loop to display the associated number of answer strings
+    for (let i = 0; i < question_answers.length; i++) {
+        let ansDisplay = document.createElement('li');
+        ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
+        
+        // Add the checkbox to correct answers
+        for (let j = 0; j < question_key.length; j++) {
+            if (question_key[j] == i) {
+                ansDisplay.innerHTML  = question_answers[i] + " &#x2611";
+                break;
+            }
+            else {
+                ansDisplay.innerHTML  = question_answers[i];
+            }
+        }
+
+        // Render the formed answer
+        tableDisplay.appendChild(ansDisplay);
+    }
+
+    // Display the delete button
+    let tableDeleteDisplay       = document.createElement('td');
+    tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
+    tableDeleteDisplay.innerHTML = "<button>Delete</button>";
+    tableRowDisplay.appendChild(tableDeleteDisplay);
+    tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
+
+    // Delete button handler to remove the question for the quiz object and the DOM
+    tableDeleteDisplay.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Find array index of the question to remove
+        let qIndex = headerDisplay.innerText.substring(1, headerDisplay.innerText.length);
+        qIndex--;
+
+        // Remove the question from the quiz object
+        quiz.questions.splice(qIndex, 1);
+
+        // Remove the displayed question
+        tableRowDisplay.remove();
+
+        // Update the question count
+        questionCount.textContent = --QUESTION_COUNT;
+
+        // Remove the submit button if there are no questions
+        if (QUESTION_COUNT === 0) {
+            quiz_container.style.display = 'none';
+            line.style.display           = 'none';
+            submitBtn.style.display      = 'none';
+        }
+        else {
+            // Update the Q numbers of remaining questions
+            for (var i = 0, row; row = quiz_display.rows[i]; i++) {
+                row.children[0].childNodes[0].innerText = `Q${i + 1}`;
+            }
+        }
+
+        // Display for testing and REMOVE FOR DEPLOYMENT
+        console.log(quiz);
+    })
+};
 
 
 /* TRUE/FALSE BUTTON - Function to create true false question -------------- */
@@ -278,26 +376,26 @@ trueFalseBtn.addEventListener('click', (e) => {
 
     // Hide the question selection buttons, submit, and prompt
     for (let el of document.querySelectorAll('.question-btn')) el.style.display = 'none';
-    let questionPrompt = document.getElementById('question-prompt');
+    let questionPrompt           = document.getElementById('question-prompt');
     questionPrompt.style.display = 'none';
     submitBtn.style.display      = 'none';
     line.style.display           = 'none';
 
     // Increment and display question number
-    let questionNum = document.createElement('p');
+    let questionNum         = document.createElement('p');
     questionNum.className   = 'questionNum';
-    questionNum.textContent = `Question #${QUESTION_COUNT + 1}`;
+    questionNum.textContent = `Question #${QUESTION_COUNT + 1} - True | False`;
     createBox.appendChild(questionNum);
 
     // Create the question input
-    let questionBox = document.createElement('input');
+    let questionBox         = document.createElement('input');
     questionBox.placeholder = 'Enter Question';
     questionBox.id          = 'questionBox';
     questionBox.className   = 'question_input';
     createBox.appendChild(questionBox);
 
     // Create true radio button
-    let trueRadio = document.createElement('input');
+    let trueRadio     = document.createElement('input');
     trueRadio.type    = 'radio';
     trueRadio.id      = 'true-radio';
     trueRadio.value   = 'True';
@@ -305,7 +403,7 @@ trueFalseBtn.addEventListener('click', (e) => {
     trueRadio.checked = false;
 
     // Create false radio button
-    let falseRadio = document.createElement('input');
+    let falseRadio     = document.createElement('input');
     falseRadio.type    = 'radio';
     falseRadio.id      = 'false-radio';
     falseRadio.value   = 'False';
@@ -429,7 +527,7 @@ multBtn.addEventListener('click', (e) => {
     // Increment and display question number
     let questionNum = document.createElement('p');
     questionNum.className   = 'questionNum';
-    questionNum.textContent = `Question #${QUESTION_COUNT + 1}`;
+    questionNum.textContent = `Question #${QUESTION_COUNT + 1} - Multiple Choice`;
     createBox.appendChild(questionNum);
 
     // Create the question input
@@ -541,49 +639,54 @@ fillInBtn.addEventListener('click', (e) => {
 
     // Hide the question selection buttons, submit, and prompt
     for (let el of document.querySelectorAll('.question-btn')) el.style.display = 'none';
-    let questionPrompt = document.getElementById('question-prompt');
+    let questionPrompt           = document.getElementById('question-prompt');
     questionPrompt.style.display = 'none';
     submitBtn.style.display      = 'none';
     line.style.display           = 'none';
 
     // Increment and display question number
-    let questionNum = document.createElement('p');
+    let questionNum         = document.createElement('p');
     questionNum.className   = 'questionNum';
-    questionNum.textContent = `Question #${QUESTION_COUNT + 1}`;
+    questionNum.textContent = `Question #${QUESTION_COUNT + 1} - Fill in the Blank`;
     createBox.appendChild(questionNum);
 
     // Create the first question fragment input
-    let questionBox1 = document.createElement('input');
+    let questionBox1         = document.createElement('input');
     questionBox1.placeholder = 'Question before blank';
     questionBox1.id          = 'questionBox1';
     questionBox1.className   = 'question_input';
     createBox.appendChild(questionBox1);
 
     // Create the second question fragment input
-    let questionBox2 = document.createElement('input');
+    let questionBox2         = document.createElement('input');
     questionBox2.placeholder = 'Question after blank';
     questionBox2.id          = 'questionBox2';
     questionBox2.className   = 'question_input';
     createBox.appendChild(questionBox2);
 
+    // Give the user instructions
+    let instructions         = document.createElement('p');
+    let lineBreak            = document.createElement('hr');
+    instructions.textContent = 'Enter the answer which fills the blank'
+    createBox.appendChild(lineBreak);
+    createBox.appendChild(instructions);
+
     // Create the answer in the blank input
-    let answerBox = document.createElement('input');
-    let lineBreak = document.createElement('hr');
+    let answerBox         = document.createElement('input');
     answerBox.placeholder = 'Answer in blank';
     answerBox.id          = 'answerBox';
     answerBox.className   = 'answer_input';
     answerBox.setAttribute('data-lpignore','true');
-    createBox.appendChild(lineBreak);
     createBox.appendChild(answerBox);
 
     // Show the question complete button
-    let completeBtn = document.createElement('button');
+    let completeBtn         = document.createElement('button');
     completeBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     completeBtn.textContent = 'Complete Question';
     createBox.appendChild(completeBtn);
 
     // Show the question cancel button
-    let cancelBtn = document.createElement('button');
+    let cancelBtn         = document.createElement('button');
     cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     cancelBtn.textContent = 'Cancel Question';
     createBox.appendChild(cancelBtn);
@@ -593,7 +696,7 @@ fillInBtn.addEventListener('click', (e) => {
         // Input validation to require values for question and answer
         questionBox1.required = true;
         questionBox2.required = true;
-        answerBox.required = true;
+        answerBox.required    = true;
 
         // Check if the required fields are filled
         if (questionBox1.value !== '' && questionBox2.value !== '' && answerBox.value !== '') {
@@ -656,83 +759,202 @@ checkAllBtn.addEventListener('click', (e) => {
 
     // Hide the question selection buttons, submit, and prompt
     for (let el of document.querySelectorAll('.question-btn')) el.style.display = 'none';
-    let questionPrompt = document.getElementById('question-prompt');
+    let questionPrompt           = document.getElementById('question-prompt');
     questionPrompt.style.display = 'none';
     submitBtn.style.display      = 'none';
     line.style.display           = 'none';
 
     // Increment and display question number
-    let questionNum = document.createElement('p');
+    let questionNum         = document.createElement('p');
     questionNum.className   = 'questionNum';
-    questionNum.textContent = `Question #${QUESTION_COUNT + 1}`;
+    questionNum.textContent = `Question #${QUESTION_COUNT + 1} - Check all that Apply`;
     createBox.appendChild(questionNum);
 
     // Create the question input
-    let questionBox = document.createElement('input');
+    let questionBox         = document.createElement('input');
     questionBox.placeholder = 'Enter Question';
     questionBox.id          = 'questionBox';
     questionBox.className   = 'question_input';
     createBox.appendChild(questionBox);
 
+    // Add line break before the answers
+    let lineBreak = document.createElement('hr');
+    createBox.appendChild(lineBreak);
 
+    // Give the user instructions
+    let instructions         = document.createElement('p');
+    instructions.textContent = 'Press + for more answers and - to remove them'
+    createBox.appendChild(instructions);
 
-    // TODO - dynamic number of check all answers with check boxes to set the correct answers
+    // Create the Plus and Minus controls to add and remove answers
+    let btnContainer = document.createElement('div');
+    let addBtn       = document.createElement('button');
+    let plusSign     = document.createElement('i');
+    let minusBtn     = document.createElement('button');
+    let minusSign    = document.createElement('i');
 
+    // Style the Plus and Minus buttons
+    addBtn.classList       = 'mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab';
+    plusSign.classList     = 'material-icons plusSign';
+    plusSign.innerText     = 'add';
+    minusBtn.classList     = 'mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab';
+    minusSign.classList    = 'material-icons minusSign';
+    minusSign.innerText    = '-';
+    minusBtn.style.display = 'inline-block';
+
+    // Add the + and - controls to createBox
+    createBox.appendChild(btnContainer);
+    addBtn.appendChild(plusSign);
+    minusBtn.appendChild(minusSign);
+    btnContainer.appendChild(addBtn);
+    btnContainer.appendChild(minusBtn);
+
+    // Create the initial answer box
+    let ANSWER_COUNT = 1;
+    let ansContainer = document.createElement('div');
+    let ansLine      = document.createElement('div');
+    let checkBox     = document.createElement('input');
+    let answerBox    = document.createElement('input');
+    
+    // Style the one initial answer box
+    ansContainer.id         = 'ansContainer';
+    ansLine.id              = 'ansLine_' + ANSWER_COUNT;
+    checkBox.type           = 'checkbox';
+    checkBox.style.display  = 'inline-block';
+    answerBox.placeholder   = `Enter Answer ${ANSWER_COUNT}`;
+    answerBox.id            = 'ansBoxCheckAllFirst';
+    answerBox.className     = 'ansBoxCheckAll';
+    answerBox.type          = 'text';
+    answerBox.style.display = 'inline-block';
+    
+    // Add the box to the DOM
+    answerBox.setAttribute('data-lpignore','true');
+    createBox.appendChild(ansContainer);
+    ansContainer.appendChild(ansLine);
+    ansLine.appendChild(checkBox);
+    ansLine.appendChild(answerBox);
+
+    // Event handler to add additional answers
+    addBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Only allow a maximum of 8 answers
+        if (ANSWER_COUNT < 8) {
+            // Increment the answer count
+            ANSWER_COUNT++;
+
+            // Create dynamic answer box
+            let ansLine      = document.createElement('div');
+            let checkBox     = document.createElement('input');
+            let answerBox    = document.createElement('input');
+        
+            // Style the dynamically added answer boxes
+            ansContainer.id         = 'ansContainer';
+            ansLine.id              = 'ansLine_' + ANSWER_COUNT;
+            checkBox.type           = 'checkbox';
+            checkBox.style.display  = 'inline-block';
+            answerBox.placeholder   = `Enter Answer ${ANSWER_COUNT}`;
+            answerBox.id            = 'ansBoxCheckAll';
+            answerBox.className     = 'ansBoxCheckAll';
+            answerBox.type          = 'text';
+            answerBox.style.display = 'inline-block';
+        
+            // Add the dynamic boxes to the DOM
+            answerBox.setAttribute('data-lpignore','true');
+            ansContainer.appendChild(ansLine);
+            ansLine.appendChild(checkBox);
+            ansLine.appendChild(answerBox);
+        }
+    });
+
+    // Event handler to remove an answer
+    minusBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        // Only reduce the number of answers to 1
+        if (ANSWER_COUNT > 1) {
+            let removeLine = document.getElementById('ansLine_' + ANSWER_COUNT);
+            removeLine.remove();
+
+            // Decrement the answer count
+            ANSWER_COUNT--;
+        }
+    });
 
     // Show the question complete button
-    let completeBtn = document.createElement('button');
+    let completeBtn         = document.createElement('button');
     completeBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     completeBtn.textContent = 'Complete Question';
     createBox.appendChild(completeBtn);
 
     // Show the question cancel button
-    let cancelBtn = document.createElement('button');
+    let cancelBtn         = document.createElement('button');
     cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     cancelBtn.textContent = 'Cancel Question';
-    createBox.appendChild(cancelBtn);
+    createBox.appendChild(cancelBtn);    
 
     // Event handler to register the new question
     completeBtn.addEventListener('click', (e) => {
         // Input validation to require values for question and answer
         questionBox.required = true;
-        trueRadio.required   = 'true';
+
+        // Array to hold answer strings and indices of the correct answers
+        let answerArray = [];
+        let keyArray = [];
+
+        // Iterate over the inputs and set them as required and pull the answers strings
+        for (let i = 1; i <= ANSWER_COUNT; i++) {
+            let requireBox = document.getElementById('ansLine_' + i);
+            requireBox.children[1].required = 'true';
+            console.log(requireBox);
+
+            // Pull the answer strings
+            answerArray.push(requireBox.children[1].value);
+
+            // Pull the answers that have checkmarks and add the indices to the key array
+            if (requireBox.children[0].checked) {
+                keyArray.push(i - 1);
+            }
+        }
 
         // Check if the required fields are filled
-        if (questionBox.value !== '' && 
-            document.getElementById("true-radio").checked || document.getElementById("false-radio").checked) {
-            // Check whether true or false
-            let tfValue;
-            if (document.getElementById("true-radio").checked) {
-                tfValue = true;
-            } else {
-                tfValue = false;
+        for (let i = 1; i < ANSWER_COUNT; i++) {
+            let requireBox = document.getElementById('ansLine_' + i);
+
+            // Exit the submission if a required field is empty
+            if (requireBox.children[1].value === '') {
+                return;
             }
-
-            // Create question object
-            let obj = {
-                quizQuestion: questionBox.value,
-                quizAnswers: tfValue,
-                quizType: 'check-all'
-            }
-        
-            // Insert the question object into the quiz object
-            quiz.questions.push(obj);
-            console.log(quiz);
-
-            // Remove the question setup from DOM and display the question type buttons
-            createBox.remove();
-            questionPrompt.style.display = 'block';
-            for (let el of document.querySelectorAll('.question-btn')) el.style.display = 'inline-block';
-
-            // Increment question count
-            questionCount.textContent = ++QUESTION_COUNT;
-
-            // Display submit button
-            line.style.display      = 'block';
-            submitBtn.style.display = 'block';
-            quiz_form.appendChild(line);
-            quiz_form.appendChild(submitBtn);
         }
+        
+        // Create question object
+        let obj = {
+            quizQuestion: questionBox.value,
+            quizAnswers: answerArray,
+            quizKey: keyArray,
+            quizType: 'check-all'
+        }
+    
+        // Insert the question object into the quiz object
+        quiz.questions.push(obj);
+        console.log(quiz);
+
+        // Remove the question setup from DOM and display the question type buttons
+        createBox.remove();
+        questionPrompt.style.display = 'block';
+        for (let el of document.querySelectorAll('.question-btn')) el.style.display = 'inline-block';
+
+        // Increment question count
+        questionCount.textContent = ++QUESTION_COUNT;
+
+        // Display saved question
+        displayQuizHandler(QUESTION_COUNT, quiz.questions);
+
+        // Display submit button
+        line.style.display      = 'block';
+        submitBtn.style.display = 'block';
+        quiz_form.appendChild(line);
+        quiz_form.appendChild(submitBtn);
     });
 
     // Event handler for the cancel button
@@ -753,7 +975,7 @@ checkAllBtn.addEventListener('click', (e) => {
 });
 
 
-// QUIZ FORM SUBMISSION - Function to submit the quiz on completion
+/* QUIZ FORM SUBMISSION - Function to submit the quiz on completion -------- */
 quiz_form.addEventListener('submit', (e) => {
     e.preventDefault();
 
