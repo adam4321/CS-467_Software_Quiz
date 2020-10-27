@@ -53,14 +53,68 @@ quiz_container.style.display = 'none';
 let quiz_display  = document.getElementById('quiz_display');
 let INITIAL_ORDER = 0;
 
+// Global iterator for multiple choice answerBox count
+let MC_ANSWER_COUNT = 0;
+const MC_ANSWER_LIMIT = 8;
 
 /* ----------------------- BUTTON FUNCTIONS -------------------------------- */
 
-/* Test multipl choice TODO: modify to add another answerBox --------------- */
-function answerOnClick(event) { 
-    alert("Answer onclick handler") 
+/* Multiple choice adds another answerBox --------------- */
+function addAnswerOnClick(event) { 
+    event.preventDefault();
+    let anchorNode = document.getElementById("appendBefore");
+    if (MC_ANSWER_COUNT < MC_ANSWER_LIMIT){
+        MC_ANSWER_COUNT++;
+        console.log(MC_ANSWER_COUNT);
+        // Create the answer in the blank input
+        let breakDiv = document.createElement('br');
+        let answerBox = document.createElement('input');
+        let answerLabel = document.createElement('label');
+        let answerInput = document.createElement('input');
+        answerBox.type        = 'radio';
+        answerBox.name        = 'mcGroup';
+        answerBox.id          = 'answerBox' + MC_ANSWER_COUNT;
+        answerBox.className   = 'answer_input'; 
+        answerLabel.for       = 'answerBox' + MC_ANSWER_COUNT;
+        answerInput.id          = 'answerInput' + MC_ANSWER_COUNT;
+        answerInput.className   = 'answer_input';
+        answerInput.placeholder = 'Answer in blank';
+        breakDiv.id             = 'answerBreak' + MC_ANSWER_COUNT;
+        answerInput.setAttribute('data-lpignore','true');
+        createBox.insertBefore(answerBox, anchorNode);
+        createBox.insertBefore(answerLabel, anchorNode);
+        answerLabel.appendChild(answerInput);
+        createBox.insertBefore(breakDiv, anchorNode);
+    }
+    else{
+        checkAnswerLimit();
+    }
 };
 
+/* Multiple choice removes the last answerBox --------------- */
+function removeAnswerOnClick(event) { 
+    event.preventDefault();
+    console.log(MC_ANSWER_COUNT);
+    if (MC_ANSWER_COUNT > 1){
+        document.getElementById("answerBox"+MC_ANSWER_COUNT).outerHTML = "";
+        document.getElementById("answerInput"+MC_ANSWER_COUNT).outerHTML = "";
+        document.getElementById("answerBreak"+MC_ANSWER_COUNT).outerHTML = "";
+        MC_ANSWER_COUNT--;
+    }
+    else{
+        checkAnswerMinimum();
+    }
+};
+
+/* Alert that too many choices have been added------- */
+function checkAnswerLimit() { 
+    alert("Too many options");
+}
+
+/* Alert that need a minimum of at least one answer option------- */
+function checkAnswerMinimum() { 
+    alert("Require at least one option");
+}
 
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function() {
@@ -414,6 +468,9 @@ trueFalseBtn.addEventListener('click', (e) => {
 multBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
+    // Initialize answer count to zero
+    MC_ANSWER_COUNT = 0;
+
     // Create a div to append to
     let createBox = document.createElement('div');
     createBox.id  = 'createBox';
@@ -440,20 +497,58 @@ multBtn.addEventListener('click', (e) => {
     createBox.appendChild(questionBox);
 
     // Create the answer in the blank input
+    let btnContainer = document.createElement('div');
+    let addBtn       = document.createElement('button');
+    let plusSign     = document.createElement('i');
+    let minusBtn     = document.createElement('button');
+    let minusSign    = document.createElement('i');
+    // Style the Plus and Minus buttons and controls to add and remove answers
+    addBtn.classList        = 'mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab';
+    plusSign.classList      = 'material-icons plusSign';
+    plusSign.innerText      = 'add';
+    addBtn.onclick = addAnswerOnClick;
+    minusBtn.classList       = 'mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab';
+    minusSign.classList      = 'material-icons minusSign';
+    minusSign.innerText      = '-';
+    minusBtn.style.display   = 'inline-block';
+    minusBtn.onclick = removeAnswerOnClick;
+    let breakDiv = document.createElement('br');
     let answerBox = document.createElement('input');
+    let answerLabel = document.createElement('label');
+    let answerInput = document.createElement('input');
     let lineBreak = document.createElement('hr');
-    answerBox.placeholder = 'Answer in blank';
-    answerBox.id          = 'answerBox';
-    answerBox.className   = 'answer_input';
-    answerBox.onclick     = answerOnClick;
-    answerBox.setAttribute('data-lpignore','true');
+    let lineBreakLast = document.createElement('hr');
+    lineBreakLast.id      = "appendBefore";
+    answerBox.type        = 'radio';
+    answerBox.name        = 'mcGroup';
+    answerBox.id          = 'answerBox' + 1;
+    answerBox.className   = 'answer_input'; 
+    answerLabel.for       = 'answerBox' + 1;
+    answerInput.id          = 'answerInput' + 1;
+    answerInput.className   = 'answer_input';
+    answerInput.placeholder = 'Answer in blank';
+    answerInput.setAttribute('data-lpignore','true');
     createBox.appendChild(lineBreak);
+    // Give the user instructions
+    let instructions = document.createElement('p');
+    createBox.appendChild(instructions);
+    instructions.textContent = 'Press + for more answers and - to remove them'
+    // Add the + and - controls to createBox
+    createBox.appendChild(btnContainer);
+    addBtn.appendChild(plusSign);
+    minusBtn.appendChild(minusSign);
+    btnContainer.appendChild(addBtn);
+    btnContainer.appendChild(minusBtn);
+    createBox.appendChild(breakDiv);
     createBox.appendChild(answerBox);
+    createBox.appendChild(answerLabel);
+    answerLabel.appendChild(answerInput);
+    createBox.appendChild(breakDiv);
+    createBox.appendChild(lineBreakLast);
 
-
-    
-    // TODO - dynamic number of answers with radio buttons to select the correct answer and x's to delete
-
+    // Initialize first answer as checked
+    document.getElementById("answerBox1").checked = true;
+    MC_ANSWER_COUNT++;
 
     // Show the question complete button
     let completeBtn = document.createElement('button');
@@ -469,26 +564,35 @@ multBtn.addEventListener('click', (e) => {
 
     // Event handler to register the new question
     completeBtn.addEventListener('click', (e) => {
-        // Input validation to require values for question and answer
+        // Input validation to require values for question
         questionBox.required = true;
-        answerBox.required = true;
-        trueRadio.required   = 'true';
 
+        // Array of answers
+        let ansArray = [];
         // Check if the required fields are filled
-        if (questionBox.value !== '' && 
-            document.getElementById("true-radio").checked || document.getElementById("false-radio").checked) {
-            // Check whether true or false
-            let tfValue;
-            if (document.getElementById("true-radio").checked) {
-                tfValue = true;
-            } else {
-                tfValue = false;
+        let allAnswered = 1;
+        let indexValue = 0;
+        let mcValue = 1;
+        for (let i = 0; i < MC_ANSWER_COUNT; i++){
+            indexValue = i + 1;
+            if (document.getElementById("answerBox"+indexValue).checked){
+                mcValue = indexValue;
             }
+            // Not all answered do not continue
+            if (document.getElementById("answerInput"+indexValue).value == ''){
+                allAnswered = 0;
+            }
+            // Add the answer to an array to pass into object
+            ansArray.push(document.getElementById("answerInput"+indexValue).value);
+        }
+        if (questionBox.value !== '' && allAnswered === 1) {
+
 
             // Create question object
             let obj = {
                 quizQuestion: questionBox.value,
-                quizKey: tfValue,
+                quizKey: mcValue,
+                quizAnswers: ansArray,
                 quizType: 'mult-choice'
             }
         
