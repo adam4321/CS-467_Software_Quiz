@@ -210,6 +210,7 @@ function renderQuestionTF(question_num, question_text, tfValue) {
     ansFalseDisplay .innerHTML  = "False " + (tfValue ? "" :  "&#x2611");
     tableDisplay.appendChild(ansFalseDisplay);
 
+    // Display delete button
     let tableDeleteDisplay       = document.createElement('td');
     tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
     tableDeleteDisplay.innerHTML = "<button>Delete</button>";
@@ -217,7 +218,7 @@ function renderQuestionTF(question_num, question_text, tfValue) {
     tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
 
     // Delete button handler to remove the question for the quiz object and the DOM
-    tableDeleteDisplay.addEventListener('click', (e) => {
+    tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {
         e.preventDefault();
 
         // Find array index of the question to remove
@@ -305,7 +306,7 @@ function renderQuestionMultChoice(question_num, question_text, question_key, que
     tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
 
     // Delete button handler to remove the question for the quiz object and the DOM
-    tableDeleteDisplay.addEventListener('click', (e) => {
+    tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {
         e.preventDefault();
 
         // Find array index of the question to remove
@@ -385,7 +386,7 @@ function renderQuestionFillBlank(question_num, question_text, question_key) {
     tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
 
     // Delete button handler to remove the question for the quiz object and the DOM
-    tableDeleteDisplay.addEventListener('click', (e) => {
+    tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {
         e.preventDefault();
 
         // Find array index of the question to remove
@@ -479,7 +480,7 @@ function renderQuestionCheckAll(question_num, question_text, question_key, quest
     tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
 
     // Delete button handler to remove the question for the quiz object and the DOM
-    tableDeleteDisplay.addEventListener('click', (e) => {
+    tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {
         e.preventDefault();
 
         // Find array index of the question to remove
