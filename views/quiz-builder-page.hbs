@@ -19,7 +19,6 @@
                 <button 
                     id="exit_btn" 
                     class="mdl-button mdl-js-button mdl-button--raised  mdl-button--colored"
-                    onclick="confirmExit();"
                 > 
                     Cancel Build
                 </button>
@@ -27,7 +26,18 @@
 
                 <p id="question-count-label">Question Count is <div id="question-count"></div></p>
                 <hr>
+
+                <!-- Display of questions -->
+                <div class="mdl-card__title" id="quiz_display_container">
+                    <table id="quiz_display_table" class="mdl-data-table mdl-js-data-table">
+                        <tbody id="quiz_display">
+
+                        </tbody>
+                    </table>
+                </div>
+
                 <p id="question-prompt" style="font-size: large;">Choose Question Type</p>
+                
 
                 <!-- 4 Question Buttons -->
                 <button id="true_false_btn" class="mdl-button mdl-js-button mdl-button--raised  mdl-button--colored question-btn"> 
@@ -52,3 +62,4 @@
 </div>
 
 <script src="js/quiz-builder-client.js"></script>
+
