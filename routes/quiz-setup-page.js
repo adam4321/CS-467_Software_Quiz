@@ -4,7 +4,6 @@
 **  Root path:  localhost:3500/quiz_builder
 **
 **  Contains:   /
-**              /
 **
 **  SECURED ROUTES!  --  All routes must call checkUserLoggedIn              
 ******************************************************************************/
@@ -12,7 +11,8 @@
 const express = require('express');
 const router = express.Router();
 
-// Middleware - Function to Check user is Logged in
+
+// Middleware - Function to Check user is Logged in ------------------------ */
 const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
@@ -20,9 +20,7 @@ const checkUserLoggedIn = (req, res, next) => {
 
 // QUIZ SETUP - Function to render quiz setup page ------------------------- */
 function renderSetup(req, res, next) {
-    let context = {};
-
-    res.render("quiz-setup-page", context);
+    res.render("quiz-setup-page");
 };
 
 

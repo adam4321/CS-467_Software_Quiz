@@ -1,0 +1,91 @@
+/******************************************************************************
+**  Description: MY QUIZZES PAGE - css file for the page
+******************************************************************************/
+
+#dashboard-container {
+    max-width: 800px;
+}
+
+#profile-info {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+#profile-image {
+    height: 35px; 
+    border-radius: 50%; 
+    margin: 1px 0px 10px 5px;
+}
+
+#profile-email {
+    font-size: medium; 
+    font-weight: bold; 
+    display: inline-block;
+    margin: 11px 0px 0px 0px;
+}
+
+#upload-txt {
+    margin: 5px 20px 0 225px;
+}
+
+#upload-btn {
+    display: inline-block;
+    height: 17px;
+    width: 70px;
+    font-size: 13px;
+    font-family: "Helvetica","Arial",sans-serif;
+    text-align: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#recordTable {
+    margin-top: 10px;
+    width: 200px;
+}
+
+.user-numbers {
+    text-align: center;
+}
+
+.btn-style {
+    background-color: #ebb54b;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    width: 80px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.btn-style:hover {
+    background-color: #c7942d;
+}
+
+#page-break {
+    margin: -10px 0 0 0;
+}
+
+#no-quiz-div {
+    width: 270px;
+    margin: 70px auto 40px auto;
+}
+
+#question-logo {
+    height: 50px;
+    display: inline-block;
+    margin-top: -10px;
+}
+
+#no-quiz-txt {
+    display: inline-block;
+    font-size: 22px;
+    color: #ebb54b;
+}
+
+@media only screen and (max-width: 500px) {
+    
+}

@@ -6,6 +6,10 @@
     width: 960px;
 }
 
+#scroll-target {
+    height: 30px;
+}
+
 #quiz-container{
     margin: 30px 0px 30px 0px;
     text-align: center;
@@ -56,7 +60,6 @@
 .deleteBtn {
     cursor: pointer;
 }
-
 
 .mdl-button--fab.mdl-button--mini-fab {
     height: 23px;
