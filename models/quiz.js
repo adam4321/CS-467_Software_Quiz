@@ -7,9 +7,9 @@ const quizSchema = mongoose.Schema({
     category: String,
     timeLimit: Number,
     questions : [{
-        quizQuestion: String,
+        quizQuestion: [String],
         quizAnswers: [String],
-        quizKey: String,
+        quizKey: [String],
         quizType: String
     }]
 });

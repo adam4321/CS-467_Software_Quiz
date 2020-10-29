@@ -6,6 +6,10 @@
     width: 960px;
 }
 
+#scroll-target {
+    height: 30px;
+}
+
 #quiz-container{
     margin: 30px 0px 30px 0px;
     text-align: center;

@@ -1,0 +1,64 @@
+/******************************************************************************
+**  Description: MY QUIZZES PAGE - css file for the page
+******************************************************************************/
+
+#dashboard-container {
+    max-width: 800px;
+}
+
+#upload-txt {
+    margin: 5px 20px 0 225px;
+}
+
+#upload-btn {
+    display: inline-block;
+    height: 17px;
+    width: 70px;
+    font-size: 13px;
+    font-family: "Helvetica","Arial",sans-serif;
+    text-align: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#recordTable {
+    margin-top: 10px;
+    width: 200px;
+}
+
+.user-numbers {
+    text-align: center;
+}
+
+.btn-style {
+    background-color: #ebb54b;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    width: 80px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.btn-style:hover {
+    background-color: #c7942d;
+}
+
+#no-quiz-div {
+    width: 250px;
+    margin: 60px auto 30px auto;
+}
+
+#question-logo {
+    height: 50px;
+    display: inline-block;
+}
+
+#no-quiz-txt {
+    display: inline-block;
+    font-size: large;
+    color: #c7942d;
+}

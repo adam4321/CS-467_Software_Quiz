@@ -35,6 +35,9 @@ let checkAllBtn  = document.getElementById('choose_all_btn');
 // Target quiz form
 let quiz_form = document.getElementById('quiz_form');
 
+// Target bottom empty div to scroll the page
+let scrollDiv = document.getElementById('scroll-target');
+
 // Create submit button
 let submitBtn         = document.createElement('button');
 let line              = document.createElement('hr');
@@ -84,6 +87,9 @@ function addAnswerOnClick(event) {
         createBox.insertBefore(answerLabel, anchorNode);
         answerLabel.appendChild(answerInput);
         createBox.insertBefore(breakDiv, anchorNode);
+
+        // Scroll the window to the bottom
+        scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
     }
     else {
         checkAnswerLimit();
@@ -639,6 +645,9 @@ trueFalseBtn.addEventListener('click', (e) => {
             submitBtn.style.display = 'block';
             quiz_form.appendChild(line);
             quiz_form.appendChild(submitBtn);
+
+            // Scroll the window to the bottom
+            scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
         }
     });
 
@@ -761,6 +770,9 @@ multBtn.addEventListener('click', (e) => {
     cancelBtn.textContent = 'Cancel Question';
     createBox.appendChild(cancelBtn);
 
+    // Scroll the window to the bottom
+    scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
+
     // Event handler to register the new question
     completeBtn.addEventListener('click', (e) => {
         // Input validation to require values for question
@@ -820,6 +832,9 @@ multBtn.addEventListener('click', (e) => {
             submitBtn.style.display = 'block';
             quiz_form.appendChild(line);
             quiz_form.appendChild(submitBtn);
+
+            // Scroll the window to the bottom
+            scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
         }
         else {
             return;
@@ -907,6 +922,9 @@ fillInBtn.addEventListener('click', (e) => {
     cancelBtn.textContent = 'Cancel Question';
     createBox.appendChild(cancelBtn);
 
+    // Scroll the window to the bottom
+    scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
+
     // Event handler to register the new question
     completeBtn.addEventListener('click', (e) => {
         // Input validation to require values for question and answer
@@ -943,6 +961,9 @@ fillInBtn.addEventListener('click', (e) => {
             submitBtn.style.display = 'block';
             quiz_form.appendChild(line);
             quiz_form.appendChild(submitBtn);
+
+            // Scroll the window to the bottom
+            scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
         }
     });
 
@@ -1080,6 +1101,9 @@ checkAllBtn.addEventListener('click', (e) => {
             ansContainer.appendChild(ansLine);
             ansLine.appendChild(checkBox);
             ansLine.appendChild(answerBox);
+
+            // Scroll the window to the bottom
+            scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
         }
     });
 
@@ -1107,7 +1131,10 @@ checkAllBtn.addEventListener('click', (e) => {
     let cancelBtn         = document.createElement('button');
     cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     cancelBtn.textContent = 'Cancel Question';
-    createBox.appendChild(cancelBtn);    
+    createBox.appendChild(cancelBtn);
+    
+    // Scroll the window to the bottom
+    scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
 
     // Event handler to register the new question
     completeBtn.addEventListener('click', (e) => {
@@ -1170,6 +1197,9 @@ checkAllBtn.addEventListener('click', (e) => {
         submitBtn.style.display = 'block';
         quiz_form.appendChild(line);
         quiz_form.appendChild(submitBtn);
+
+        // Scroll the window to the bottom
+        scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
     });
 
     // Event handler for the cancel button

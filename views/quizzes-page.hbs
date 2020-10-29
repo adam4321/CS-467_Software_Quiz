@@ -1,6 +1,7 @@
 {{!-- Home dashboard view - using express handlebars --}}
 
 <title>Quiz Soft | Saved Quizzes</title>
+<link type="text/css" rel="stylesheet" href="css/quizzes-page.css">
 
 {{!-- Container for the dashboard --}}
 <div id="top-row-container">
@@ -11,19 +12,69 @@
         </div>
 
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-            <h3 style="font-size: large; font-weight: bold;">Sample Saved Quiz Below:</h3>
-            {{#each_question questions 2}}
-                <li>{{quiz_question_expose this}}</li>
-                {{#each_answer this}}
-                    <ul>{{this}}</ul>
-                    {{/each_answer}}
-            {{/each_question}}
 
-
-
-
+            <img style="height: 35px; border-radius: 50%; margin: 0px 0px 10px 5px;" src={{photo}}>
+            <p style="font-size: medium; font-weight: bold; display: inline-block;">{{email}}</p>
+            {{#if quizzes}}
+                <p style="font-size: medium; font-weight: bold; display: inline-block;" id="upload-txt">Upload a Quiz</p>
+                <label id="upload-btn" class="btn-style">
+                    <input
+                        type="file" 
+                        class="btn-style" 
+                        id="upload-hidden"
+                        onclick="uploadQuiz('recordTable', this, {{quizzes._id}})"
+                    >
+                    Upload
+                </label>
             
-            
-        </div> 
+            {{!-- Display No quizzes OR Table that displays the user's quizzes --}}
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="recordTable">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">Quiz Name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Category</th>
+                            <th class="mdl-data-table__cell--non-numeric">Time Limit</th>
+                            <th class="mdl-data-table__cell--non-numeric">Question Count</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="table-body">
+                        {{#each this.quizzes}}
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric"><div class="user-text">{{name}}</div></td>
+                            <td class="mdl-data-table__cell--non-numeric"><div class="user-text">{{category}}</div></td>
+                            <td class="mdl-data-table__cell--non-numeric"><div class="user-numbers">{{timeLimit}}</div></td>
+                            <td class="mdl-data-table__cell--non-numeric"><div class="user-numbers">{{quizQuestionCount}}</div></td>
+                            <td>
+                                <input 
+                                    type="button" 
+                                    value="Delete" 
+                                    class="btn-style" 
+                                    onclick="deleteQuiz('recordTable', this, {{quizzes._id}})"
+                                >
+                            </td>
+                            <td>
+                                <input 
+                                    type="button" 
+                                    value="Download" 
+                                    class="btn-style" 
+                                    onclick="downloadQuiz('recordTable', this, {{quizzes._id}})"
+                                >
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{else}}
+                <hr>
+                <div id="no-quiz-div">
+                    <img id="question-logo" src="images/logo.png"/>
+                    <p id="no-quiz-txt">No Quizzes Created</p>
+                </div>
+            {{/if}}
+
+        </div>
     </div>
 </div>

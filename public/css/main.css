@@ -8,20 +8,6 @@ a {
     text-decoration: none;
 }
 
-.btn-style {
-    background-color: rgb(72, 157, 190);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 2px;
-    margin-top: 10px !important;
-    padding: 10px !important;
-}
-
-.btn-style:hover {
-    background-color: #226078;
-}
-
 .textarea-label {
     vertical-align: top;
 }
