@@ -1,0 +1,530 @@
+{{!-- Home dashboard view - using express handlebars --}}
+
+<title>Quiz Soft | Quiz</title>
+<link type="text/css" rel="stylesheet" href="css/take-quiz-page.css">
+
+{{!-- Container for the quiz --}}
+<div id="top-row-container">
+    <div autofocus id="dashboard-container" class="mdl-card mdl-shadow--2dp">
+
+        <div class="mdl-card__title mdl-color-text--white dashboard-top-bar">
+            <h2 class="mdl-card__title-text">Quiz</h2>
+        </div>
+
+        <div id="quiz-container">
+        <form id="test_sample" action="/discTest/{{id}}" method="post">
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+            <fieldset>
+                <p>Time: {{timeLimit}} minutes</p>
+                <p>Category: {{category}}</p>
+                <p>Number of questions: {{questions.length}}</p>
+                <p>Scroll to Bottom:<a href="javascript: document.body.scrollIntoView(false);">&darr;</a></p>
+            </fieldset>
+            </div>
+            <fieldset>
+                <h5>Q1</h5>
+                <p>
+                    <label><i>I love order and regularity.</i></label></br>
+                    <input type = "radio"
+                        name = "0"
+                        id = "Q0_0"
+                        value = "0" />
+                    <label for = "Q0_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "0"
+                        id = "Q0_1"
+                        value = "1" />
+                    <label for = "Q0_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "0"
+                        id = "Q0_2"
+                        value = "2" />
+                    <label for = "Q0_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "0"
+                        id = "Q0_3"
+                        value = "3" />
+                    <label for = "Q0_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "0"
+                        id = "Q0_4"
+                        value = "4" />
+                    <label for = "Q0_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q2</h5>
+                <p>
+                    <label><i>I try to outdo others.</i></label></br>
+                    <input type = "radio"
+                        name = "1"
+                        id = "Q1_0"
+                        value = "0" />
+                    <label for = "Q1_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "1"
+                        id = "Q1_1"
+                        value = "1" />
+                    <label for = "Q1_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "1"
+                        id = "Q1_2"
+                        value = "2" />
+                    <label for = "Q1_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "1"
+                        id = "Q1_3"
+                        value = "3" />
+                    <label for = "Q1_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "1"
+                        id = "Q1_4"
+                        value = "4" />
+                    <label for = "Q1_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q3</h5>
+                <p>
+                    <label><i>I am emotionally reserved.</i></label></br>
+                    <input type = "radio"
+                        name = "2"
+                        id = "Q2_0"
+                        value = "0" />
+                    <label for = "Q2_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "2"
+                        id = "Q2_1"
+                        value = "1" />
+                    <label for = "Q2_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "2"
+                        id = "Q2_2"
+                        value = "2" />
+                    <label for = "Q2_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "2"
+                        id = "Q2_3"
+                        value = "3" />
+                    <label for = "Q2_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "2"
+                        id = "Q2_4"
+                        value = "4" />
+                    <label for = "Q2_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q4</h5>
+                <p>
+                    <label><i>I put people under pressure.</i></label></br>
+                    <input type = "radio"
+                        name = "3"
+                        id = "Q3_0"
+                        value = "0" />
+                    <label for = "Q3_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "3"
+                        id = "Q3_1"
+                        value = "1" />
+                    <label for = "Q3_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "3"
+                        id = "Q3_2"
+                        value = "2" />
+                    <label for = "Q3_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "3"
+                        id = "Q3_3"
+                        value = "3" />
+                    <label for = "Q3_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "3"
+                        id = "Q3_4"
+                        value = "4" />
+                    <label for = "Q3_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q5</h5>
+                <p>
+                    <label><i>I value cooperation over competition.</i></label></br>
+                    <input type = "radio"
+                        name = "4"
+                        id = "Q4_0"
+                        value = "0" />
+                    <label for = "Q4_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "4"
+                        id = "Q4_1"
+                        value = "1" />
+                    <label for = "Q4_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "4"
+                        id = "Q4_2"
+                        value = "2" />
+                    <label for = "Q4_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "4"
+                        id = "Q4_3"
+                        value = "3" />
+                    <label for = "Q4_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "4"
+                        id = "Q4_4"
+                        value = "4" />
+                    <label for = "Q4_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q6</h5>
+                <p>
+                    <label><i>I joke around a lot.</i></label></br>
+                    <input type = "radio"
+                        name = "5"
+                        id = "Q5_0"
+                        value = "0" />
+                    <label for = "Q5_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "5"
+                        id = "Q5_1"
+                        value = "1" />
+                    <label for = "Q5_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "5"
+                        id = "Q5_2"
+                        value = "2" />
+                    <label for = "Q5_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "5"
+                        id = "Q5_3"
+                        value = "3" />
+                    <label for = "Q5_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "5"
+                        id = "Q5_4"
+                        value = "4" />
+                    <label for = "Q5_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q7</h5>
+                <p>
+                    <label><i>I want strangers to love me.</i></label></br>
+                    <input type = "radio"
+                        name = "6"
+                        id = "Q6_0"
+                        value = "0" />
+                    <label for = "Q6_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "6"
+                        id = "Q6_1"
+                        value = "1" />
+                    <label for = "Q6_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "6"
+                        id = "Q6_2"
+                        value = "2" />
+                    <label for = "Q6_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "6"
+                        id = "Q6_3"
+                        value = "3" />
+                    <label for = "Q6_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "6"
+                        id = "Q6_4"
+                        value = "4" />
+                    <label for = "Q6_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q8</h5>
+                <p>
+                    <label><i>I am always on the look out for ways to make money.</i></label></br>
+                    <input type = "radio"
+                        name = "7"
+                        id = "Q7_0"
+                        value = "0" />
+                    <label for = "Q7_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "7"
+                        id = "Q7_1"
+                        value = "1" />
+                    <label for = "Q7_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "7"
+                        id = "Q7_2"
+                        value = "2" />
+                    <label for = "Q7_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "7"
+                        id = "Q7_3"
+                        value = "3" />
+                    <label for = "Q7_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "7"
+                        id = "Q7_4"
+                        value = "4" />
+                    <label for = "Q7_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q9</h5>
+                <p>
+                    <label><i>I seldom toot my own horn.</i></label></br>
+                    <input type = "radio"
+                        name = "8"
+                        id = "Q8_0"
+                        value = "0" />
+                    <label for = "Q8_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "8"
+                        id = "Q8_1"
+                        value = "1" />
+                    <label for = "Q8_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "8"
+                        id = "Q8_2"
+                        value = "2" />
+                    <label for = "Q8_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "8"
+                        id = "Q8_3"
+                        value = "3" />
+                    <label for = "Q8_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "8"
+                        id = "Q8_4"
+                        value = "4" />
+                    <label for = "Q8_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q10</h5>
+                <p>
+                    <label><i>I have a strong need for power.</i></label></br>
+                    <input type = "radio"
+                        name = "9"
+                        id = "Q9_0"
+                        value = "0" />
+                    <label for = "Q9_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "9"
+                        id = "Q9_1"
+                        value = "1" />
+                    <label for = "Q9_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "9"
+                        id = "Q9_2"
+                        value = "2" />
+                    <label for = "Q9_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "9"
+                        id = "Q9_3"
+                        value = "3" />
+                    <label for = "Q9_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "9"
+                        id = "Q9_4"
+                        value = "4" />
+                    <label for = "Q9_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q11</h5>
+                <p>
+                    <label><i>I read the fine print.</i></label></br>
+                    <input type = "radio"
+                        name = "10"
+                        id = "Q10_0"
+                        value = "0" />
+                    <label for = "Q10_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "10"
+                        id = "Q10_1"
+                        value = "1" />
+                    <label for = "Q10_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "10"
+                        id = "Q10_2"
+                        value = "2" />
+                    <label for = "Q10_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "10"
+                        id = "Q10_3"
+                        value = "3" />
+                    <label for = "Q10_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "10"
+                        id = "Q10_4"
+                        value = "4" />
+                    <label for = "Q10_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q12</h5>
+                <p>
+                    <label><i>My first reaction to an idea is to see its flaws.</i></label></br>
+                    <input type = "radio"
+                        name = "11"
+                        id = "Q11_0"
+                        value = "0" />
+                    <label for = "Q11_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "11"
+                        id = "Q11_1"
+                        value = "1" />
+                    <label for = "Q11_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "11"
+                        id = "Q11_2"
+                        value = "2" />
+                    <label for = "Q11_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "11"
+                        id = "Q11_3"
+                        value = "3" />
+                    <label for = "Q11_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "11"
+                        id = "Q11_4"
+                        value = "4" />
+                    <label for = "Q11_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q13</h5>
+                <p>
+                    <label><i>I just want everyone to be equal.</i></label></br>
+                    <input type = "radio"
+                        name = "12"
+                        id = "Q12_0"
+                        value = "0" />
+                    <label for = "Q12_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "12"
+                        id = "Q12_1"
+                        value = "1" />
+                    <label for = "Q12_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "12"
+                        id = "Q12_2"
+                        value = "2" />
+                    <label for = "Q12_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "12"
+                        id = "Q12_3"
+                        value = "3" />
+                    <label for = "Q12_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "12"
+                        id = "Q12_4"
+                        value = "4" />
+                    <label for = "Q12_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q14</h5>
+                <p>
+                    <label><i>I hesitate to criticize other people's ideas.</i></label></br>
+                    <input type = "radio"
+                        name = "13"
+                        id = "Q13_0"
+                        value = "0" />
+                    <label for = "Q13_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "13"
+                        id = "Q13_1"
+                        value = "1" />
+                    <label for = "Q13_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "13"
+                        id = "Q13_2"
+                        value = "2" />
+                    <label for = "Q13_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "13"
+                        id = "Q13_3"
+                        value = "3" />
+                    <label for = "Q13_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "13"
+                        id = "Q13_4"
+                        value = "4" />
+                    <label for = "Q13_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q15</h5>
+                <p>
+                    <label><i>I enjoy being part of a loud crowd.</i></label></br>
+                    <input type = "radio"
+                        name = "14"
+                        id = "Q14_0"
+                        value = "0" />
+                    <label for = "Q14_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "14"
+                        id = "Q14_1"
+                        value = "1" />
+                    <label for = "Q14_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "14"
+                        id = "Q14_2"
+                        value = "2" />
+                    <label for = "Q14_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "14"
+                        id = "Q14_3"
+                        value = "3" />
+                    <label for = "Q14_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "14"
+                        id = "Q14_4"
+                        value = "4" />
+                    <label for = "Q14_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+            <fieldset>
+                <h5>Q16</h5>
+                <p>
+                    <label><i>I make lots of noise.</i></label></br>
+                    <input type = "radio"
+                        name = "15"
+                        id = "Q15_0"
+                        value = "0" />
+                    <label for = "Q15_0">Very inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "15"
+                        id = "Q15_1"
+                        value = "1" />
+                    <label for = "Q15_1">Moderately inaccurate.</label></br>
+                    <input type = "radio"
+                        name = "15"
+                        id = "Q15_2"
+                        value = "2" />
+                    <label for = "Q15_2">Neither inaccurate nor accurate.</label></br>
+                    <input type = "radio"
+                        name = "15"
+                        id = "Q15_3"
+                        value = "3" />
+                    <label for = "Q15_3">Moderately accurate.</label></br>
+                    <input type = "radio"
+                        name = "15"
+                        id = "Q15_4"
+                        value = "4" />
+                    <label for = "Q15_4">Very accurate.</label></br>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <input type="submit" value="Submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored question-btn"/>
+            </fieldset>
+            <fieldset hidden>
+                <input type="hidden" name="keys_string" id="keys" value="GHIJK12345GHIJK12345BCDEF6789A6789A12345BCDEF12345GHIJKGHIJKBCDEFBCDEF6789A6789A">
+            </fieldset>
+        </form>
+        </div> 
+    </div>
+</div>

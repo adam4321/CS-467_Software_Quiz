@@ -123,6 +123,9 @@ app.use('/quiz_create', require('./routes/quiz-builder-page.js'));
 // QUIZZES PAGE ROUTES
 app.use('/quizzes', require('./routes/quizzes-page.js'));
 
+// TAKE QUIZ PAGE ROUTES
+app.use('/take_quiz', require('./routes/take-quiz-page.js'));
+
 
 /* AUTHENTICATION ROUTES ---------------------------------------------------- */
 
