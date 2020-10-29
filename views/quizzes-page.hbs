@@ -13,8 +13,9 @@
 
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
 
-            <img style="height: 35px; border-radius: 50%; margin: 0px 0px 10px 5px;" src={{photo}}>
-            <p style="font-size: medium; font-weight: bold; display: inline-block;">{{email}}</p>
+            <img id="profile-image" src={{photo}}>
+            <p id="profile-email">{{email}}</p>
+            
             {{#if quizzes}}
                 <p style="font-size: medium; font-weight: bold; display: inline-block;" id="upload-txt">Upload a Quiz</p>
                 <label id="upload-btn" class="btn-style">
@@ -27,7 +28,7 @@
                     Upload
                 </label>
             
-            {{!-- Display No quizzes OR Table that displays the user's quizzes --}}
+                {{!-- Display No quizzes OR Table that displays the user's quizzes --}}
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="recordTable">
                     <thead>
                         <tr>
@@ -67,6 +68,7 @@
                         {{/each}}
                     </tbody>
                 </table>
+
             {{else}}
                 <hr>
                 <div id="no-quiz-div">
@@ -78,3 +80,5 @@
         </div>
     </div>
 </div>
+
+<script src="js/quizzes-page-client.js"></script>

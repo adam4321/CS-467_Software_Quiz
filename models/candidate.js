@@ -1,3 +1,7 @@
+/******************************************************************************
+**  Description:  Mongodb / Mongoose data model for the Candidate entity
+******************************************************************************/
+
 const mongoose = require('mongoose');
 
 const candidateSchema = mongoose.Schema({

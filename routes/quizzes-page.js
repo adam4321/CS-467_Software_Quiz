@@ -42,18 +42,18 @@ function renderQuizzes(req, res, next) {
     // Query the user's quizzes and add them to the context object
     Employer.findOne({email: context.email})
     .exec(function(err, user) {
-        // Print the user and user id (to match with employer_id field in quizzes)
-        console.log(user)
-        console.log(user._id)
+        // // Print the user and user id (to match with employer_id field in quizzes)
+        // console.log(user)
+        // console.log(user._id)
 
         // Find all quizzes for the currently logged in user
         Quiz.find({}).lean().where('employer_id').equals(user._id).exec()
         .then(quizzes => {
-            console.log(quizzes);
+            // console.log(quizzes);
 
-            if(quizzes.length == 0) {
-                console.log('NO QUIZZES')
-            }
+            // if(quizzes.length == 0) {
+            //     console.log('NO QUIZZES')
+            // }
             
             // Assign the quiz properties to the context object
             context.quizzes = quizzes;

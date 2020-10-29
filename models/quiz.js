@@ -1,3 +1,7 @@
+/******************************************************************************
+**  Description:  Mongodb / Mongoose data model for the Quiz entity
+******************************************************************************/
+
 const mongoose = require('mongoose');
 
 const quizSchema = mongoose.Schema({

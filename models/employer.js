@@ -1,3 +1,7 @@
+/******************************************************************************
+**  Description:  Mongodb / Mongoose data model for the Employer entity
+******************************************************************************/
+
 const mongoose = require('mongoose');
 
 const employerSchema = mongoose.Schema({

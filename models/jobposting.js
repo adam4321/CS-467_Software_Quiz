@@ -1,6 +1,10 @@
 const { ObjectID } = require('mongodb');
 const mongoose = require('mongoose');
 
+/******************************************************************************
+**  Description:  Mongodb / Mongoose data model for the Job Posting entity
+******************************************************************************/
+
 const jobpostingSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     title: String,

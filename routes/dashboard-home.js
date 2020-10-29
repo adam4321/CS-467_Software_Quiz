@@ -24,6 +24,84 @@ const checkUserLoggedIn = (req, res, next) => {
 }
 
 
+// INITIAL DASHBOARD - Function to render the main dashboard --------------- */
+function renderDashboard(req, res, next) {
+    let context = {};
+
+    // Test for the auth provider (Google vs Facebook) and create context object
+    if (req.user.provider === 'google') {
+        context.email = req.user.email;
+        context.name = req.user.displayName;
+        context.photo = req.user.picture;
+    } 
+    else {
+        context.email = req.user.emails[0].value;
+        context.name = req.user.displayName;
+        context.photo = req.user.photos[0].value;
+    }
+
+    // Save new object to database collection
+    const emp = new Employer({
+        _id: new mongoose.Types.ObjectId,
+        email: context.email,
+        name: context.name,
+        jobPostings: []
+    });
+
+    // Check if email is already registered in collection/employers
+    var query = Employer.find({});
+    query.where('email').equals(req.user.email);
+    query.exec()
+    .then(result => {
+        // No email found
+        if (result[0] == undefined) {
+            emp.save()
+            .then(result => {
+                console.log(result);
+                // Find object one object in job postings data model
+                JobPosting.findOne()
+                .exec()
+                .then(doc => {
+                    context.title = doc.title;
+                    context.description = doc.description;
+                    req.session.jobposting_selected = doc._id;
+                    res.render("dashboard-home", context);
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.render("dashboard-home", context);
+                });   
+            })
+            .catch(err => {
+                console.error(err);
+                res.render("dashboard-home", context);
+            });
+        }
+        else{
+            // console.log("email already exists");
+            // Find object one object in job postings data model
+            let id = '5f8a4d3ae5e2b93edc72f301';
+            JobPosting.findOne()
+            .exec()
+            .then(doc => {
+                context.title = doc.title;
+                context.description = doc.description;
+                req.session.jobposting_selected = doc._id;
+                res.render("dashboard-home", context);
+            })
+            .catch(err => {
+                console.error(err);
+                res.render("dashboard-home", context);
+            });
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        res.render("dashboard-home", context);
+    });
+};
+
+
 /*
 SAMPLES 
 for testing displays of Data Models:
@@ -74,84 +152,6 @@ quizResponses : [{
     quizScore: 100.0
 }]
 });*/
-
-
-// INITIAL DASHBOARD - Function to render the main dashboard --------------- */
-function renderDashboard(req, res, next) {
-    let context = {};
-
-    // Test for the auth provider (Google vs Facebook) and create context object
-    if (req.user.provider === 'google') {
-        context.email = req.user.email;
-        context.name = req.user.displayName;
-        context.photo = req.user.picture;
-    } 
-    else {
-        context.email = req.user.emails[0].value;
-        context.name = req.user.displayName;
-        context.photo = req.user.photos[0].value;
-    }
-
-    // Save new object to database collection
-    const emp = new Employer({
-        _id: new mongoose.Types.ObjectId,
-        email: context.email,
-        name: context.name,
-        jobPostings: []
-    });
-
-    // Check if email is already registered in collection/employers
-    var query = Employer.find({});
-    query.where('email').equals(req.user.email);
-    query.exec()
-    .then(result => {
-        // No email found
-        if (result[0] == undefined) {
-            emp.save()
-            .then(result => {
-                console.log(result);
-                // Find object one object in job postings data model
-                JobPosting.findOne()
-                .exec()
-                .then(doc => {
-                    context.title = doc.title;
-                    context.description = doc.description;
-                    req.session.jobposting_selected = doc._id;
-                    res.render("dashboard-home", context);
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.render("dashboard-home", context);
-                });   
-            })
-            .catch(err => {
-                console.log(err);
-                res.render("dashboard-home", context);
-            });
-        }
-        else{
-            console.log("email already exists");
-            // Find object one object in job postings data model
-            let id = '5f8a4d3ae5e2b93edc72f301';
-            JobPosting.findOne()
-            .exec()
-            .then(doc => {
-                context.title = doc.title;
-                context.description = doc.description;
-                req.session.jobposting_selected = doc._id;
-                res.render("dashboard-home", context);
-            })
-            .catch(err => {
-                console.log(err);
-                res.render("dashboard-home", context);
-            });
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        res.render("dashboard-home", context);
-    });
-};
 
 
 /* DASHBOARD PAGE ROUTES --------------------------------------------------- */
