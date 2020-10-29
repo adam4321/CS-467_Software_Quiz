@@ -13,23 +13,19 @@ const router = express.Router();
 // Get Schema
 const Quiz = require('../models/quiz.js');
 
-// Middleware - Function to Check user is Logged in
-const quizLayout = (req, res, next) => {
-    req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
-}
-
-
 // TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
+    var token = req.params.token;
+    console.log(token);
     let context = {};
     // Find object with id from quizzes data model
     let id = '5f9890f4863f120e60b28b74';
     Quiz.findById(id)
     .exec()
     .then(doc => {
-       console.log(doc);
         context = doc;
-        context.layout = 'login';
+        // Set layout with paths to css
+        context.layout = 'quiz';
         res.render("take-quiz-page", context);
     })
     .catch(err => {
@@ -41,6 +37,6 @@ function renderQuiz(req, res, next) {
 
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
-router.get('/', renderQuiz);
+router.get('/:token', renderQuiz);
 
 module.exports = router;
