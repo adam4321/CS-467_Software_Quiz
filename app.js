@@ -27,6 +27,11 @@ app.engine('.hbs', handlebars({
             return args.every(function (expression) {
                 return args[0] === expression; });
         },
+        'inc': function () {
+            const args = Array.prototype.slice.call(arguments, 0, -1);
+            let index = args[0];
+                return index + 1;
+        },
         'quiz_question_expose': function () {
             const args = Array.prototype.slice.call(arguments, 0, -1);
             let obj = args[0];
@@ -44,11 +49,16 @@ app.engine('.hbs', handlebars({
         },
         'each_question': function(quiz_obj, max, options) {
             let ary = quiz_obj;
+            var data = {};
             if((ary.length < max) || ary.length == 0)
                 return options.inverse(this);
             var result = [];
-            for(var i = 0; i < max; ++i)
-                result.push(options.fn(ary[i]));
+            for(var i = 0; i < max; ++i){
+                if (data) {
+                    data.index = i;
+                }
+                result.push(options.fn(ary[i], { data: data }));
+            }
             return result.join('');
         },
         'each_answer': function(quiz_obj, options) {

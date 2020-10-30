@@ -12,7 +12,7 @@
                     <div class="mdl-layout-spacer"></div> 
                     <p id="timer-header" style="margin-right:20px">Time Remaining </p> 
                     <img  id="logo" src="/images/timer.png" alt="question mark logo">
-                    <p id="timer-text" style="margin-left:20px"> {{time}}</p> 
+                    <p id="timer-text" style="margin-left:20px"> mm:ss </p> 
                 </header>
             </div>
         </div>
@@ -46,7 +46,7 @@
                             <fieldset>
                             {{#each_question questions questions.length}}
                             <fieldset>
-                                <h5>Q1</h5>
+                                <h5>Q{{inc @index}}</h5>
                                 <p>
                                     {{#if (quiz_type_expose this "mult-choice")}}
                                         <label><i>{{quiz_question_expose this}}</i></label></br>
