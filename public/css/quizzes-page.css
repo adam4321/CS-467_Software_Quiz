@@ -24,18 +24,30 @@
     margin: 11px 0px 0px 0px;
 }
 
+#upload-div {
+    float: right;
+    margin: 0 0 8px 0;
+}
+
 #upload-txt {
-    margin: 5px 20px 0 225px;
+    margin: 12px 0 0 0;
+    font-size: medium; 
+    font-weight: bold; 
+    display: inline-block;
 }
 
 #upload-btn {
     display: inline-block;
+    margin: 7px 2px 0 20px;
     height: 17px;
     width: 70px;
     font-size: 13px;
     font-family: "Helvetica","Arial",sans-serif;
     text-align: center;
 }
+
+
+/* Table body styling ------------------------------------------------------ */
 
 input[type="file"] {
     display: none;
@@ -65,6 +77,19 @@ input[type="file"] {
     background-color: #c7942d;
 }
 
+.quiz-name {
+    width: 125px;
+    overflow: hidden;
+}
+
+.quiz-category {
+    width: 110px;
+    overflow: hidden;
+}
+
+
+/* Style tables with no quizzes -------------------------------------------- */
+
 #page-break {
     margin: -10px 0 0 0;
 }
@@ -86,6 +111,23 @@ input[type="file"] {
     color: #ebb54b;
 }
 
-@media only screen and (max-width: 500px) {
+
+/* Media query for vertical mobile phones ---------------------------------- */
+
+@media only screen and (max-width: 850px) {
+    #dashboard-container {
+        width: 730px;
+    }
+
+    .quiz-name {
+        width: 95px;
+    }
     
+    .quiz-category {
+        width: 75px;
+    }
+
+    #upload-div {
+        margin: 0 0 8px 0;
+    }
 }
