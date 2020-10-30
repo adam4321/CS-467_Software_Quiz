@@ -18,6 +18,7 @@ function renderQuiz(req, res, next) {
     var token = req.params.token;
     console.log(token);
     let context = {};
+    context.time = "mm:ss";
     // Find object with id from quizzes data model
     let id = '5f9890f4863f120e60b28b74';
     let id2 = '5f98b85c9a32bc689c5949f3';
