@@ -20,7 +20,8 @@ function renderQuiz(req, res, next) {
     let context = {};
     // Find object with id from quizzes data model
     let id = '5f9890f4863f120e60b28b74';
-    Quiz.findById(id)
+    let id2 = '5f98b85c9a32bc689c5949f3';
+    Quiz.findById(id2)
     .exec()
     .then(doc => {
         context = doc;

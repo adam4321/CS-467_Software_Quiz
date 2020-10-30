@@ -37,6 +37,11 @@ app.engine('.hbs', handlebars({
             let obj = args[0].quizAnswers;
             return obj;
         },
+        'quiz_type_expose': function () {
+            const args = Array.prototype.slice.call(arguments, 0, -1);
+            return args.every(function (expression) {
+                return args[0].quizType === args[1]; });
+        },
         'each_question': function(quiz_obj, max, options) {
             let ary = quiz_obj;
             if((ary.length < max) || ary.length == 0)
