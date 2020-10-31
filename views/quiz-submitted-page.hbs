@@ -31,8 +31,13 @@
 
                         <div id="quiz-container">
                             {{#each answers}}
-                            <h5> Q{{@index}} </h5>
-                            <ul> choice: {{this}} </ul>
+                                {{#if (eq ../response_length @index)}}
+                                    <h7>Comment:</h7>
+                                    <ul> {{this}} </ul>
+                                {{else}}
+                                    <h5> Q{{@index}} </h5>
+                                    <ul> choice: {{this}} </ul>
+                                {{/if}}                                
                             {{/each}}
                         </div> 
                     </div>

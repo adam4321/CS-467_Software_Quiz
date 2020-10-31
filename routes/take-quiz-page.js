@@ -13,17 +13,20 @@ const router = express.Router();
 // Get Schema
 const Quiz = require('../models/quiz.js');
 
+// Get Scoring Algorithm
+var calc_score =  require('../score.js');
+
 // TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
     var token = req.params.token;
-    console.log(token);
     let context = {};
     
     // Find object with id from quizzes data model
     let id = '5f9890f4863f120e60b28b74';
     let id2 = '5f98b85c9a32bc689c5949f3';
     let id3 = '5f9cb1a2fd3e2064587bcee4';
-    Quiz.findById(id3)
+
+    Quiz.findById(token)
     .exec()
     .then(doc => {
         context = doc;
@@ -45,7 +48,8 @@ function scoreQuiz(req, res, next) {
     context.answers = req.body;
     // Set layout with paths to css
     context.layout = 'quiz';
-    console.log(context.answers);
+    context.response_length = Object.keys(req.body).length - 1;
+    console.log(context);
     res.render("quiz-submitted-page", context);
 };
 
