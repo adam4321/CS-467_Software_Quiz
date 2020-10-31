@@ -1,7 +1,7 @@
 {{!-- Home dashboard view - using express handlebars --}}
  <div style="height: 100px">
             <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-                <header id="top-bar" class="mdl-layout__header mdl-color-text--white">
+                <header id="top-bar" class="mdl-layout__header mdl-layout__header--waterfall mdl-color-text--white">
                     <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">
                         <h3>
@@ -9,13 +9,21 @@
                             <p id="page-title">Quiz Soft</p>
                         </h3>
                     </span>
+                    </div>
+                    <div class="container">
+                    <div class="row justify-content-lg-center justify-content-md-center justify-content-sm-center justify-content-xs-center">
+                    <div class="col-lg-auto col-md-auto col-sm-auto col-xs-auto">
+                        <p id="timer-header" >Time Remaining </p> 
+                        <img  id="logo" src="/images/timer.png" alt="question mark logo">
+                        <p id="timer-text" style="width:130px; height:40px;"> mm:ss </p>
+                    </div>
+                    </div>
+                    </div>
                     <div class="mdl-layout-spacer"></div> 
-                    <p id="timer-header" style="margin-right:20px">Time Remaining </p> 
-                    <img  id="logo" src="/images/timer.png" alt="question mark logo">
-                    <p id="timer-text" style="margin-left:20px"> mm:ss </p> 
                 </header>
             </div>
         </div>
+        <div class="mdl-layout-spacer"></br></br></div> 
 
         <div>
             {{!-- Content Box to load the other views into --}}
@@ -99,7 +107,7 @@
                                 <div style="margin:auto;" class="square-card mdl-card--expand mdl-card mdl-shadow--2dp">
                                     <fieldset>
                                         <label>Optional Comments:</label></br>
-                                            <textarea name="comment" rows="10" cols="30" style="maxlength:40; height:160px; width:300px"></textarea></br>
+                                            <textarea name="comment" rows="10" cols="30" style="maxlength:40; height:160px; width:250px"></textarea></br>
                                     </fieldset>
                                 </div>
                                 <hr>
@@ -111,6 +119,6 @@
                     </div>
                 </div>
 
+                </div>
+            </main>
         </div>
-    </main>
-</div>
