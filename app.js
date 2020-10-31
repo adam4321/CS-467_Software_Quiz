@@ -35,7 +35,8 @@ app.engine('.hbs', handlebars({
         'quiz_question_expose': function () {
             const args = Array.prototype.slice.call(arguments, 0, -1);
             let obj = args[0];
-            return obj.quizQuestion;
+            let index = args[1];
+            return obj.quizQuestion[index];
         },
         'quiz_answer_expose': function () {
             const args = Array.prototype.slice.call(arguments, 0, -1);
