@@ -13,11 +13,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-<<<<<<< HEAD
 // Debug Flag
-=======
-// Debug constant
->>>>>>> sample-quiz
 DEBUG = 0;
 
 // Get schemas
