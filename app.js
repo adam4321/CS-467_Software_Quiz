@@ -27,32 +27,88 @@ app.engine('.hbs', handlebars({
             return args.every(function (expression) {
                 return args[0] === expression; });
         },
+        'inc': function () {
+            const args = Array.prototype.slice.call(arguments, 0, -1);
+            let index = args[0];
+                return index + 1;
+        },
         'quiz_question_expose': function () {
             const args = Array.prototype.slice.call(arguments, 0, -1);
             let obj = args[0];
-            return obj.quizQuestion;
+            let index = args[1];
+            return obj.quizQuestion[index];
         },
         'quiz_answer_expose': function () {
             const args = Array.prototype.slice.call(arguments, 0, -1);
             let obj = args[0].quizAnswers;
             return obj;
         },
+        'quiz_type_expose': function () {
+            const args = Array.prototype.slice.call(arguments, 0, -1);
+            return args.every(function (expression) {
+                return args[0].quizType === args[1]; });
+        },
         'each_question': function(quiz_obj, max, options) {
             let ary = quiz_obj;
+            let data = { };
             if((ary.length < max) || ary.length == 0)
                 return options.inverse(this);
             var result = [];
-            for(var i = 0; i < max; ++i)
-                result.push(options.fn(ary[i]));
+            for(var i = 0; i < max; ++i){
+                if (data) {
+                    data.q_index = i;
+                }
+                result.push(options.fn(ary[i], { data: data }));
+            }
             return result.join('');
         },
         'each_answer': function(quiz_obj, options) {
+
+            var extend = function () {
+
+                // Variables
+                var extended = {};
+                var deep = false;
+                var i = 0;
+                var length = arguments.length;
+            
+                // Check if a deep merge
+                if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
+                    deep = arguments[0];
+                    i++;
+                }
+            
+                // Merge the object into the extended object
+                var merge = function (obj) {
+                    for ( var prop in obj ) {
+                        if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+                            // If deep merge and property is an object, merge properties
+                            if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+                                extended[prop] = extend( true, extended[prop], obj[prop] );
+                            } else {
+                                extended[prop] = obj[prop];
+                            }
+                        }
+                    }
+                };
+            
+                // Loop through each object and conduct a merge
+                for ( ; i < length; i++ ) {
+                    var obj = arguments[i];
+                    merge(obj);
+                }
+            
+                return extended;
+            
+            };
+
             let ary = quiz_obj.quizAnswers;
             if(ary.length == 0)
                 return options.inverse(this);
             var result = [];
-            for(var i = 0; i < ary.length; ++i)
-                result.push(options.fn(ary[i]));
+            for(var i = 0; i < ary.length; ++i){
+                result.push(options.fn(extend(ary[i], {a_index: i})));
+            }
             return result.join('');
         }
     }

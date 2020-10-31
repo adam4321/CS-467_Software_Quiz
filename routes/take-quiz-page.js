@@ -18,9 +18,12 @@ function renderQuiz(req, res, next) {
     var token = req.params.token;
     console.log(token);
     let context = {};
+    
     // Find object with id from quizzes data model
     let id = '5f9890f4863f120e60b28b74';
-    Quiz.findById(id)
+    let id2 = '5f98b85c9a32bc689c5949f3';
+    let id3 = '5f9cb1a2fd3e2064587bcee4';
+    Quiz.findById(id3)
     .exec()
     .then(doc => {
         context = doc;
@@ -30,13 +33,27 @@ function renderQuiz(req, res, next) {
     })
     .catch(err => {
         console.log(err);
-        res.render("take-quiz-page", context);
+        // Set layout with paths to css
+        context.layout = 'quiz';
+        res.render("404", context);
     });
+};
+
+// SCORE QUIZ - Function to score the answers from the candidates choices ----------------------------- */
+function scoreQuiz(req, res, next) {
+    let context = {};
+    context.answers = req.body;
+    // Set layout with paths to css
+    context.layout = 'quiz';
+    console.log(context.answers);
+    res.render("quiz-submitted-page", context);
 };
 
 
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
 router.get('/:token', renderQuiz);
+
+router.post('/', scoreQuiz);
 
 module.exports = router;
