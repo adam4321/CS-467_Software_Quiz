@@ -9,7 +9,7 @@ const quizSchema = mongoose.Schema({
     questions : [{
         quizQuestion: [String],
         quizAnswers: [String],
-        quizKey: String,
+        quizKey: [String],
         quizType: String
     }]
 });

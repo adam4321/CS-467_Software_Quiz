@@ -33,13 +33,27 @@ function renderQuiz(req, res, next) {
     })
     .catch(err => {
         console.log(err);
-        res.render("take-quiz-page", context);
+        // Set layout with paths to css
+        context.layout = 'quiz';
+        res.render("404", context);
     });
+};
+
+// SCORE QUIZ - Function to score the answers from the candidates choices ----------------------------- */
+function scoreQuiz(req, res, next) {
+    let context = {};
+    context.answers = req.body;
+    // Set layout with paths to css
+    context.layout = 'quiz';
+    console.log(context.answers);
+    res.render("quiz-submitted-page", context);
 };
 
 
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
 router.get('/:token', renderQuiz);
+
+router.post('/', scoreQuiz);
 
 module.exports = router;
