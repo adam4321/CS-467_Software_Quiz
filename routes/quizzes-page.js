@@ -11,10 +11,11 @@
 
 const express = require('express');
 const router = express.Router();
+const { ObjectId } = require('mongodb');
 
 // Get Schemas
 const Quiz = require('../models/quiz.js');
-const Employer = require('../models/employer.js')
+const Employer = require('../models/employer.js');
 
 
 // Middleware - Function to Check user is Logged in ------------------------ */
@@ -41,23 +42,12 @@ function renderQuizzes(req, res, next) {
 
     // Query the user's quizzes and add them to the context object
     Employer.findOne({email: context.email})
-    .exec(function(err, user) {
-        // // Print the user and user id (to match with employer_id field in quizzes)
-        // console.log(user)
-        // console.log(user._id)
-
+    .exec((err, user) => {
         // Find all quizzes for the currently logged in user
         Quiz.find({}).lean().where('employer_id').equals(user._id).exec()
         .then(quizzes => {
-            // console.log(quizzes);
-
-            // if(quizzes.length == 0) {
-            //     console.log('NO QUIZZES')
-            // }
-            
             // Assign the quiz properties to the context object
             context.quizzes = quizzes;
-
             res.render("quizzes-page", context);
         })
         .catch(err => {
@@ -70,8 +60,20 @@ function renderQuizzes(req, res, next) {
 
 
 /* DELETE QUIZ - Function to delete a quiz from database ------------------- */
-function deleteQuiz() {
+function deleteQuiz(req, res, next) {
+    let context = {};
 
+    // Find the quiz by the id in the request body
+    Quiz.deleteOne({'_id': ObjectId(req.body.id)}).exec()
+    .then(() => {
+        // Reply to the client
+        res.send(context);
+        res.end();
+    })
+    .catch(err => {
+        console.error(err);
+        res.end();
+    });
 };
 
 

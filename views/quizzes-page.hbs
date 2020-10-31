@@ -25,7 +25,7 @@
                             type="file" 
                             class="btn-style" 
                             id="upload-hidden"
-                            onclick="uploadQuiz('recordTable', this, {{_id}})"
+                            onclick="uploadQuiz(`recordTable`, this, `{{_id}}`);"
                         >
                         Upload
                     </label>
@@ -56,7 +56,7 @@
                                     type="button" 
                                     value="Delete" 
                                     class="btn-style" 
-                                    onclick="deleteQuiz('recordTable', this, {{_id}})"
+                                    onclick="deleteQuiz(`recordTable`, this, `{{_id}}`);"
                                 >
                             </td>
                             <td>
@@ -64,7 +64,7 @@
                                     type="button" 
                                     value="Download" 
                                     class="btn-style" 
-                                    onclick="downloadQuiz('recordTable', this, {{_id}})"
+                                    onclick="downloadQuiz(`recordTable`, this, `{{_id}}`);"
                                 >
                             </td>
                         </tr>
