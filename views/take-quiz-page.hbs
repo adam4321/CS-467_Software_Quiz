@@ -71,6 +71,7 @@
                                                         value = "{{this.a_index}}" />
                                                     <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                 {{/each_answer}}
+                                                <input type="radio" style="display:none;" name="{{@q_index}}" id="default-mult-choice" class="mult-choice" value="" checked="checked"/>
                                             {{/if}}
                                             {{#if (quiz_type_expose this "true-false")}}
                                                 <label><i>{{quiz_question_expose this 0}}</i></label></br>
@@ -86,6 +87,7 @@
                                                         class = "true-false"
                                                         value = "false" />
                                                     <label for = "Q{{@q_index}}_1">False</label></br>
+                                                    <input type="radio" style="display:none;" name="{{@q_index}}" id="default-tf" class="true-false" value="" checked="checked"/>
                                             {{/if}}
                                             {{#if (quiz_type_expose this "fill-blank")}}
                                                 <label><i>{{quiz_question_expose this 0}} </i>___<i> {{quiz_question_expose this 1}}</i></label></br>
@@ -105,6 +107,7 @@
                                                         value = "{{this.a_index}}" />
                                                     <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                 {{/each_answer}}
+                                                <input type="checkbox" style="display:none;" name="{{@q_index}}" id="default-check" class="check-all" value="" checked="checked"/>
                                             {{/if}}
                                         </p>
                                     </fieldset>
@@ -134,19 +137,36 @@
 // TODO: move to separate file in js folder
 document.getElementById("take_quiz").onsubmit = function() {verifyResponses()};
 
-function verifyResponses() {
-  // TODO: query all mult-choice classes with same name and if none selected value=""
-  let mc_radios = document.getElementsByClassName("mult-choice");
- // let mc_first = mc_radios.querySelector('input[name="2"]');
- // console.log(mc_first);
-  for (let i = 0; i < mc_radios.length; i++){
-      console.log(mc_radios[i].attributes.name);
+var verifyResponses = function(){
+  let el_checks = document.querySelectorAll('input[class="check-all"]:not([id="default-check"])');
+  let prev_name = "";
+  let curr_name = "";
+  let validate_any_chosen = 0;
+  // Query all check-all classes with same name and if none selected. leave hidden default checkbox checked,
+  // Else uncheck hidden default checkbox
+  for (let i = 0; i < el_checks.length; i++){
+    curr_name = el_checks[i].attributes.name.value;
+    if (i === 0){
+        prev_name = curr_name;
+    }
+    // If any checks, then set hidden default checkbox to unchecked
+    if ((curr_name != prev_name) || (i === (el_checks.length - 1))){
+        if (validate_any_chosen > 0){
+            // Set the default checkbox to unchecked
+            let el_default_check = document.querySelectorAll('input[id="default-check"][name="'+prev_name+'"]');
+            let default_box = el_default_check.item(0);
+            default_box.checked = false;
+        }
+        // Reset validate variable
+        validate_any_chosen = 0;
+        prev_name = curr_name;
+    }
+    // If an answer is checked increment
+    if (el_checks.item(i).checked === true){
+        validate_any_chosen += 1;
+    }
   }
-  /*if (mc.radios.checked === false){
-      console.log("no selection");
-  }*/
-  // TODO: query all true-false classes with same name and if none selected value=""
-  // TODO: query all check-all classes with same name and if none selected value=""
+
   alert("The form was submitted");
 }
 </script>
