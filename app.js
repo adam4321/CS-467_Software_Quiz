@@ -25,7 +25,7 @@ app.engine('.hbs', handlebars({
         'eq': function () {
             const args = Array.prototype.slice.call(arguments, 0, -1);
             return args.every(function (expression) {
-                return args[0] === expression; });
+                return args[0] === args[1]});
         },
         'inc': function () {
             const args = Array.prototype.slice.call(arguments, 0, -1);

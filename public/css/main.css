@@ -55,6 +55,11 @@ a {
     font-weight: 700;
 }
 
+label {
+    margin-left: 5px;
+    display: inline;
+}
+
 .page-links {
     color: white;
     text-decoration: none;

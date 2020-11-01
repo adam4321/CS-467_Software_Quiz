@@ -1,7 +1,7 @@
 {{!-- Home dashboard view - using express handlebars --}}
  <div style="height: 100px">
             <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-                <header id="top-bar" class="mdl-layout__header mdl-color-text--white">
+                <header id="top-bar" class="mdl-layout__header mdl-layout__header mdl-color-text--white">
                     <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">
                         <h3>
@@ -9,13 +9,23 @@
                             <p id="page-title">Quiz Soft</p>
                         </h3>
                     </span>
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-lg-center justify-content-md-center justify-content-sm-center justify-content-xs-center">
+                            <div class="col-lg-auto col-md-auto col-sm-auto col-xs-auto">
+                                <p id="timer-header" >Time Remaining </p> 
+                                <img  id="logo" src="/images/timer.png" alt="question mark logo">
+                                <p id="timer-text" style="width:130px; height:40px;"> mm:ss </p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mdl-layout-spacer"></div> 
-                    <p id="timer-header" style="margin-right:20px">Time Remaining </p> 
-                    <img  id="logo" src="/images/timer.png" alt="question mark logo">
-                    <p id="timer-text" style="margin-left:20px"> mm:ss </p> 
                 </header>
             </div>
         </div>
+        <br></br>
+        <br></br>
+        <br></br>
 
         <div>
             {{!-- Content Box to load the other views into --}}
@@ -34,7 +44,7 @@
                         </div>
 
                         <div id="quiz-container">
-                            <form id="test_sample" action="/take_quiz" method="post">
+                            <form id="take_quiz" action="/take_quiz/23" method="post">
                                 <div class="square-card mdl-card--expand mdl-shadow--2dps mdl-color-text--black-600">
                                     <fieldset>
                                         <h5><b>{{name}}</b></h5>
@@ -57,30 +67,35 @@
                                                     <input type = "radio"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_{{this.a_index}}"
+                                                        class = "mult-choice"
                                                         value = "{{this.a_index}}" />
                                                     <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                 {{/each_answer}}
+                                                <input type="radio" style="display:none;" name="{{@q_index}}" id="default-mult-choice" class="mult-choice" value="" checked="checked"/>
                                             {{/if}}
                                             {{#if (quiz_type_expose this "true-false")}}
                                                 <label><i>{{quiz_question_expose this 0}}</i></label></br>
                                                     <input type = "radio"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_0"
-                                                        value = "1" />
+                                                        class = "true-false"
+                                                        value = "true" />
                                                     <label for = "Q{{@q_index}}_0">True</label></br>
                                                     <input type = "radio"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_1"
-                                                        value = "0" />
+                                                        class = "true-false"
+                                                        value = "false" />
                                                     <label for = "Q{{@q_index}}_1">False</label></br>
+                                                    <input type="radio" style="display:none;" name="{{@q_index}}" id="default-tf" class="true-false" value="" checked="checked"/>
                                             {{/if}}
                                             {{#if (quiz_type_expose this "fill-blank")}}
-                                                <label><i>{{quiz_question_expose this 0}}</i></label></br>
+                                                <label><i>{{quiz_question_expose this 0}} </i>___<i> {{quiz_question_expose this 1}}</i></label></br>
                                                     <input type = "text"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_0"
+                                                        class = "fill-blank"
                                                         value = "{{this.[0]}}" /></br>
-                                                    <label><i>{{quiz_question_expose this 1}}</i></label></br>
                                             {{/if}}
                                             {{#if (quiz_type_expose this "check-all")}}
                                                 <label><i>{{quiz_question_expose this 0}}</i></label></br>
@@ -88,28 +103,35 @@
                                                 <input type = "checkbox"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_{{this.a_index}}"
+                                                        class = "check-all"
                                                         value = "{{this.a_index}}" />
                                                     <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                 {{/each_answer}}
+                                                <input type="checkbox" style="display:none;" name="{{@q_index}}" id="default-check" class="check-all" value="" checked="checked"/>
                                             {{/if}}
                                         </p>
                                     </fieldset>
                                 </div>
                                 {{/each_question}}
                                 <hr>
+                                <div style="margin:auto;" class="square-card mdl-card--expand mdl-card mdl-shadow--2dp">
+                                    <fieldset>
+                                        <label>Optional Comments:</label></br>
+                                            <textarea name="comment" rows="10" cols="30" style="maxlength:40; height:160px; width:250px"></textarea></br>
+                                    </fieldset>
+                                </div>
+                                <hr>
                                 <fieldset>
                                     <input type="submit" value="Submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored question-btn"/>
                                 </fieldset>
-    
-                                {{!-- hidden quizKey JSON that is submitted with quiz --}}
-                                <!--<fieldset hidden>
-                                    <input type="hidden" name="keys_string" id="keys" value="GHIJK12345GHIJK12345BCDEF6789A6789A12345BCDEF12345GHIJKGHIJKBCDEFBCDEF6789A6789A">
-                                </fieldset>-->
                             </form>
                         </div> 
                     </div>
                 </div>
 
+                </div>
+            </main>
         </div>
-    </main>
-</div>
+        
+<script src="../js/take-quiz-page-client.js"></script>
+
