@@ -12,6 +12,7 @@ const router = express.Router();
 
 // Get Schema
 const Quiz = require('../models/quiz.js');
+const JobPosting = require('../models/jobposting.js');
 
 // Get Scoring Algorithm
 var calc_score =  require('../score.js');
@@ -44,13 +45,46 @@ function renderQuiz(req, res, next) {
 
 // SCORE QUIZ - Function to score the answers from the candidates choices ----------------------------- */
 function scoreQuiz(req, res, next) {
+    var token = req.params.token;
     let context = {};
     context.answers = req.body;
     // Set layout with paths to css
-    context.layout = 'quiz';
     context.response_length = Object.keys(req.body).length - 1;
-    console.log(context);
-    res.render("quiz-submitted-page", context);
+
+    // TODO: Query quiz associated with object and build quizKey object
+    let id3 = '5f9cb1a2fd3e2064587bcee4';
+    Quiz.findById(id3)
+    .exec()
+    .then(quiz_obj => {
+        // Set layout with paths to css
+        context.layout = 'quiz';
+        console.log(context);
+        let response_arr = req.body;
+        // Score quiz
+        calc_score.calculate_score(quiz_obj, response_arr).then(function(score) {
+            console.log("out of promise");
+            // If valid then save the responses and score in jobposting
+
+            // Set layout with paths to css
+            context.layout = 'quiz';
+            res.render("quiz-submitted-page", context);
+        }, function(error) {
+            console.log(err0r);
+            // Set layout with paths to css
+            context.layout = 'quiz';
+            res.render("404", context);
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        // Set layout with paths to css
+        context.layout = 'quiz';
+        res.render("404", context);
+    });
+
+
+
+
 };
 
 
@@ -58,6 +92,6 @@ function scoreQuiz(req, res, next) {
 
 router.get('/:token', renderQuiz);
 
-router.post('/', scoreQuiz);
+router.post('/:token', scoreQuiz);
 
 module.exports = router;

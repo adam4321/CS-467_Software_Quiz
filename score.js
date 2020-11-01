@@ -1,10 +1,54 @@
 //score calculation
-function calculate_score(body){
+function calculate_score(quiz_obj, response_arr){
     return new Promise(function(resolve,reject) {
-        var key = body;
-        var key_length = Object.keys(key).length; 
-
-        resolve(key);
+        // Build key array
+        var key_length = Object.keys(quiz_obj.questions).length;
+        var key_arr = []; 
+        for (let i = 0; i < key_length; i++){
+            key_arr[i] = quiz_obj.questions[i].quizKey;
+        }
+        console.log(key_arr);
+        var score = 100.0;
+        var simple_dec = (100.0/key_length);
+        // Match the values of each respective question and determine the score
+        for (let j = 0; j < key_length; j++){
+            let type = quiz_obj.questions[j].quizType;
+            if (response_arr[j] != undefined){
+                if (type === 'true-false'){
+                    if (key_arr[j][0] != response_arr[j]){
+                        score = score - simple_dec;
+                    }
+                }
+                else if(type === 'mult-choice'){
+                    if (key_arr[j][0] != response_arr[j]){
+                        score = score - simple_dec;
+                    }
+                }
+                else if(type === 'fill-blank'){
+                    if (key_arr[j][0] != response_arr[j]){
+                        score = score - simple_dec;
+                    }
+                }
+                else if(type === 'check-all'){
+                    let check_answers = 0;
+                    for (let y = 0; y < key_arr[j].length; y++){
+                        for (let z = 0; z < key_arr[j].length; z++){
+                            if (key_arr[j][y] === response_arr[z]){
+                                check_answers += 1;
+                            }
+                        }
+                    }
+                    if (check_answers === key_arr[j].length){
+                        score = score - simple_dec;
+                    }
+                }
+            }
+            else{
+                score = score - simple_dec;
+            }
+        }
+        console.log(score);
+        resolve(score);
     });
 }
 

@@ -23,7 +23,9 @@
                 </header>
             </div>
         </div>
-        <div class="mdl-layout-spacer"></br></br></div> 
+        <br></br>
+        <br></br>
+        <br></br>
 
         <div>
             {{!-- Content Box to load the other views into --}}
@@ -42,7 +44,7 @@
                         </div>
 
                         <div id="quiz-container">
-                            <form id="test_sample" action="/take_quiz" method="post">
+                            <form id="take_quiz" action="/take_quiz/23" method="post">
                                 <div class="square-card mdl-card--expand mdl-shadow--2dps mdl-color-text--black-600">
                                     <fieldset>
                                         <h5><b>{{name}}</b></h5>
@@ -65,6 +67,7 @@
                                                     <input type = "radio"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_{{this.a_index}}"
+                                                        class = "mult-choice"
                                                         value = "{{this.a_index}}" />
                                                     <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                 {{/each_answer}}
@@ -74,12 +77,14 @@
                                                     <input type = "radio"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_0"
-                                                        value = "1" />
+                                                        class = "true-false"
+                                                        value = "true" />
                                                     <label for = "Q{{@q_index}}_0">True</label></br>
                                                     <input type = "radio"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_1"
-                                                        value = "0" />
+                                                        class = "true-false"
+                                                        value = "false" />
                                                     <label for = "Q{{@q_index}}_1">False</label></br>
                                             {{/if}}
                                             {{#if (quiz_type_expose this "fill-blank")}}
@@ -87,6 +92,7 @@
                                                     <input type = "text"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_0"
+                                                        class = "fill-blank"
                                                         value = "{{this.[0]}}" /></br>
                                             {{/if}}
                                             {{#if (quiz_type_expose this "check-all")}}
@@ -95,6 +101,7 @@
                                                 <input type = "checkbox"
                                                         name = "{{@q_index}}"
                                                         id = "Q{{@q_index}}_{{this.a_index}}"
+                                                        class = "check-all"
                                                         value = "{{this.a_index}}" />
                                                     <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                 {{/each_answer}}
