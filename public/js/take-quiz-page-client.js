@@ -7,7 +7,6 @@
 ******************************************************************************/
 
 /* =================== QUIZ POST VALIDATION FUNCTIONS ======================== */
-
 document.getElementById("take_quiz").onsubmit = function() {verifyResponses()};
 
 /* SUBMIT form - Function to verify responses before posting -------------- */
@@ -42,5 +41,5 @@ var verifyResponses = function(){
     }
   }
 
-  alert("The form was submitted");//TODO: remove
-}
+  alert("The quiz was submitted");
+};

@@ -132,41 +132,6 @@
                 </div>
             </main>
         </div>
+        
+<script src="../js/take-quiz-page-client.js"></script>
 
-<script>
-// TODO: move to separate file in js folder
-document.getElementById("take_quiz").onsubmit = function() {verifyResponses()};
-
-var verifyResponses = function(){
-  let el_checks = document.querySelectorAll('input[class="check-all"]:not([id="default-check"])');
-  let prev_name = "";
-  let curr_name = "";
-  let validate_any_chosen = 0;
-  // Query all check-all classes with same name and if none selected. leave hidden default checkbox checked,
-  // Else uncheck hidden default checkbox
-  for (let i = 0; i < el_checks.length; i++){
-    curr_name = el_checks[i].attributes.name.value;
-    if (i === 0){
-        prev_name = curr_name;
-    }
-    // If any checks, then set hidden default checkbox to unchecked
-    if ((curr_name != prev_name) || (i === (el_checks.length - 1))){
-        if (validate_any_chosen > 0){
-            // Set the default checkbox to unchecked
-            let el_default_check = document.querySelectorAll('input[id="default-check"][name="'+prev_name+'"]');
-            let default_box = el_default_check.item(0);
-            default_box.checked = false;
-        }
-        // Reset validate variable
-        validate_any_chosen = 0;
-        prev_name = curr_name;
-    }
-    // If an answer is checked increment
-    if (el_checks.item(i).checked === true){
-        validate_any_chosen += 1;
-    }
-  }
-
-  alert("The form was submitted");//TODO: remove
-}
-</script>

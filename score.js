@@ -38,7 +38,7 @@ function calculate_score(quiz_obj, response_arr){
                             }
                         }
                     }
-                    if (check_answers != key_arr[j].length){
+                    if ((check_answers != key_arr[j].length) || (response_arr[j].length != key_arr[j].length)){
                         score = score - simple_dec;
                     }
                 }
