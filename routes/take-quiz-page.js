@@ -10,6 +10,9 @@
 const express = require('express');
 const router = express.Router();
 
+// Debug Flag
+DEBUG = 1;
+
 // Get Schema
 const Quiz = require('../models/quiz.js');
 const JobPosting = require('../models/jobposting.js');
@@ -58,8 +61,8 @@ function scoreQuiz(req, res, next) {
     .then(quiz_obj => {
         // Set layout with paths to css
         context.layout = 'quiz';
-        console.log(context);
         let response_arr = req.body;
+        console.log(response_arr)
         // Score quiz
         calc_score.calculate_score(quiz_obj, response_arr).then(function(score) {
             let total_points = Object.keys(quiz_obj.questions).length;
@@ -68,9 +71,36 @@ function scoreQuiz(req, res, next) {
             context.points = points;
             // If valid then save the responses and score in jobposting
 
-            // Set layout with paths to css
-            context.layout = 'quiz';
-            res.render("quiz-submitted-page", context);
+            console.log(req.session.jobposting_selected);
+            if (DEBUG === 0){
+                const jobposting = new JobPosting({
+                    _id: req.session.jobposting_selected,
+                    quizResponses : [{
+                        quiz_response_id : new mongoose.Types.ObjectId,
+                        candidate_id : "5f8a4c6cf6f66534c417a374",//sample
+                        quiz_id : "5f8a4903274de74785f9cb1a2fd3e2064587bcee4c48b4c1",
+                        candidateAnswers: response_arr,
+                        quizScore: score
+                    }]
+                });
+                jobposting.save()
+                .then(result =>{
+                    // Set layout with paths to css
+                    context.layout = 'quiz';
+                    res.render("quiz-submitted-page", context);
+                })
+                .catch(err => {
+                    console.error(err);
+                    // Set layout with paths to css
+                    context.layout = 'quiz';
+                    res.render("quiz-submitted-page", context);
+                });
+            }
+            else{
+                // Set layout with paths to css
+                context.layout = 'quiz';
+                res.render("quiz-submitted-page", context);
+            }
         }, function(error) {
             console.log(error);
             // Set layout with paths to css
