@@ -25,7 +25,7 @@ function calculate_score(quiz_obj, response_arr){
                     }
                 }
                 else if(type === 'fill-blank'){
-                    if (key_arr[j][0] != response_arr[j]){
+                    if (key_arr[j][0].toLowerCase() != response_arr[j].toLowerCase()){
                         score = score - simple_dec;
                     }
                 }
