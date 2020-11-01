@@ -32,13 +32,13 @@ function calculate_score(quiz_obj, response_arr){
                 else if(type === 'check-all'){
                     let check_answers = 0;
                     for (let y = 0; y < key_arr[j].length; y++){
-                        for (let z = 0; z < key_arr[j].length; z++){
-                            if (key_arr[j][y] === response_arr[z]){
+                        for (let z = 0; z < response_arr[j].length; z++){
+                            if (key_arr[j][y] === response_arr[j][z]){
                                 check_answers += 1;
                             }
                         }
                     }
-                    if (check_answers === key_arr[j].length){
+                    if (check_answers != key_arr[j].length){
                         score = score - simple_dec;
                     }
                 }
@@ -47,7 +47,7 @@ function calculate_score(quiz_obj, response_arr){
                 score = score - simple_dec;
             }
         }
-        console.log(score);
+
         resolve(score);
     });
 }
