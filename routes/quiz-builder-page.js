@@ -13,37 +13,34 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-// Debug Flag
-DEBUG = 0;
-
 // Get schemas
 const Quiz = require('../models/quiz.js');
 const Employer = require('../models/employer.js');
 
 
-// Middleware - Function to Check user is Logged in ------------------------ */
+/* Middleware - Function to Check user is Logged in ------------------------ */
 const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
 
-// QUIZ BUILDER - Function to render quiz builder page --------------------- */
+/* QUIZ BUILDER - Function to render quiz builder page --------------------- */
 function renderBuilder(req, res, next) {
     res.render("quiz-builder-page", {layout: 'login'});
 };
 
 
-// SUBMIT QUIZ - Function to store the completed quiz into the db ---------- */
+/* SUBMIT QUIZ - Function to store the completed quiz into the db ---------- */
 function submitQuiz(req, res, next) {
     let context = {};
 
     // Save new object to database collection and associate to employee
-    if (req.body.questions.length != 0) {
+    if (req.body.questions.length !== 0) {
         Employer.find({email: req.user.email}).exec()
         .then(doc => {
-           console.log(doc[0]._id);
            
-           const saved_quiz = new Quiz({
+            // Create a new quiz document
+            const saved_quiz = new Quiz({
                 _id: new mongoose.Types.ObjectId,
                 employer_id: doc[0]._id,
                 name: req.body.name,
@@ -52,23 +49,15 @@ function submitQuiz(req, res, next) {
                 questions : req.body.questions
             });
 
-            // Save quiz to database
-            if (DEBUG === 0) {
-                saved_quiz.save()
-                .then(result => {
-                    console.log(result);
-                    var quiz_id_post = saved_quiz._id;
-                    res.render("quiz-setup-page", context);
-                })
-                .catch(err => {
-                    console.error(err);
-                    res.status(404).end();
-                }); 
-            }
-            else {
-                console.log("debug works");
-                res.render("quiz-setup-page", context);
-            }
+            // Save quiz to the database
+            saved_quiz.save()
+            .then(() => {
+                res.end();
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(404).end();
+            }); 
         })
         .catch(err => {
             console.error(err);
@@ -77,6 +66,7 @@ function submitQuiz(req, res, next) {
     }
     else {
         console.error("No questions in body!!");
+        res.send(context).end();
     }
 }
 

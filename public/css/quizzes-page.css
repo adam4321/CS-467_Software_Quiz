@@ -6,6 +6,16 @@
     max-width: 800px;
 }
 
+#dashboard-container-empty {
+    width: 800px;
+    margin: auto;
+    padding-right: 0;
+}
+
+.no-quiz-content {
+    width: 93%;
+}
+
 #profile-info {
     margin-bottom: 0px;
     padding-bottom: 0px;
@@ -24,6 +34,14 @@
     margin: 11px 0px 0px 0px;
 }
 
+/* Add extra margin when rendered by JavaScript */
+#profile-email-new {
+    font-size: medium; 
+    font-weight: bold; 
+    display: inline-block;
+    margin: 11px 0px 0px 4px;
+}
+
 #upload-div {
     float: right;
     margin: 0 0 8px 0;
@@ -39,6 +57,16 @@
 #upload-btn {
     display: inline-block;
     margin: 7px 2px 0 20px;
+    height: 17px;
+    width: 70px;
+    font-size: 13px;
+    font-family: "Helvetica","Arial",sans-serif;
+    text-align: center;
+}
+
+#upload-btn-empty {
+    display: inline-block;
+    margin: 7px 28px 0 24px;
     height: 17px;
     width: 70px;
     font-size: 13px;
@@ -90,10 +118,6 @@ input[type="file"] {
 
 /* Style tables with no quizzes -------------------------------------------- */
 
-#page-break {
-    margin: -10px 0 0 0;
-}
-
 #no-quiz-div {
     width: 270px;
     margin: 70px auto 40px auto;
@@ -112,11 +136,19 @@ input[type="file"] {
 }
 
 
-/* Media query for vertical mobile phones ---------------------------------- */
+/* Media queries for tablets ----------------------------------------------- */
 
 @media only screen and (max-width: 850px) {
     #dashboard-container {
         width: 730px;
+    }
+
+    #dashboard-container-empty {
+        width: 730px;
+    }
+
+    .no-quiz-content {
+        width: 93%;
     }
 
     .quiz-name {
@@ -129,5 +161,20 @@ input[type="file"] {
 
     #upload-div {
         margin: 0 0 8px 0;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    #dashboard-container-empty {
+        width: 95%;
+    }
+}
+
+
+/* Media queries for vertical mobile phones -------------------------------- */
+
+@media only screen and (max-width: 600px) {
+    .no-quiz-content {
+        width: 86%;
     }
 }
