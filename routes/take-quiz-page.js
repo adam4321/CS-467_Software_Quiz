@@ -62,14 +62,17 @@ function scoreQuiz(req, res, next) {
         let response_arr = req.body;
         // Score quiz
         calc_score.calculate_score(quiz_obj, response_arr).then(function(score) {
-            console.log("out of promise");
+            let total_points = Object.keys(quiz_obj.questions).length;
+            let points = (total_points * score) / 100;
+            context.total_points = total_points;
+            context.points = points;
             // If valid then save the responses and score in jobposting
 
             // Set layout with paths to css
             context.layout = 'quiz';
             res.render("quiz-submitted-page", context);
         }, function(error) {
-            console.log(err0r);
+            console.log(error);
             // Set layout with paths to css
             context.layout = 'quiz';
             res.render("404", context);

@@ -30,6 +30,8 @@
                         </div>
 
                         <div id="quiz-container">
+                            <h7>Points (for testing): {{points}} / {{total_points}} </h7>
+                            <hr>
                             {{#each answers}}
                                 {{#if (eq ../response_length @index)}}
                                     <h7>Comment:</h7>

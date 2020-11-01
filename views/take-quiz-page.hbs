@@ -1,7 +1,7 @@
 {{!-- Home dashboard view - using express handlebars --}}
  <div style="height: 100px">
             <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-                <header id="top-bar" class="mdl-layout__header mdl-layout__header--waterfall mdl-color-text--white">
+                <header id="top-bar" class="mdl-layout__header mdl-layout__header mdl-color-text--white">
                     <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">
                         <h3>
@@ -11,13 +11,13 @@
                     </span>
                     </div>
                     <div class="container">
-                    <div class="row justify-content-lg-center justify-content-md-center justify-content-sm-center justify-content-xs-center">
-                    <div class="col-lg-auto col-md-auto col-sm-auto col-xs-auto">
-                        <p id="timer-header" >Time Remaining </p> 
-                        <img  id="logo" src="/images/timer.png" alt="question mark logo">
-                        <p id="timer-text" style="width:130px; height:40px;"> mm:ss </p>
-                    </div>
-                    </div>
+                        <div class="row justify-content-lg-center justify-content-md-center justify-content-sm-center justify-content-xs-center">
+                            <div class="col-lg-auto col-md-auto col-sm-auto col-xs-auto">
+                                <p id="timer-header" >Time Remaining </p> 
+                                <img  id="logo" src="/images/timer.png" alt="question mark logo">
+                                <p id="timer-text" style="width:130px; height:40px;"> mm:ss </p>
+                            </div>
+                        </div>
                     </div>
                     <div class="mdl-layout-spacer"></div> 
                 </header>
@@ -132,10 +132,19 @@
 
 <script>
 // TODO: move to separate file in js folder
-document.getElementById("take_quiz").onsubmit = function() {myFunction()};
+document.getElementById("take_quiz").onsubmit = function() {verifyResponses()};
 
-function verify_responses() {
+function verifyResponses() {
   // TODO: query all mult-choice classes with same name and if none selected value=""
+  let mc_radios = document.getElementsByClassName("mult-choice");
+ // let mc_first = mc_radios.querySelector('input[name="2"]');
+ // console.log(mc_first);
+  for (let i = 0; i < mc_radios.length; i++){
+      console.log(mc_radios[i].attributes.name);
+  }
+  /*if (mc.radios.checked === false){
+      console.log("no selection");
+  }*/
   // TODO: query all true-false classes with same name and if none selected value=""
   // TODO: query all check-all classes with same name and if none selected value=""
   alert("The form was submitted");
