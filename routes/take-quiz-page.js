@@ -36,13 +36,13 @@ function renderQuiz(req, res, next) {
         context = doc;
         // Set layout with paths to css
         context.layout = 'quiz';
-        res.render("take-quiz-page", context);
+        res.status(200).render("take-quiz-page", context);
     })
     .catch(err => {
         console.log(err);
         // Set layout with paths to css
         context.layout = 'quiz';
-        res.render("404", context);
+        res.status(404).render("404", context);
     });
 };
 
@@ -87,32 +87,32 @@ function scoreQuiz(req, res, next) {
                 .then(result =>{
                     // Set layout with paths to css
                     context.layout = 'quiz';
-                    res.render("quiz-submitted-page", context);
+                    res.status(201).render("quiz-submitted-page", context);
                 })
                 .catch(err => {
                     console.error(err);
                     // Set layout with paths to css
                     context.layout = 'quiz';
-                    res.render("quiz-submitted-page", context);
+                    res.status(500).render("quiz-submitted-page", context);
                 });
             }
             else{
                 // Set layout with paths to css
                 context.layout = 'quiz';
-                res.render("quiz-submitted-page", context);
+                res.status(200).render("quiz-submitted-page", context);
             }
         }, function(error) {
             console.log(error);
             // Set layout with paths to css
             context.layout = 'quiz';
-            res.render("404", context);
+            res.status(500).render("500", context);
         });
     })
     .catch(err => {
         console.log(err);
         // Set layout with paths to css
         context.layout = 'quiz';
-        res.render("404", context);
+        res.status(404).render("404", context);
     });
 
 

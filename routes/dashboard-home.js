@@ -65,16 +65,16 @@ function renderDashboard(req, res, next) {
                     context.title = doc.title;
                     context.description = doc.description;
                     req.session.jobposting_selected = doc._id;
-                    res.render("dashboard-home", context);
+                    res.status(201).render("dashboard-home", context);
                 })
                 .catch(err => {
                     console.error(err);
-                    res.render("dashboard-home", context);
+                    res.status(404).render("dashboard-home", context);
                 });   
             })
             .catch(err => {
                 console.error(err);
-                res.render("dashboard-home", context);
+                res.status(500).render("dashboard-home", context);
             });
         }
         else{
@@ -87,17 +87,17 @@ function renderDashboard(req, res, next) {
                 context.title = doc.title;
                 context.description = doc.description;
                 req.session.jobposting_selected = doc._id;
-                res.render("dashboard-home", context);
+                res.status(200).render("dashboard-home", context);
             })
             .catch(err => {
                 console.error(err);
-                res.render("dashboard-home", context);
+                res.status(404).render("dashboard-home", context);
             });
         }
     })
     .catch(err => {
         console.error(err);
-        res.render("dashboard-home", context);
+        res.status(500).render("dashboard-home", context);
     });
 };
 

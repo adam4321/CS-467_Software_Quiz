@@ -20,7 +20,7 @@ const checkUserLoggedIn = (req, res, next) => {
 
 // QUIZ SETUP - Function to render quiz setup page ------------------------- */
 function renderSetup(req, res, next) {
-    res.render("quiz-setup-page");
+    res.status(200).render("quiz-setup-page");
 };
 
 

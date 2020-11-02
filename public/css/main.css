@@ -26,6 +26,15 @@ a {
     margin-top: -7px;
 }
 
+#timer-logo {
+    height: 50px;
+    margin-top: -7px;
+    -webkit-border-radius: 35%;
+    -moz-border-radius: 35%;
+    -ms-border-radius: 35%;
+    border-radius: 35%; 
+}
+
 #page-title {
     text-decoration: none;
     display: inline-block;
