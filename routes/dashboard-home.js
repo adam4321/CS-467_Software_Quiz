@@ -13,21 +13,19 @@ const router = express.Router();
 const sgMail = require('@sendgrid/mail');
 
 const mongoose = require('mongoose');
-
+let SENDGRID_CRED;
 // Choose credentials for dev or prod
 if (process.env.NODE_ENV === 'production'){
-    credentials = process.env;
+    SENDGRID_CRED = process.env;
 } else {
-    credentials = require('./credentials.js');
+    SENDGRID_CRED = require('../credentials.js');
 }
 
-
-sgMail.setApiKey(credentials.SENDGRID_API_KEY)
+sgMail.setApiKey(SENDGRID_CRED.SENDGRID_API_KEY)
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
-const credentials = require('../credentials.js');
 
 
 // Middleware - Function to Check user is Logged in ------------------------ */
