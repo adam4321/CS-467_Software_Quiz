@@ -10,12 +10,24 @@
 
 const express = require('express');
 const router = express.Router();
+const sgMail = require('@sendgrid/mail');
 
 const mongoose = require('mongoose');
+
+// Choose credentials for dev or prod
+if (process.env.NODE_ENV === 'production'){
+    credentials = process.env;
+} else {
+    credentials = require('./credentials.js');
+}
+
+
+sgMail.setApiKey(credentials.SENDGRID_API_KEY)
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
+const credentials = require('../credentials.js');
 
 
 // Middleware - Function to Check user is Logged in ------------------------ */
@@ -101,6 +113,18 @@ function renderDashboard(req, res, next) {
     });
 };
 
+// INITIAL DASHBOARD - Function to send quiz link to candidate --------------- */
+function sendQuizLink(req, res, next){
+    sgMail.send(msg)
+    .then(() => {
+        console.log('Email sent')
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.error(error)
+        res.sendStatus(500);
+    });
+}
 
 /*
 SAMPLES 
@@ -157,5 +181,7 @@ quizResponses : [{
 /* DASHBOARD PAGE ROUTES --------------------------------------------------- */
 
 router.get('/', checkUserLoggedIn, renderDashboard);
+
+router.post('/sendmail', sendQuizLink);
 
 module.exports = router;

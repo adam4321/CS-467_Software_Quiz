@@ -9,6 +9,7 @@
 // Set up express
 const express = require('express');
 const app = express();
+const sgMail = require('@sendgrid/mail');
 
 // PORT NUMBER - Set a static port for the appliction 
 const PORT = process.env.PORT || 3500;
