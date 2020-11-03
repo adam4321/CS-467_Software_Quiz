@@ -17,10 +17,16 @@
         </div>
 
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+            <p>Send an email</p>
+            <form id="test_sendgrid" action="/send" method="post">
+                <label>Email</label>
+                <input type='text' id='email'/><br></br>
+                <button type='submit' id='submit'>Submit</button>
+            </form>
+            <p></p>
             <h3 style="font-size: large; font-weight: bold;">Sample Job Postings Below:</h3>
             <p style="font-size: large; font-weight: bold;">{{title}}</p>
             <p style="font-size: large; font-weight: bold; display: inline-block;">{{description}}</p>
         </div>
-
     </div>
 </div>
