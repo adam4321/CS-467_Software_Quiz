@@ -21,7 +21,10 @@ if (process.env.NODE_ENV === 'production'){
     SENDGRID_CRED = require('../credentials.js');
 }
 
-sgMail.setApiKey(SENDGRID_CRED.SENDGRID_API_KEY)
+sgMail.setApiKey(SENDGRID_CRED.SENDGRID_API_KEY);
+
+// Debug Flag
+DEBUG = 1;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -111,18 +114,6 @@ function renderDashboard(req, res, next) {
     });
 };
 
-// INITIAL DASHBOARD - Function to send quiz link to candidate --------------- */
-function sendQuizLink(req, res, next){
-    sgMail.send(msg)
-    .then(() => {
-        console.log('Email sent')
-        res.sendStatus(200);
-    })
-    .catch((error) => {
-        console.error(error)
-        res.sendStatus(500);
-    });
-}
 
 /*
 SAMPLES 
@@ -180,6 +171,32 @@ quizResponses : [{
 
 router.get('/', checkUserLoggedIn, renderDashboard);
 
-router.post('/sendmail', sendQuizLink);
+// INITIAL DASHBOARD - Function to send quiz link to candidate --------------- */
+router.post('/sendmail', (req, res)=>{
+    console.log(req.body);
+    let email = req.body.email;
+    let message = 'Testing';
+    let name = 'Test from SendGrid';
+    const msg = {
+        to: `${email}`, // Change to your recipient
+        from: 'software.customquiz@gmail.com', // Change to your verified sender
+        subject: `${name}`,
+        text: `${message}`,
+    }
+    if (DEBUG === 0){
+    sgMail.send(msg)
+    .then(() => {
+        console.log('Email sent')
+        res.status(200).redirect('/dashboard');
+    })
+    .catch((error) => {
+        console.error(error)
+        res.status(500).redirect('/dashboard');
+    });
+    }
+    else{
+        res.status(200).redirect('/dashboard');
+    }
+});
 
 module.exports = router;

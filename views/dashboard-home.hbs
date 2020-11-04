@@ -1,5 +1,5 @@
 {{!-- Home dashboard view - using express handlebars --}}
-
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <title>Quiz Soft | Dashboard</title>
 <link type="text/css" rel="stylesheet" href="css/dashboard-home.css">
 
@@ -18,15 +18,22 @@
 
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
             <p>Send an email</p>
-            <form id="test_sendgrid" action="/sendmail" method="post">
-                <label>Email</label>
-                <input type='text' id='email'/><br></br>
-                <button type='submit' id='submit'>Submit</button>
+            <form id="test_sendgrid" action="/dashboard/sendmail" method="post">
+                <fieldset>
+                    <label>Email</label>
+                    <input type='text' id='email' name='email'/>
+                </fieldset>
+                <br></br>
+                 <fieldset>
+                     <button type='submit' id='submit_email'>Submit</button>
+                </fieldset>
             </form>
-            <p></p>
+            <p id="send_status"></p>
             <h3 style="font-size: large; font-weight: bold;">Sample Job Postings Below:</h3>
             <p style="font-size: large; font-weight: bold;">{{title}}</p>
             <p style="font-size: large; font-weight: bold; display: inline-block;">{{description}}</p>
         </div>
     </div>
 </div>
+
+<script src="js/send-email-client.js"></script>

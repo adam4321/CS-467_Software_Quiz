@@ -82,7 +82,7 @@ function scoreQuiz(req, res, next) {
                 }
             }
             // If valid then save the responses and score in jobposting
-
+            console.log(candidate_answers);
             console.log(req.session.jobposting_selected);
             if (DEBUG === 0){
                 const jobposting = new JobPosting({
