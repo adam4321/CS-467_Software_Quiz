@@ -6,6 +6,20 @@
 **               default value.
 ******************************************************************************/
 
+
+/* =================== QUIZ DISPLAY FUNCTIONS ======================== */
+let el_start_quiz = document.getElementById("start_quiz");
+
+el_start_quiz.addEventListener('click', (e) => {
+  //e.preventDefault();
+  let el_quiz = document.getElementById('quiz_elements');
+  let el_start_quiz_div = document.getElementById('start_quiz_div');
+  el_quiz.style.display = "block";
+  el_start_quiz_div.style.display = "none";
+
+  //TODO: start timing
+});
+
 /* =================== QUIZ POST VALIDATION FUNCTIONS ======================== */
 document.getElementById("take_quiz").onsubmit = function() {verifyResponses()};
 

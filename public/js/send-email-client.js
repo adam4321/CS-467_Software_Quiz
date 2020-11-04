@@ -8,7 +8,7 @@
 /* =================== QUIZ POST VALIDATION FUNCTIONS ======================== */
 let el_send_email = document.getElementById("submit_email");
 
-/* SUBMIT form - Function to verify responses before posting -------------- */
+/* SUBMIT form - Function to display status -------------- */
 el_send_email.addEventListener('click', (e) => {
     //e.preventDefault();
     let status_tag = document.getElementById('send_status');
