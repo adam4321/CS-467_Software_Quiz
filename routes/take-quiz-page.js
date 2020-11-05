@@ -13,7 +13,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 // Debug Flag
-DEBUG = 0;
+DEBUG = 1;
 
 // Get Schema
 const Quiz = require('../models/quiz.js');
