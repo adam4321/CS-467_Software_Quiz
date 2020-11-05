@@ -10,8 +10,10 @@
 const express = require('express');
 const router = express.Router();
 
+const mongoose = require('mongoose');
+
 // Debug Flag
-DEBUG = 1;
+DEBUG = 0;
 
 // Get Schema
 const Quiz = require('../models/quiz.js');
@@ -29,6 +31,8 @@ function renderQuiz(req, res, next) {
     let id = '5f9890f4863f120e60b28b74';
     let id2 = '5f98b85c9a32bc689c5949f3';
     let id3 = '5f9cb1a2fd3e2064587bcee4';
+
+    //TODO: find if the hashed quiz exists already for the hashed job posting and hashed candidate id, then dont allow
 
     Quiz.findById(token)
     .exec()
@@ -83,29 +87,32 @@ function scoreQuiz(req, res, next) {
             }
             // If valid then save the responses and score in jobposting
             console.log(candidate_answers);
-            console.log(req.session.jobposting_selected);
+            let jobposting_testing = '5fa351b5eb104c2c28e611e4';
+
+            console.log(jobposting_testing);
             if (DEBUG === 0){
-                const jobposting = new JobPosting({
-                    _id: req.session.jobposting_selected,
-                    quizResponses : [{
-                        quiz_response_id : new mongoose.Types.ObjectId,
-                        candidate_id : "5f8a4c6cf6f66534c417a374",//sample
-                        quiz_id : "5f9cb1a2fd3e2064587bcee4",
-                        candidateAnswers: candidate_answers,
-                        quizScore: score
-                    }]
-                });
-                jobposting.save()
-                .then(result =>{
-                    // Set layout with paths to css
-                    context.layout = 'quiz';
-                    res.status(201).render("quiz-submitted-page", context);
-                })
-                .catch(err => {
-                    console.error(err);
-                    // Set layout with paths to css
-                    context.layout = 'quiz';
-                    res.status(500).render("quiz-submitted-page", context);
+                JobPosting.findOneAndUpdate({_id: jobposting_testing}, {
+                    $push: { quizResponses:
+                        { 
+                            quiz_response_id : new mongoose.Types.ObjectId,
+                            candidate_id : "5f8a4c6cf6f66534c417a374",//sample
+                            quiz_id : id3,
+                            candidateAnswers: candidate_answers,
+                            quizScore: score
+                        }
+                    },
+                }, function(error, success) {
+                    if (error){
+                        console.error(error);
+                        // Set layout with paths to css
+                        context.layout = 'quiz';
+                        res.status(500).render("quiz-submitted-page", context);
+                    }
+                    else{
+                        // Set layout with paths to css
+                        context.layout = 'quiz';
+                        res.status(201).render("quiz-submitted-page", context);
+                    }
                 });
             }
             else{
