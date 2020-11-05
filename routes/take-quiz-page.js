@@ -91,7 +91,7 @@ function scoreQuiz(req, res, next) {
 
             console.log(jobposting_testing);
             if (DEBUG === 0){
-                JobPosting.findOneAndUpdate({_id: jobposting_testing}, {
+                JobPosting.findOneAndUpdate({_id: jobposting_testing}, {useFindAndModify: false}, {
                     $push: { quizResponses:
                         { 
                             quiz_response_id : new mongoose.Types.ObjectId,
