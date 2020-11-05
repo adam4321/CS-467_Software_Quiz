@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production'){
 sgMail.setApiKey(SENDGRID_CRED.SENDGRID_API_KEY);
 
 // Debug Flag
-DEBUG = 1;
+var DEBUG = 0;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -172,7 +172,7 @@ quizResponses : [{
 router.get('/', checkUserLoggedIn, renderDashboard);
 
 // INITIAL DASHBOARD - Function to send quiz link to candidate --------------- */
-router.post('/sendmail', (req, res)=>{
+router.post('/sendmail', checkUserLoggedIn, (req, res)=>{
     console.log(req.body);
     let email = req.body.email;
     let message = 'Testing';
