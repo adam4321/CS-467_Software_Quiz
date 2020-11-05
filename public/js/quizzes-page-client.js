@@ -374,9 +374,9 @@ function uploadFile(e) {
                     }
 
                     // Add a new row to the table
-                    table      = document.getElementById('recordTable');
-                    let newRow = table.insertRow(-1);
-                    newRow.id  = `rowModal${table.rows.length - 2}`;
+                    newBody      = document.getElementById('table-body');
+                    let newRow = newBody.insertRow(-1);
+                    newRow.id  = `rowModal${newBody.rows.length - 1}`;
 
                     // Create quiz name
                     let newDataCell       = document.createElement('td');
@@ -409,11 +409,10 @@ function uploadFile(e) {
                     deleteCell.appendChild(deleteBtn);
 
                     // Add the modal container
-                    let tableBody            = document.getElementById('table-body');
                     let modalContainer       = document.createElement('div');
-                    modalContainer.id        = `modal${table.rows.length - 2}`;
+                    modalContainer.id        = `modal${newBody.rows.length - 1}`;
                     modalContainer.className = 'modal';
-                    tableBody.appendChild(modalContainer);
+                    newBody.appendChild(modalContainer);
 
                     // Add the modal div
                     let modalDiv       = document.createElement('div');
