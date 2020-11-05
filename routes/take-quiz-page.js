@@ -10,6 +10,8 @@
 const express = require('express');
 const router = express.Router();
 
+const mongoose = require('mongoose');
+
 // Debug Flag
 DEBUG = 1;
 
@@ -30,19 +32,21 @@ function renderQuiz(req, res, next) {
     let id2 = '5f98b85c9a32bc689c5949f3';
     let id3 = '5f9cb1a2fd3e2064587bcee4';
 
+    //TODO: find if the hashed quiz exists already for the hashed job posting and hashed candidate id, then dont allow
+
     Quiz.findById(token)
     .exec()
     .then(doc => {
         context = doc;
         // Set layout with paths to css
         context.layout = 'quiz';
-        res.render("take-quiz-page", context);
+        res.status(200).render("take-quiz-page", context);
     })
     .catch(err => {
         console.log(err);
         // Set layout with paths to css
         context.layout = 'quiz';
-        res.render("404", context);
+        res.status(404).render("404", context);
     });
 };
 
@@ -52,7 +56,8 @@ function scoreQuiz(req, res, next) {
     let context = {};
     context.answers = req.body;
     // Set layout with paths to css
-    context.response_length = Object.keys(req.body).length - 1;
+    let response_length = Object.keys(req.body).length - 1
+    context.response_length = response_length;
 
     // TODO: Query quiz associated with object and build quizKey object
     let id3 = '5f9cb1a2fd3e2064587bcee4';
@@ -62,57 +67,74 @@ function scoreQuiz(req, res, next) {
         // Set layout with paths to css
         context.layout = 'quiz';
         let response_arr = req.body;
-        console.log(response_arr)
         // Score quiz
         calc_score.calculate_score(quiz_obj, response_arr).then(function(score) {
             let total_points = Object.keys(quiz_obj.questions).length;
             let points = (total_points * score) / 100;
             context.total_points = total_points;
             context.points = points;
+            // Put responses in array
+            let candidate_answers = [];
+            for (let y = 0; y < response_length; y++) {
+                if (Array.isArray(response_arr[y])){
+                    candidate_answers[y] = response_arr[y];
+                }
+                else{
+                    let ary = [];
+                    ary[0] = response_arr[y];
+                    candidate_answers.push(ary); 
+                }
+            }
+            // Set commment
+            let comment = response_arr[response_length];
             // If valid then save the responses and score in jobposting
+            console.log(candidate_answers);
+            let jobposting_testing = '5fa351b5eb104c2c28e611e4';
 
-            console.log(req.session.jobposting_selected);
+            console.log(jobposting_testing);
             if (DEBUG === 0){
-                const jobposting = new JobPosting({
-                    _id: req.session.jobposting_selected,
-                    quizResponses : [{
-                        quiz_response_id : new mongoose.Types.ObjectId,
-                        candidate_id : "5f8a4c6cf6f66534c417a374",//sample
-                        quiz_id : "5f8a4903274de74785f9cb1a2fd3e2064587bcee4c48b4c1",
-                        candidateAnswers: response_arr,
-                        quizScore: score
-                    }]
-                });
-                jobposting.save()
-                .then(result =>{
-                    // Set layout with paths to css
-                    context.layout = 'quiz';
-                    res.render("quiz-submitted-page", context);
-                })
-                .catch(err => {
-                    console.error(err);
-                    // Set layout with paths to css
-                    context.layout = 'quiz';
-                    res.render("quiz-submitted-page", context);
+                JobPosting.findOneAndUpdate({_id: jobposting_testing}, {useFindAndModify: false}, {
+                    $push: { quizResponses:
+                        { 
+                            quiz_response_id : new mongoose.Types.ObjectId,
+                            candidate_id : "5f8a4c6cf6f66534c417a374",//sample
+                            quiz_id : id3,
+                            candidateAnswers: candidate_answers,
+                            quizComment: comment,
+                            quizScore: score
+                        }
+                    },
+                }, function(error, success) {
+                    if (error){
+                        console.error(error);
+                        // Set layout with paths to css
+                        context.layout = 'quiz';
+                        res.status(500).render("quiz-submitted-page", context);
+                    }
+                    else{
+                        // Set layout with paths to css
+                        context.layout = 'quiz';
+                        res.status(201).render("quiz-submitted-page", context);
+                    }
                 });
             }
             else{
                 // Set layout with paths to css
                 context.layout = 'quiz';
-                res.render("quiz-submitted-page", context);
+                res.status(200).render("quiz-submitted-page", context);
             }
         }, function(error) {
             console.log(error);
             // Set layout with paths to css
             context.layout = 'quiz';
-            res.render("404", context);
+            res.status(500).render("500", context);
         });
     })
     .catch(err => {
         console.log(err);
         // Set layout with paths to css
         context.layout = 'quiz';
-        res.render("404", context);
+        res.status(404).render("404", context);
     });
 
 

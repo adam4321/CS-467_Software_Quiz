@@ -15,13 +15,13 @@ const router = express.Router();
 
 // LOGIN - Function to render the login page ------------------------------- */
 function renderLogin(req, res, next) {
-    res.render("login-page", {layout: 'login'});
+    res.status(200).render("login-page", {layout: 'login'});
 };
 
 
 // FAILED - Function to render a failed login ------------------------------ */
 function renderFailedLogin(req, res, next) {
-    res.render("login-failed-page", {layout: 'login'});
+    res.status(500).render("login-failed-page", {layout: 'login'});
 };
 
 

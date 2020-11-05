@@ -51,11 +51,11 @@ function renderQuizzes(req, res, next) {
         .then(quizzes => {
             // Assign the quiz properties to the context object
             context.quizzes = quizzes;
-            res.render("quizzes-page", context);
+            res.status(200).render("quizzes-page", context);
         })
         .catch(err => {
             console.error(err);
-            res.render("quizzes-page", context);
+            res.status(500).render("quizzes-page", context);
         });
 
     })
@@ -70,11 +70,11 @@ function deleteQuiz(req, res, next) {
     Quiz.deleteOne({'_id': ObjectId(req.body.id)}).exec()
     .then(() => {
         // Reply to the client
-        res.send(context).end();
+        res.status(204).send(context).end();
     })
     .catch(err => {
         console.error(err);
-        res.end();
+        res.status(500).end();
     });
 };
 
@@ -90,11 +90,11 @@ function downloadQuiz(req, res, next) {
         context.quiz = quiz;
 
         // Reply to the client
-        res.send(context).end();
+        res.status(200).send(context).end();
     })
     .catch(err => {
         console.error(err);
-        res.end();
+        res.status(500).end();
     });
 };
 
@@ -129,12 +129,12 @@ function uploadQuiz(req, res, next) {
             })
             .catch(err => {
                 console.error(err);
-                res.status(404).end();
+                res.status(500).end();
             });
         })
         .catch(err => {
             console.error(err);
-            res.send(context).end();
+            res.status(404).send(context).end();
         });
     }
     else {

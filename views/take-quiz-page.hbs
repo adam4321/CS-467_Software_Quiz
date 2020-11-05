@@ -14,7 +14,7 @@
                         <div class="row justify-content-lg-center justify-content-md-center justify-content-sm-center justify-content-xs-center">
                             <div class="col-lg-auto col-md-auto col-sm-auto col-xs-auto">
                                 <p id="timer-header" >Time Remaining </p> 
-                                <img  id="logo" src="/images/timer.png" alt="question mark logo">
+                                <img  id="timer-logo" src="/images/timer.png" alt="question mark logo">
                                 <p id="timer-text" style="width:130px; height:40px;"> mm:ss </p>
                             </div>
                         </div>
@@ -26,8 +26,15 @@
         <br></br>
         <br></br>
         <br></br>
+ 
+        <div id="start_quiz_div" style="display: inline-block; margin-left: 45%;">
+            <div id="start_quiz" class="square-card mdl-card--expand mdl-shadow--2dps mdl-color-text--black-600">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent question-btn">Start Quiz
+                </button>
+            </div>
+        </div>
 
-        <div>
+        <div id="quiz_elements" style="display: none;">
             {{!-- Content Box to load the other views into --}}
             <main class="mdl-layout__content">
                 <div class="page-content">

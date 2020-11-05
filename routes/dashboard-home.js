@@ -10,8 +10,21 @@
 
 const express = require('express');
 const router = express.Router();
+const sgMail = require('@sendgrid/mail');
 
 const mongoose = require('mongoose');
+let SENDGRID_CRED;
+// Choose credentials for dev or prod
+if (process.env.NODE_ENV === 'production'){
+    SENDGRID_CRED = process.env;
+} else {
+    SENDGRID_CRED = require('../credentials.js');
+}
+
+sgMail.setApiKey(SENDGRID_CRED.SENDGRID_API_KEY);
+
+// Debug Flag
+var DEBUG = 0;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -65,16 +78,16 @@ function renderDashboard(req, res, next) {
                     context.title = doc.title;
                     context.description = doc.description;
                     req.session.jobposting_selected = doc._id;
-                    res.render("dashboard-home", context);
+                    res.status(201).render("dashboard-home", context);
                 })
                 .catch(err => {
                     console.error(err);
-                    res.render("dashboard-home", context);
+                    res.status(404).render("dashboard-home", context);
                 });   
             })
             .catch(err => {
                 console.error(err);
-                res.render("dashboard-home", context);
+                res.status(500).render("dashboard-home", context);
             });
         }
         else{
@@ -87,17 +100,17 @@ function renderDashboard(req, res, next) {
                 context.title = doc.title;
                 context.description = doc.description;
                 req.session.jobposting_selected = doc._id;
-                res.render("dashboard-home", context);
+                res.status(200).render("dashboard-home", context);
             })
             .catch(err => {
                 console.error(err);
-                res.render("dashboard-home", context);
+                res.status(404).render("dashboard-home", context);
             });
         }
     })
     .catch(err => {
         console.error(err);
-        res.render("dashboard-home", context);
+        res.status(500).render("dashboard-home", context);
     });
 };
 
@@ -157,5 +170,33 @@ quizResponses : [{
 /* DASHBOARD PAGE ROUTES --------------------------------------------------- */
 
 router.get('/', checkUserLoggedIn, renderDashboard);
+
+// INITIAL DASHBOARD - Function to send quiz link to candidate --------------- */
+router.post('/sendmail', checkUserLoggedIn, (req, res)=>{
+    console.log(req.body);
+    let email = req.body.email;
+    let message = 'Testing';
+    let name = 'Test from SendGrid';
+    const msg = {
+        to: `${email}`, // Change to your recipient
+        from: 'software.customquiz@gmail.com', // Change to your verified sender
+        subject: `${name}`,
+        text: `${message}`,
+    }
+    if (DEBUG === 0){
+    sgMail.send(msg)
+    .then(() => {
+        console.log('Email sent')
+        res.status(200).redirect('/dashboard');
+    })
+    .catch((error) => {
+        console.error(error)
+        res.status(500).redirect('/dashboard');
+    });
+    }
+    else{
+        res.status(200).redirect('/dashboard');
+    }
+});
 
 module.exports = router;

@@ -26,7 +26,7 @@ const checkUserLoggedIn = (req, res, next) => {
 
 /* QUIZ BUILDER - Function to render quiz builder page --------------------- */
 function renderBuilder(req, res, next) {
-    res.render("quiz-builder-page", {layout: 'login'});
+    res.status(200).render("quiz-builder-page", {layout: 'login'});
 };
 
 
@@ -52,16 +52,16 @@ function submitQuiz(req, res, next) {
             // Save quiz to the database
             saved_quiz.save()
             .then(() => {
-                res.end();
+                res.status(201).end();
             })
             .catch(err => {
                 console.error(err);
-                res.status(404).end();
+                res.status(500).end();
             }); 
         })
         .catch(err => {
             console.error(err);
-            res.render("quiz-setup-page", context);
+            res.status(404).render("quiz-setup-page", context);
         });
     }
     else {

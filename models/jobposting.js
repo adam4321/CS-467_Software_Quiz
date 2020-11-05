@@ -17,7 +17,8 @@ const jobpostingSchema = mongoose.Schema({
         quiz_response_id : mongoose.Schema.Types.ObjectId,
         quiz_id : mongoose.Schema.Types.ObjectId,
         candidate_id : mongoose.Schema.Types.ObjectId,
-        candidateAnswers: [String],
+        candidateAnswers: [[String]],
+        quizComment: String,
         quizScore: mongoose.Schema.Types.Decimal128
     }]
 });
