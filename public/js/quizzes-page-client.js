@@ -487,20 +487,16 @@ function uploadFile(e) {
                         // Call the correct rendering function
                         switch (response.questions[i].quizType) {
                             case 'true-false':
-                                console.log('t/f');
-                                // renderTF(singleQuestion, );
+                                renderTF(singleQuestion, response.questions[i]);
                                 break;
                             case 'mult-choice':
-                                console.log('mult choice');
-                                // renderMult(singleQuestion, );
+                                renderMult(singleQuestion, response.questions[i]);
                                 break;
                             case 'fill-blank':
-                                console.log('fill in');
-                                // renderFill(singleQuestion, );
+                                renderFill(singleQuestion, response.questions[i]);
                                 break;
                             case 'check-all':
-                                // renderChAll(singleQuestion, );
-                                console.log('check all');
+                                renderChAll(singleQuestion, response.questions[i]);
                                 break; 
                         }
                     }
@@ -529,172 +525,172 @@ document.getElementById('upload-hidden').onchange = uploadFile;
 /* =================== QUESTION RENDERING FUNCTIONS ======================== */
 
 /* Append True/False Question ---------------------------------------------- */
-function renderTF(question_num, question_text, tfValue) {
+function renderTF(element, question) {
+    console.log(question)
 
+    // // Increment the question added index for possible deletion later
+    // INITIAL_ORDER++;
 
-    // Increment the question added index for possible deletion later
-    INITIAL_ORDER++;
+    // // Add a new row to display the question
+    // let tableRowDisplay = document.createElement('tr');
+    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
+    // quiz_display.appendChild(tableRowDisplay);
 
-    // Add a new row to display the question
-    let tableRowDisplay = document.createElement('tr');
-    tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    quiz_display.appendChild(tableRowDisplay);
+    // let tableDisplay = document.createElement('td');
+    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
+    // tableRowDisplay.appendChild(tableDisplay);
 
-    let tableDisplay = document.createElement('td');
-    tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    tableRowDisplay.appendChild(tableDisplay);
+    // // Use the correct question_num value to track the question count
+    // let headerDisplay        = document.createElement('h5');
+    // headerDisplay.innerText  = "Q" + question_num;
+    // tableDisplay.appendChild(headerDisplay);
 
-    // Use the correct question_num value to track the question count
-    let headerDisplay        = document.createElement('h5');
-    headerDisplay.innerText  = "Q" + question_num;
-    tableDisplay.appendChild(headerDisplay);
+    // let questionDisplay        = document.createElement('i');
+    // questionDisplay.className  = 'question-list';
+    // questionDisplay.innerText  = question_text;
+    // tableDisplay.appendChild(questionDisplay);
 
-    let questionDisplay        = document.createElement('i');
-    questionDisplay.className  = 'question-list';
-    questionDisplay.innerText  = question_text;
-    tableDisplay.appendChild(questionDisplay);
+    // let ansTrueDisplay       = document.createElement('li');
+    // ansTrueDisplay.id        = 'ansTrueDisplay' + INITIAL_ORDER;
+    // ansTrueDisplay.innerHTML = "True " + (tfValue ? "&#x2611" : "");
+    // tableDisplay.appendChild(ansTrueDisplay);
 
-    let ansTrueDisplay       = document.createElement('li');
-    ansTrueDisplay.id        = 'ansTrueDisplay' + INITIAL_ORDER;
-    ansTrueDisplay.innerHTML = "True " + (tfValue ? "&#x2611" : "");
-    tableDisplay.appendChild(ansTrueDisplay);
-
-    let ansFalseDisplay         = document.createElement('li');
-    ansFalseDisplay .id         = 'ansFalseDisplay' + INITIAL_ORDER;
-    ansFalseDisplay .innerHTML  = "False " + (tfValue ? "" :  "&#x2611");
-    tableDisplay.appendChild(ansFalseDisplay);
+    // let ansFalseDisplay         = document.createElement('li');
+    // ansFalseDisplay .id         = 'ansFalseDisplay' + INITIAL_ORDER;
+    // ansFalseDisplay .innerHTML  = "False " + (tfValue ? "" :  "&#x2611");
+    // tableDisplay.appendChild(ansFalseDisplay);
 
 };
 
 
 /* Append Multiple Choice Question ----------------------------------------- */
-function renderMult(question_num, question_text, question_key, question_answers) {
+function renderMult(element, question) {
+    console.log(question)
 
+    // // Increment the question added index for possible deletion later
+    // INITIAL_ORDER++;
 
-    // Increment the question added index for possible deletion later
-    INITIAL_ORDER++;
+    // // Add a new row to display the question
+    // let tableRowDisplay = document.createElement('tr');
+    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
+    // quiz_display.appendChild(tableRowDisplay);
 
-    // Add a new row to display the question
-    let tableRowDisplay = document.createElement('tr');
-    tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    quiz_display.appendChild(tableRowDisplay);
+    // let tableDisplay = document.createElement('td');
+    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
+    // tableRowDisplay.appendChild(tableDisplay);
 
-    let tableDisplay = document.createElement('td');
-    tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    tableRowDisplay.appendChild(tableDisplay);
+    // // Use the correct question_num value to track the question count
+    // let headerDisplay        = document.createElement('h5');
+    // headerDisplay.innerText  = "Q" + question_num;
+    // tableDisplay.appendChild(headerDisplay);
 
-    // Use the correct question_num value to track the question count
-    let headerDisplay        = document.createElement('h5');
-    headerDisplay.innerText  = "Q" + question_num;
-    tableDisplay.appendChild(headerDisplay);
+    // let questionDisplay       = document.createElement('i');
+    // questionDisplay.innerText = question_text;
+    // tableDisplay.appendChild(questionDisplay);
 
-    let questionDisplay       = document.createElement('i');
-    questionDisplay.innerText = question_text;
-    tableDisplay.appendChild(questionDisplay);
-
-    // Loop to display the associated number of answer strings
-    for (let i = 0; i < question_answers.length; i++) {
-        let ansDisplay = document.createElement('li');
-        ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
+    // // Loop to display the associated number of answer strings
+    // for (let i = 0; i < question_answers.length; i++) {
+    //     let ansDisplay = document.createElement('li');
+    //     ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
         
-        // Add the checkbox to correct answer
-        if (question_key == i) {
-            ansDisplay.innerHTML  = question_answers[i] + " &#x2611";
-        }
-        else {
-            ansDisplay.innerHTML  = question_answers[i];
-        }
+    //     // Add the checkbox to correct answer
+    //     if (question_key == i) {
+    //         ansDisplay.innerHTML  = question_answers[i] + " &#x2611";
+    //     }
+    //     else {
+    //         ansDisplay.innerHTML  = question_answers[i];
+    //     }
 
-        // Render the formed answer
-        tableDisplay.appendChild(ansDisplay);
-    }
+    //     // Render the formed answer
+    //     tableDisplay.appendChild(ansDisplay);
+    // }
 
 };
 
 
 /* Append Fill in the Blank Question --------------------------------------- */
-function renderFill(question_num, question_text, question_key) {
- 
+function renderFill(element, question) {
+    console.log(question)
 
-    // Increment the question added index for possible deletion later
-    INITIAL_ORDER++;
+    // // Increment the question added index for possible deletion later
+    // INITIAL_ORDER++;
 
-    // Add a new row to display the question
-    let tableRowDisplay = document.createElement('tr');
-    tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    quiz_display.appendChild(tableRowDisplay);
+    // // Add a new row to display the question
+    // let tableRowDisplay = document.createElement('tr');
+    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
+    // quiz_display.appendChild(tableRowDisplay);
 
-    let tableDisplay = document.createElement('td');
-    tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    tableRowDisplay.appendChild(tableDisplay);
+    // let tableDisplay = document.createElement('td');
+    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
+    // tableRowDisplay.appendChild(tableDisplay);
 
-    // Use the correct question_num value to track the question count
-    let headerDisplay        = document.createElement('h5');
-    headerDisplay.innerText  = "Q" + question_num;
-    tableDisplay.appendChild(headerDisplay);
+    // // Use the correct question_num value to track the question count
+    // let headerDisplay        = document.createElement('h5');
+    // headerDisplay.innerText  = "Q" + question_num;
+    // tableDisplay.appendChild(headerDisplay);
 
-    let questionDisplay1        = document.createElement('i');
-    questionDisplay1.innerText  = `${question_text[0]} `;
-    tableDisplay.appendChild(questionDisplay1);
+    // let questionDisplay1        = document.createElement('i');
+    // questionDisplay1.innerText  = `${question_text[0]} `;
+    // tableDisplay.appendChild(questionDisplay1);
 
-    let ansDisplay                  = document.createElement('i');
-    ansDisplay.innerText            = `${question_key}`;
-    ansDisplay.style.textDecoration = 'underline';
-    tableDisplay.appendChild(ansDisplay);
+    // let ansDisplay                  = document.createElement('i');
+    // ansDisplay.innerText            = `${question_key}`;
+    // ansDisplay.style.textDecoration = 'underline';
+    // tableDisplay.appendChild(ansDisplay);
 
-    let questionDisplay2        = document.createElement('i');
-    questionDisplay2.innerText  = ` ${question_text[1]}`;
-    tableDisplay.appendChild(questionDisplay2);
+    // let questionDisplay2        = document.createElement('i');
+    // questionDisplay2.innerText  = ` ${question_text[1]}`;
+    // tableDisplay.appendChild(questionDisplay2);
 
 };
 
 
 /* Append Check all Question ----------------------------------------------- */
-function renderChAll(question_num, question_text, question_key, question_answers) {
+function renderChAll(element, question) {
+    console.log(question)
 
+    // // Increment the question added index for possible deletion later
+    // INITIAL_ORDER++;
 
-    // Increment the question added index for possible deletion later
-    INITIAL_ORDER++;
+    // // Add a new row to display the question
+    // let tableRowDisplay = document.createElement('tr');
+    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
+    // quiz_display.appendChild(tableRowDisplay);
 
-    // Add a new row to display the question
-    let tableRowDisplay = document.createElement('tr');
-    tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    quiz_display.appendChild(tableRowDisplay);
+    // let tableDisplay = document.createElement('td');
+    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
+    // tableRowDisplay.appendChild(tableDisplay);
 
-    let tableDisplay = document.createElement('td');
-    tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    tableRowDisplay.appendChild(tableDisplay);
+    // // Use the correct question_num value to track the question count
+    // let headerDisplay        = document.createElement('h5');
+    // headerDisplay.innerText  = "Q" + question_num;
+    // tableDisplay.appendChild(headerDisplay);
 
-    // Use the correct question_num value to track the question count
-    let headerDisplay        = document.createElement('h5');
-    headerDisplay.innerText  = "Q" + question_num;
-    tableDisplay.appendChild(headerDisplay);
+    // let questionDisplay       = document.createElement('i');
+    // questionDisplay.innerText = question_text;
+    // tableDisplay.appendChild(questionDisplay);
 
-    let questionDisplay       = document.createElement('i');
-    questionDisplay.innerText = question_text;
-    tableDisplay.appendChild(questionDisplay);
-
-    // Loop to display the associated number of answer strings
-    for (let i = 0; i < question_answers.length; i++) {
-        let ansDisplay = document.createElement('li');
-        ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
+    // // Loop to display the associated number of answer strings
+    // for (let i = 0; i < question_answers.length; i++) {
+    //     let ansDisplay = document.createElement('li');
+    //     ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
         
-        // No boxes checked
-        ansDisplay.innerHTML = question_answers[i]; 
+    //     // No boxes checked
+    //     ansDisplay.innerHTML = question_answers[i]; 
 
-        // Add the checkbox to correct answers
-        for (let j = 0; j < question_key.length; j++) {
-            if (question_key[j] == i) {
-                ansDisplay.innerHTML = question_answers[i] + " &#x2611";
-                break;
-            }
-            else {
-                ansDisplay.innerHTML = question_answers[i];
-            }
-        }
+    //     // Add the checkbox to correct answers
+    //     for (let j = 0; j < question_key.length; j++) {
+    //         if (question_key[j] == i) {
+    //             ansDisplay.innerHTML = question_answers[i] + " &#x2611";
+    //             break;
+    //         }
+    //         else {
+    //             ansDisplay.innerHTML = question_answers[i];
+    //         }
+    //     }
 
-        // Render the formed answer
-        tableDisplay.appendChild(ansDisplay);
-    }
+    //     // Render the formed answer
+    //     tableDisplay.appendChild(ansDisplay);
+    // }
 
 };
