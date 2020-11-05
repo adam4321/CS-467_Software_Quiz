@@ -38,8 +38,15 @@ function renderRanking(req, res, next) {
         context.photo = req.user.photos[0].value;
     }
 
-    // Find object with id from jobpostings data model
+    
+    // The job posting object is populated with sample candidate responses for the quizzes 
+    // Python quiz (quiz_id: 5fa1d0dc3121f939908558b2)
+    // Javascript quiz (quiz_id: 5fa1d0df3121f939908558b9)
+    // c++ quiz (quiz_id: 5fa1d0c83121f939908558ae)
+    
     let id = '5f8a4d3ae5e2b93edc72f301';
+
+    // Find object with id from jobpostings data model
     JobPosting.findById(id)
     .exec()
     .then(doc => {

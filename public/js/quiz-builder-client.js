@@ -203,6 +203,7 @@ function renderQuestionTF(question_num, question_text, tfValue) {
     tableDisplay.appendChild(headerDisplay);
 
     let questionDisplay        = document.createElement('i');
+    questionDisplay.className  = 'question-list';
     questionDisplay.innerText  = question_text;
     tableDisplay.appendChild(questionDisplay);
 
@@ -221,7 +222,7 @@ function renderQuestionTF(question_num, question_text, tfValue) {
     tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
     tableDeleteDisplay.innerHTML = "<button>Delete</button>";
     tableRowDisplay.appendChild(tableDeleteDisplay);
-    tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
+    tableDeleteDisplay.childNodes[0].classList = 'deleteBtn mdl-button mdl-js-button mdl-button--raised';
 
     // Delete button handler to remove the question for the quiz object and the DOM
     tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {
@@ -309,7 +310,7 @@ function renderQuestionMultChoice(question_num, question_text, question_key, que
     tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
     tableDeleteDisplay.innerHTML = "<button>Delete</button>";
     tableRowDisplay.appendChild(tableDeleteDisplay);
-    tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
+    tableDeleteDisplay.childNodes[0].classList = 'deleteBtn mdl-button mdl-js-button mdl-button--raised';
 
     // Delete button handler to remove the question for the quiz object and the DOM
     tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {
@@ -389,7 +390,7 @@ function renderQuestionFillBlank(question_num, question_text, question_key) {
     tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
     tableDeleteDisplay.innerHTML = "<button>Delete</button>";
     tableRowDisplay.appendChild(tableDeleteDisplay);
-    tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
+    tableDeleteDisplay.childNodes[0].classList = 'deleteBtn mdl-button mdl-js-button mdl-button--raised';
 
     // Delete button handler to remove the question for the quiz object and the DOM
     tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {
@@ -483,7 +484,7 @@ function renderQuestionCheckAll(question_num, question_text, question_key, quest
     tableDeleteDisplay.id        = "tableDeleteDisplay_" + INITIAL_ORDER;
     tableDeleteDisplay.innerHTML = "<button>Delete</button>";
     tableRowDisplay.appendChild(tableDeleteDisplay);
-    tableDeleteDisplay.childNodes[0].className = 'deleteBtn';
+    tableDeleteDisplay.childNodes[0].classList = 'deleteBtn mdl-button mdl-js-button mdl-button--raised';
 
     // Delete button handler to remove the question for the quiz object and the DOM
     tableDeleteDisplay.childNodes[0].addEventListener('click', (e) => {

@@ -59,6 +59,9 @@
 
 .deleteBtn {
     cursor: pointer;
+    background-color: #f0efef;
+    font-size: 9px;
+    
 }
 
 .mdl-button--fab.mdl-button--mini-fab {

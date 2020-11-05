@@ -18,3 +18,9 @@
     display: inline-block;
     margin: 11px 0px 0px 0px;
 }
+
+@media only screen and (max-width: 900px) {
+    #dashboard-container {
+        width: 95%;
+    }
+}

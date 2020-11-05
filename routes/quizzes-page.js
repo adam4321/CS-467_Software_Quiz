@@ -123,10 +123,8 @@ function uploadQuiz(req, res, next) {
             // Save quiz to database
             saved_quiz.save()
             .then(() => {
-                let quiz_id_post = saved_quiz._id;
-
-                // Return the 
-                context.quidId = quiz_id_post;
+                // Return the saved quiz
+                context = saved_quiz;
                 res.send(context).end();
             })
             .catch(err => {
