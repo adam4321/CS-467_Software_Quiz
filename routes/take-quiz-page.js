@@ -85,6 +85,8 @@ function scoreQuiz(req, res, next) {
                     candidate_answers.push(ary); 
                 }
             }
+            // Set commment
+            let comment = response_arr[response_length];
             // If valid then save the responses and score in jobposting
             console.log(candidate_answers);
             let jobposting_testing = '5fa351b5eb104c2c28e611e4';
@@ -98,6 +100,7 @@ function scoreQuiz(req, res, next) {
                             candidate_id : "5f8a4c6cf6f66534c417a374",//sample
                             quiz_id : id3,
                             candidateAnswers: candidate_answers,
+                            quizComment: comment,
                             quizScore: score
                         }
                     },
