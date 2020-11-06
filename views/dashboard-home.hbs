@@ -19,8 +19,6 @@
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
             <p id="send_status"></p>
             <h3 style="font-size: large; font-weight: bold;">Sample Job Postings Below:</h3>
-            <p style="font-size: large; font-weight: bold;">{{jobposting.[0].title}}</p>
-            <p style="font-size: large; font-weight: bold; display: inline-block;">{{jobposting.[0].description}}</p>
         </div>
     </div>
 </div>
@@ -48,9 +46,16 @@
                 </div>
             </div>
             <div id="quiz_div">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="first">
-                    <label class="mdl-textfield__label" for="sample3">Quiz</label>
+                <div class="mdl-textfield mdl-js-textfield getmdl-select">
+                    <input type="text" value="" class="mdl-textfield__input" id="quiz" readonly>
+                    <input type="hidden" value="" name="quiz">           
+                    <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                    <label for="quiz" class="mdl-textfield__label">Quiz</label>
+                    <ul for="quiz" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                        {{#each_question quiz 0}}
+                            <li class="mdl-menu__item" data-val="{{quiz_id_expose this}}">{{quiz_name_expose this}}</li>
+                        {{/each_question}}
+                    </ul>
                 </div>
             </div>
             <div id="name_div">

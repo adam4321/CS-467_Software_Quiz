@@ -13,6 +13,16 @@ module.exports = {
         let index = args[0];
             return index + 1;
     },
+    'quiz_name_expose': function () {
+        const args = Array.prototype.slice.call(arguments, 0, -1);
+        let obj = args[0];
+        return obj.name;
+    },
+    'quiz_id_expose': function () {
+        const args = Array.prototype.slice.call(arguments, 0, -1);
+        let obj = args[0];
+        return obj._id;
+    },
     'quiz_question_expose': function () {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0];
@@ -39,8 +49,8 @@ module.exports = {
         let obj = args[0]._id;
         return obj;
     },
-    'each_jobposting': function(quiz_obj, max, options) {
-        let ary = quiz_obj;
+    'each_jobposting': function(job_obj, max, options) {
+        let ary = job_obj;
         let data = { };
         if((ary.length < max) || ary.length == 0)
             return options.inverse(this);
