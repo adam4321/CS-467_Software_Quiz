@@ -96,11 +96,11 @@ function renderDashboard(req, res, next) {
             // console.log("email already exists");
             // Find object one object in job postings data model
             let id = '5f8a4d3ae5e2b93edc72f301';
-            JobPosting.findOne()
+            JobPosting.find()
             .exec()
             .then(doc => {
-                context.title = doc.title;
-                context.description = doc.description;
+                context.jobposting = doc;
+                console.log(doc);
                 req.session.jobposting_selected = doc._id;
                 res.status(200).render("dashboard-home", context);
             })
