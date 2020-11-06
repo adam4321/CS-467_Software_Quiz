@@ -25,6 +25,9 @@ var calc_score =  require('../score.js');
 // TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
     var token = req.params.token;
+    var decoded = jwt.decode(token, CRED_ENV.HASH_SECRET);
+    console.log(decoded);
+
     let context = {};
     
     // Find object with id from quizzes data model

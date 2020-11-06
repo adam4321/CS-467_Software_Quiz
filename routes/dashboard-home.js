@@ -11,20 +11,22 @@
 const express = require('express');
 const router = express.Router();
 const sgMail = require('@sendgrid/mail');
+const jwt = require('jwt-simple');
 
 const mongoose = require('mongoose');
-let SENDGRID_CRED;
+let CRED_ENV;
+
 // Choose credentials for dev or prod
 if (process.env.NODE_ENV === 'production'){
-    SENDGRID_CRED = process.env;
+    CRED_ENV = process.env;
 } else {
-    SENDGRID_CRED = require('../credentials.js');
+    CRED_ENV = require('../credentials.js');
 }
 
-sgMail.setApiKey(SENDGRID_CRED.SENDGRID_API_KEY);
+sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
-var DEBUG = 0;
+var DEBUG = 1;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -175,14 +177,22 @@ router.get('/', checkUserLoggedIn, renderDashboard);
 router.post('/sendmail', checkUserLoggedIn, (req, res)=>{
     console.log(req.body);
     let email = req.body.email;
+    let jobposting = req.body.jobposting;
+    let quiz = req.body.quiz;
+    var payload = { email: email, jobposting: jobposting, quiz: quiz}
+    var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
+    console.log();
+    console.log(token);
     let message = 'Testing';
-    let name = 'Test from SendGrid';
+    let name = 'Next Steps - Software Aptitude Quiz';
     const msg = {
         to: `${email}`, // Change to your recipient
         from: 'software.customquiz@gmail.com', // Change to your verified sender
         subject: `${name}`,
         text: `${message}`,
     }
+
+
     if (DEBUG === 0){
     sgMail.send(msg)
     .then(() => {
