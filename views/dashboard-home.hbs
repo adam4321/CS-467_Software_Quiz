@@ -35,8 +35,7 @@
             <div id="jobposting_div">
                 <div class="mdl-textfield mdl-js-textfield getmdl-select">
                     <input type="text" value="" class="mdl-textfield__input" id="jobposting" readonly>
-                    <input type="hidden" value="" name="jobposting">           
-                    <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                    <input type="hidden" value="" name="jobposting" />           
                     <label for="jobposting" class="mdl-textfield__label">Job Posting</label>
                     <ul for="jobposting" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                         {{#each_jobposting jobposting jobposting.length}}
@@ -49,7 +48,6 @@
                 <div class="mdl-textfield mdl-js-textfield getmdl-select">
                     <input type="text" value="" class="mdl-textfield__input" id="quiz" readonly>
                     <input type="hidden" value="" name="quiz">           
-                    <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
                     <label for="quiz" class="mdl-textfield__label">Quiz</label>
                     <ul for="quiz" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                         {{#each_question quiz 0}}
