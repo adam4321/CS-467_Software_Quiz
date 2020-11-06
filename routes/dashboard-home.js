@@ -178,18 +178,21 @@ router.post('/sendmail', checkUserLoggedIn, (req, res)=>{
     console.log(req.body);
     let email = req.body.email;
     let jobposting = req.body.jobposting;
+    let title = req.boby.title;
     let quiz = req.body.quiz;
-    var payload = { email: email, jobposting: jobposting, quiz: quiz}
+    var payload = { email: email, jobposting: jobposting, quiz: quiz};
     var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
     console.log();
     console.log(token);
     let message = 'Testing';
-    let name = 'Next Steps - Software Aptitude Quiz';
+    let html_message = message;
+    let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
     const msg = {
-        to: `${email}`, // Change to your recipient
-        from: 'software.customquiz@gmail.com', // Change to your verified sender
+        to: `${email}`, // Recipient
+        from: 'software.customquiz@gmail.com', // Verified sender
         subject: `${name}`,
         text: `${message}`,
+        html: `${html_message}`,
     }
 
 

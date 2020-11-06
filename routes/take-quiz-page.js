@@ -9,8 +9,17 @@
 
 const express = require('express');
 const router = express.Router();
+const jwt = require('jwt-simple');
 
 const mongoose = require('mongoose');
+let CRED_ENV;
+
+// Choose credentials for dev or prod
+if (process.env.NODE_ENV === 'production'){
+    CRED_ENV = process.env;
+} else {
+    CRED_ENV = require('../credentials.js');
+}
 
 // Debug Flag
 DEBUG = 1;
