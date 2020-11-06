@@ -304,6 +304,7 @@ function uploadFile(e) {
                         // Create the empty quiz container
                         let emptyContainer       = document.createElement('div');
                         emptyContainer.classList = 'mdl-card__supporting-text mdl-color-text--grey-600 quiz-content';
+                        emptyContainer.id        = 'modal-container';
                         quizzesEmpty.appendChild(emptyContainer);
 
                         // Fill the empty quiz container with the user's information
@@ -412,11 +413,11 @@ function uploadFile(e) {
                     let modalContainer       = document.createElement('div');
                     modalContainer.id        = `modal${newBody.rows.length - 1}`;
                     modalContainer.className = 'modal';
-                    newBody.appendChild(modalContainer);
+                    document.getElementById('modal-container').appendChild(modalContainer);
 
                     // Add the modal div
                     let modalDiv       = document.createElement('div');
-                    modalDiv.className = 'modal-content';
+                    modalDiv.classList = 'modal-content square-card mdl-card--expand mdl-shadow--2dps mdl-color-text--black-600';
                     modalContainer.appendChild(modalDiv);
 
                     // Add quiz content to modal
@@ -468,17 +469,17 @@ function uploadFile(e) {
                     let lineBreak = document.createElement('hr');
                     modalDiv.appendChild(lineBreak);
 
-                    // Create question div and field
-                    let questionDiv   = document.createElement('div');
-                    let questionField = document.createElement('fieldset');
-                    modalDiv.appendChild(questionDiv);
-                    questionDiv.appendChild(questionField);
-
                     // Loop over quiz questions and display them
                     for (let i = 0; i < response.questions.length; i++) {
+                        // Create question div and field
+                        let questionDiv   = document.createElement('div');
+                        let questionField = document.createElement('fieldset');
+                        modalDiv.appendChild(questionDiv);
+                        questionDiv.appendChild(questionField);
+
                         // Display the question number
                         let qCount = document.createElement('h5');
-                        qCount.textContent = `Q${i}`;
+                        qCount.textContent = `Q${i + 1}`;
                         questionField.appendChild(qCount);
 
                         let singleQuestion = document.createElement('p');
@@ -526,171 +527,132 @@ document.getElementById('upload-hidden').onchange = uploadFile;
 
 /* Append True/False Question ---------------------------------------------- */
 function renderTF(element, question) {
-    console.log(question)
+    // Add the question text
+    let questionContainer     = document.createElement('label');
+    let questionLabel         = document.createElement('i');
+    let break1                = document.createElement('br');
+    questionLabel.textContent = question.quizQuestion[0];
+    element.appendChild(questionContainer);
+    questionContainer.appendChild(questionLabel);
+    element.appendChild(break1);
 
-    // // Increment the question added index for possible deletion later
-    // INITIAL_ORDER++;
+    // Add true
+    let trueDisplay       = document.createElement('input');
+    trueDisplay.type      = 'radio';
+    trueDisplay.disabled  = 'true';
+    let trueLabel         = document.createElement('label');
+    trueLabel.textContent = 'True'
+    let break2            = document.createElement('br');
+    element.appendChild(trueDisplay);
+    element.appendChild(trueLabel);
+    element.appendChild(break2);
 
-    // // Add a new row to display the question
-    // let tableRowDisplay = document.createElement('tr');
-    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    // quiz_display.appendChild(tableRowDisplay);
+    // Add false
+    let falseDisplay       = document.createElement('input');
+    falseDisplay.type      = 'radio';
+    falseDisplay.disabled  = 'true';
+    let falseLabel         = document.createElement('label');
+    falseLabel.textContent = 'False';
+    let break3             = document.createElement('br');
+    element.appendChild(falseDisplay);
+    element.appendChild(falseLabel);
+    element.appendChild(break3);
 
-    // let tableDisplay = document.createElement('td');
-    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    // tableRowDisplay.appendChild(tableDisplay);
-
-    // // Use the correct question_num value to track the question count
-    // let headerDisplay        = document.createElement('h5');
-    // headerDisplay.innerText  = "Q" + question_num;
-    // tableDisplay.appendChild(headerDisplay);
-
-    // let questionDisplay        = document.createElement('i');
-    // questionDisplay.className  = 'question-list';
-    // questionDisplay.innerText  = question_text;
-    // tableDisplay.appendChild(questionDisplay);
-
-    // let ansTrueDisplay       = document.createElement('li');
-    // ansTrueDisplay.id        = 'ansTrueDisplay' + INITIAL_ORDER;
-    // ansTrueDisplay.innerHTML = "True " + (tfValue ? "&#x2611" : "");
-    // tableDisplay.appendChild(ansTrueDisplay);
-
-    // let ansFalseDisplay         = document.createElement('li');
-    // ansFalseDisplay .id         = 'ansFalseDisplay' + INITIAL_ORDER;
-    // ansFalseDisplay .innerHTML  = "False " + (tfValue ? "" :  "&#x2611");
-    // tableDisplay.appendChild(ansFalseDisplay);
-
+    // Set the correct answer
+    if (question.quizKey[0] == 'true') {
+        trueDisplay.checked = 'checked';
+    }
+    else {
+        falseDisplay.checked = 'checked';
+    }
 };
 
 
 /* Append Multiple Choice Question ----------------------------------------- */
 function renderMult(element, question) {
-    console.log(question)
+    // Add the question text
+    let questionContainer     = document.createElement('label');
+    let questionLabel         = document.createElement('i');
+    let break1                = document.createElement('br');
+    questionLabel.textContent = question.quizQuestion[0];
+    element.appendChild(questionContainer);
+    questionContainer.appendChild(questionLabel);
+    element.appendChild(break1);
 
-    // // Increment the question added index for possible deletion later
-    // INITIAL_ORDER++;
+    // Create the answers and check the correct one
+    for (let i = 0; i < question.quizAnswers.length; i++) {
+        let ansDisplay       = document.createElement('input');
+        ansDisplay.type      = 'radio';
+        ansDisplay.disabled  = 'true';
+        let ansLabel         = document.createElement('label');
+        ansLabel.textContent = question.quizAnswers[i];
+        let break2           = document.createElement('br');
+        element.appendChild(ansDisplay);
+        element.appendChild(ansLabel);
+        element.appendChild(break2);
 
-    // // Add a new row to display the question
-    // let tableRowDisplay = document.createElement('tr');
-    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    // quiz_display.appendChild(tableRowDisplay);
-
-    // let tableDisplay = document.createElement('td');
-    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    // tableRowDisplay.appendChild(tableDisplay);
-
-    // // Use the correct question_num value to track the question count
-    // let headerDisplay        = document.createElement('h5');
-    // headerDisplay.innerText  = "Q" + question_num;
-    // tableDisplay.appendChild(headerDisplay);
-
-    // let questionDisplay       = document.createElement('i');
-    // questionDisplay.innerText = question_text;
-    // tableDisplay.appendChild(questionDisplay);
-
-    // // Loop to display the associated number of answer strings
-    // for (let i = 0; i < question_answers.length; i++) {
-    //     let ansDisplay = document.createElement('li');
-    //     ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
-        
-    //     // Add the checkbox to correct answer
-    //     if (question_key == i) {
-    //         ansDisplay.innerHTML  = question_answers[i] + " &#x2611";
-    //     }
-    //     else {
-    //         ansDisplay.innerHTML  = question_answers[i];
-    //     }
-
-    //     // Render the formed answer
-    //     tableDisplay.appendChild(ansDisplay);
-    // }
-
+        // Set the correct answer
+        if (question.quizKey[0] == i) {
+            ansDisplay.checked = 'checked';
+        }
+    }
 };
 
 
 /* Append Fill in the Blank Question --------------------------------------- */
 function renderFill(element, question) {
-    console.log(question)
+    // Add the question text
+    let questionContainer     = document.createElement('label');
+    let questionLabel1        = document.createElement('i');
+    let questionLabel2        = document.createElement('i');
+    let break1                = document.createElement('br');
+    questionLabel1.textContent = question.quizQuestion[0];
+    questionLabel2.textContent = question.quizQuestion[1];
+    element.appendChild(questionContainer);
+    questionContainer.appendChild(questionLabel1);
+    questionContainer.append('___');
+    questionContainer.append(questionLabel2);
+    element.appendChild(break1);
 
-    // // Increment the question added index for possible deletion later
-    // INITIAL_ORDER++;
-
-    // // Add a new row to display the question
-    // let tableRowDisplay = document.createElement('tr');
-    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    // quiz_display.appendChild(tableRowDisplay);
-
-    // let tableDisplay = document.createElement('td');
-    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    // tableRowDisplay.appendChild(tableDisplay);
-
-    // // Use the correct question_num value to track the question count
-    // let headerDisplay        = document.createElement('h5');
-    // headerDisplay.innerText  = "Q" + question_num;
-    // tableDisplay.appendChild(headerDisplay);
-
-    // let questionDisplay1        = document.createElement('i');
-    // questionDisplay1.innerText  = `${question_text[0]} `;
-    // tableDisplay.appendChild(questionDisplay1);
-
-    // let ansDisplay                  = document.createElement('i');
-    // ansDisplay.innerText            = `${question_key}`;
-    // ansDisplay.style.textDecoration = 'underline';
-    // tableDisplay.appendChild(ansDisplay);
-
-    // let questionDisplay2        = document.createElement('i');
-    // questionDisplay2.innerText  = ` ${question_text[1]}`;
-    // tableDisplay.appendChild(questionDisplay2);
-
+    // Add the answer in a box
+    let ansDisplay      = document.createElement('input');
+    ansDisplay.type     = 'text';
+    ansDisplay.disabled = 'true';
+    ansDisplay.value    = question.quizKey[0];
+    let break2          = document.createElement('br');
+    element.appendChild(ansDisplay);
+    element.appendChild(break2);
 };
 
 
 /* Append Check all Question ----------------------------------------------- */
 function renderChAll(element, question) {
-    console.log(question)
+    // Add the question text
+    let questionContainer     = document.createElement('label');
+    let questionLabel         = document.createElement('i');
+    let break1                = document.createElement('br');
+    questionLabel.textContent = question.quizQuestion[0];
+    element.appendChild(questionContainer);
+    questionContainer.appendChild(questionLabel);
+    element.appendChild(break1);
 
-    // // Increment the question added index for possible deletion later
-    // INITIAL_ORDER++;
+    // Create the answers and check the correct one
+    for (let i = 0; i < question.quizAnswers.length; i++) {
+        let ansDisplay       = document.createElement('input');
+        ansDisplay.type      = 'checkbox';
+        ansDisplay.disabled  = 'true';
+        let ansLabel         = document.createElement('label');
+        ansLabel.textContent = question.quizAnswers[i];
+        let break2           = document.createElement('br');
+        element.appendChild(ansDisplay);
+        element.appendChild(ansLabel);
+        element.appendChild(break2);
 
-    // // Add a new row to display the question
-    // let tableRowDisplay = document.createElement('tr');
-    // tableRowDisplay.id  = "tableRow_" + INITIAL_ORDER;
-    // quiz_display.appendChild(tableRowDisplay);
-
-    // let tableDisplay = document.createElement('td');
-    // tableDisplay.id  = "tableDisplay_" + INITIAL_ORDER;
-    // tableRowDisplay.appendChild(tableDisplay);
-
-    // // Use the correct question_num value to track the question count
-    // let headerDisplay        = document.createElement('h5');
-    // headerDisplay.innerText  = "Q" + question_num;
-    // tableDisplay.appendChild(headerDisplay);
-
-    // let questionDisplay       = document.createElement('i');
-    // questionDisplay.innerText = question_text;
-    // tableDisplay.appendChild(questionDisplay);
-
-    // // Loop to display the associated number of answer strings
-    // for (let i = 0; i < question_answers.length; i++) {
-    //     let ansDisplay = document.createElement('li');
-    //     ansDisplay.id  = 'ansDisplay' + INITIAL_ORDER;
-        
-    //     // No boxes checked
-    //     ansDisplay.innerHTML = question_answers[i]; 
-
-    //     // Add the checkbox to correct answers
-    //     for (let j = 0; j < question_key.length; j++) {
-    //         if (question_key[j] == i) {
-    //             ansDisplay.innerHTML = question_answers[i] + " &#x2611";
-    //             break;
-    //         }
-    //         else {
-    //             ansDisplay.innerHTML = question_answers[i];
-    //         }
-    //     }
-
-    //     // Render the formed answer
-    //     tableDisplay.appendChild(ansDisplay);
-    // }
-
+        // Set the correct answer
+        for (let j = 0; j < question.quizKey.length; j++) {
+            if (question.quizKey[j] == i) {
+                ansDisplay.checked = 'checked';
+            }
+        }
+    }
 };

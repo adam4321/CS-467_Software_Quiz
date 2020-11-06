@@ -8,6 +8,14 @@ module.exports = {
         return args.every(function (expression) {
             return args[0] === args[1]});
     },
+    'eq_str_num': function (arg1, arg2) {
+        if (arg1 == arg2) {
+            return true;
+        } 
+        else {
+            return false;
+        }
+    },
     'inc': function () {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let index = args[0];

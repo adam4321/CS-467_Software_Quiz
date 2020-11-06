@@ -100,10 +100,11 @@
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;       /* 15% from the top and centered */
+    margin: 130px auto 0px auto;       /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 60%;             /* Could be more or less, depending on screen size */
+    border-radius: 2px;
+    width: 660px;             /* Could be more or less, depending on screen size */
     text-align: center;
 }
 
@@ -192,6 +193,13 @@ input[type="file"] {
 /* Media queries for tablets ----------------------------------------------- */
 
 @media only screen and (max-width: 775px) {
+    /* Modal Content/Box */
+    .modal-content {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 775px) {
     #dashboard-container {
         width: 95%;
     }
@@ -269,14 +277,6 @@ input[type="file"] {
         margin: 10px auto 15px auto;
     }
 
-    /* #upload-btn {
-        margin-right: 0;
-    }
-
-    #upload-btn-empty {
-        margin-left: 5px;
-    } */
-
     #no-quiz-break {
         width: 88%;
         margin-left: 5%;
@@ -297,10 +297,5 @@ input[type="file"] {
     .btn-style {
         font-size: 8px;
         width: 55px;
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-        margin-top: 30%;
     }
 }
