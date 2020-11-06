@@ -99,33 +99,46 @@
                                                             value = "{{this.a_index}}" />
                                                         <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                     {{/each_answer}}
-                                                    <input type="radio" style="display:none;" name="{{@q_index}}" id="default-mult-choice" class="mult-choice" value="" checked="checked"/>
+                                                    
                                                 {{/if}}
 
                                                 {{#if (quiz_type_expose this "true-false")}}
                                                     <label><i>{{quiz_question_expose this 0}}</i></label></br>
-                                                        <input type = "radio"
-                                                            name = "{{@q_index}}"
+                                                            <input type = "radio"
                                                             id = "Q{{@q_index}}_0"
                                                             class = "true-false"
-                                                            value = "true" />
+                                                            value = "true"
+                                                            {{#with this.quizKey}}
+                                                                {{#if (eq this.[0] 'true')}}
+                                                                    checked
+                                                                {{/if}}
+                                                            {{/with}} 
+                                                        />
                                                         <label for = "Q{{@q_index}}_0">True</label></br>
                                                         <input type = "radio"
-                                                            name = "{{@q_index}}"
                                                             id = "Q{{@q_index}}_1"
                                                             class = "true-false"
-                                                            value = "false" />
+                                                            value = "false" 
+                                                            {{#with this.quizKey}}
+                                                                {{#if (eq this.[0] 'false')}}
+                                                                    checked
+                                                                {{/if}}
+                                                            {{/with}} 
+                                                        />
                                                         <label for = "Q{{@q_index}}_1">False</label></br>
-                                                        <input type="radio" style="display:none;" name="{{@q_index}}" id="default-tf" class="true-false" value="" checked="checked"/>
+
                                                 {{/if}}
 
                                                 {{#if (quiz_type_expose this "fill-blank")}}
-                                                    <label><i>{{quiz_question_expose this 0}} </i>___<i> {{quiz_question_expose this 1}}</i></label></br>
+                                                    <label><i>{{quiz_question_expose this 0}} </i>___<i> {{quiz_question_expose this 1}}</i></label></br>   
                                                         <input type = "text"
                                                             name = "{{@q_index}}"
                                                             id = "Q{{@q_index}}_0"
                                                             class = "fill-blank"
-                                                            value = "{{this.[0]}}" /></br>
+                                                            {{#with this.quizKey}}
+                                                                value = "{{this.[0]}}"
+                                                            {{/with}}
+                                                        /></br>
                                                 {{/if}}
 
                                                 {{#if (quiz_type_expose this "check-all")}}
@@ -135,10 +148,11 @@
                                                             name = "{{@q_index}}"
                                                             id = "Q{{@q_index}}_{{this.a_index}}"
                                                             class = "check-all"
-                                                            value = "{{this.a_index}}" />
+                                                            value = "{{this.a_index}}" 
+                                                        />
                                                         <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
                                                     {{/each_answer}}
-                                                    <input type="checkbox" style="display:none;" name="{{@q_index}}" id="default-check" class="check-all" value="" checked="checked"/>
+                                                   
                                                 {{/if}}
                                             </p>
                                         </fieldset>

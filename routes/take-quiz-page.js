@@ -149,7 +149,6 @@ function scoreQuiz(req, res, next) {
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
 router.get('/:token', renderQuiz);
-
 router.post('/:token', scoreQuiz);
 
 module.exports = router;
