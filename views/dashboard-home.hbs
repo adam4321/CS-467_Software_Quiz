@@ -34,26 +34,26 @@
         <div class="mdl-card__supporting-text">
         Send the one-time quiz link to prospective candidate.
             <form id="test_sendgrid" action="/dashboard/sendmail" method="post">
-            <div id="jobposting">
+            <div id="jobposting_div">
                 <div class="mdl-textfield mdl-js-textfield getmdl-select">
-                    <input type="text" value="" class="mdl-textfield__input" id="sample2" readonly>
-                    <input type="hidden" value="" name="sample2">
+                    <input type="text" value="" class="mdl-textfield__input" id="jobposting" readonly>
+                    <input type="hidden" value="" name="jobposting">           
                     <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
-                    <label for="sample2" class="mdl-textfield__label">Job Posting</label>
-                    <ul for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                        {{#each jobposting}}
-                            <li class="mdl-menu__item" data-val="{{this._id}}">{{this.title}}</li>
-                        {{/each}}
+                    <label for="jobposting" class="mdl-textfield__label">Job Posting</label>
+                    <ul for="jobposting" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                        {{#each_jobposting jobposting jobposting.length}}
+                            <li class="mdl-menu__item" data-val="{{job_id_expose this}}">{{job_title_expose this}}</li>
+                        {{/each_jobposting}}
                     </ul>
                 </div>
             </div>
-            <div id="quiz">
+            <div id="quiz_div">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input class="mdl-textfield__input" type="text" id="first">
                     <label class="mdl-textfield__label" for="sample3">Quiz</label>
                 </div>
             </div>
-            <div id="name">
+            <div id="name_div">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input class="mdl-textfield__input" type="text" id="first">
                     <label class="mdl-textfield__label" for="sample3">First Name</label>
@@ -63,7 +63,7 @@
                     <label class="mdl-textfield__label" for="sample3">Last Name</label>
                 </div>
             </div>
-            <div id="email">
+            <div id="email_div">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input class="mdl-textfield__input" type="email" name="email">
                     <label class="mdl-textfield__label" for="sample2">E-mail</label>

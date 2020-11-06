@@ -100,7 +100,6 @@ function renderDashboard(req, res, next) {
             .exec()
             .then(doc => {
                 context.jobposting = doc;
-                console.log(doc);
                 req.session.jobposting_selected = doc._id;
                 res.status(200).render("dashboard-home", context);
             })

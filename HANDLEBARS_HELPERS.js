@@ -29,6 +29,30 @@ module.exports = {
         return args.every(function (expression) {
             return args[0].quizType === args[1]; });
     },
+    'job_title_expose': function () {
+        const args = Array.prototype.slice.call(arguments, 0, -1);
+        let obj = args[0].title;
+        return obj;
+    },
+    'job_id_expose': function () {
+        const args = Array.prototype.slice.call(arguments, 0, -1);
+        let obj = args[0]._id;
+        return obj;
+    },
+    'each_jobposting': function(quiz_obj, max, options) {
+        let ary = quiz_obj;
+        let data = { };
+        if((ary.length < max) || ary.length == 0)
+            return options.inverse(this);
+        var result = [];
+        for(var i = 0; i < max; ++i){
+            if (data) {
+                data.q_index = i;
+            }
+            result.push(options.fn(ary[i], { data: data }));
+        }
+        return result.join('');
+    },
     'each_question': function(quiz_obj, max, options) {
         let ary = quiz_obj;
         let data = { };
