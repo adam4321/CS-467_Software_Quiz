@@ -27,6 +27,7 @@ sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
 var DEBUG = 1;
+const DEBUG2 = 0;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -270,6 +271,41 @@ function readEmailForm(req, res, next) {
     });
 };
 
+function removeUser(req, res, next) {
+
+    // Check if email is already registered in collection/employers
+    var query = Employer.find({});
+    query.where('email').equals(req.user.email);
+    query.exec()
+    .then(result => {
+        if(DEBUG2 === 0){
+        // No email found
+        Employer.deleteOne({'_id': ObjectId(result._id)}).exec()
+        .then(() => {
+            // Reply to the client
+            res.status(204).redirect('/logout');
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).end();
+        });
+    }
+    else{
+        res.redirect('/dashboard.home');
+    }
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).render("dashboard-home", context);
+    });
+
+    
+
+
+};
+
+
+
 
 /*
 SAMPLES 
@@ -329,5 +365,6 @@ router.get('/', checkUserLoggedIn, renderDashboard);
 
 router.post('/sendmail', checkUserLoggedIn, readEmailForm);
 
+router.post('/', checkUserLoggedIn, removeUser);
 
 module.exports = router;
