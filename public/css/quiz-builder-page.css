@@ -21,6 +21,10 @@
     background-color: rgba(0, 0, 0, 0.76);
 }
 
+#exit_btn:hover {
+    background-color: rgba(0, 0, 0, 0.87)
+}
+
 #question-count-label {
     font-size: large;
     display: inline-block;
@@ -38,10 +42,17 @@
 }
 
 .question-btn {
-    background-color: #ebb5b4;
     font-size: 10px;
     margin-right: 3px;
     margin-bottom: 20px;
+}
+
+.mdl-button--raised.mdl-button--colored {
+    background-color: #ebb54b;
+}
+
+.mdl-button--raised.mdl-button--colored:hover {
+    background-color: #d8a236;
 }
 
 .questionNum {
@@ -61,6 +72,7 @@
     cursor: pointer;
     background-color: #f0efef;
     font-size: 9px;
+    height: 33px;
     
 }
 
@@ -108,6 +120,10 @@
     color: white;
     background-color: rgb(49, 166, 202);
     width: 130px;
+}
+
+#submit-btn:hover {
+    background-color: rgb(23, 133, 167);
 }
 
 #quiz_display_container {

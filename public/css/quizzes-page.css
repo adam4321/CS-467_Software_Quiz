@@ -12,6 +12,10 @@
     padding-right: 0;
 }
 
+.quiz-content {
+    width: 93%;
+}
+
 .no-quiz-content {
     width: 93%;
 }
@@ -30,7 +34,7 @@
 
 #profile-div {
     display: inline-block;
-    width: 240px;
+    max-width: 100%;
 }
 
 #profile-email {
@@ -62,11 +66,9 @@
 
 #upload-btn {
     display: inline-block;
-    margin: 7px 0 0 19px;
+    margin: 7px 0px 0 19px;
     height: 17px;
     width: 70px;
-    font-size: 13px;
-    font-family: "Helvetica","Arial",sans-serif;
     text-align: center;
 }
 
@@ -75,8 +77,6 @@
     margin: 7px 0px 0 23px;
     height: 17px;
     width: 70px;
-    font-size: 13px;
-    font-family: "Helvetica","Arial",sans-serif;
     text-align: center;
 }
 
@@ -146,11 +146,15 @@ input[type="file"] {
 
 .btn-style {
     background-color: #ebb54b;
-    color: black;
+    font-weight: 100;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: rgb(66,66,66);
     border: none;
     cursor: pointer;
     border-radius: 2px;
-    width: 80px;
+    width: 85px;
     margin-top: 10px;
     padding: 5px;
 }
@@ -241,6 +245,8 @@ input[type="file"] {
     #profile-div {
         display: block;
         margin: 5px auto 5px auto;
+        padding-right: auto;
+        padding-left: auto;
     }
 
     #profile-image {
@@ -282,10 +288,6 @@ input[type="file"] {
         margin-left: 5%;
     }
 
-    .mdl-data-table__cell--non-numeric {
-        font-size: 9px;
-    }
-
     #table-body {
         font-size: 8px;
     }
@@ -297,5 +299,13 @@ input[type="file"] {
     .btn-style {
         font-size: 8px;
         width: 55px;
+    }
+
+    #upload-btn {
+        font-size: 12px;
+    }
+    
+    #upload-btn-new {
+        font-size: 12px;
     }
 }

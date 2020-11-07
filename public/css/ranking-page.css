@@ -2,14 +2,40 @@
 **  Description: RANKING PAGE - css file for the page
 ******************************************************************************/
 
+/* Change the arrow to a pointer when hovering over the table rows */
+td:hover {
+    cursor: pointer;
+}
+
 #dashboard-container {
-    width: 800px;
+    max-width: 730px;
+}
+
+#dashboard-container-empty {
+    width: 730px;
+    margin: auto;
+    padding-right: 0;
+}
+
+.no-quiz-content {
+    width: 93%;
 }
 
 #profile-image {
     height: 35px; 
     border-radius: 50%; 
     margin: 1px 0px 10px 5px;
+}
+
+#profile-image-new {
+    height: 35px; 
+    border-radius: 50%; 
+    margin: 1px 4px 10px 5px;
+}
+
+#profile-div {
+    display: inline-block;
+    width: 240px;
 }
 
 #profile-email {
@@ -19,8 +45,215 @@
     margin: 11px 0px 0px 0px;
 }
 
-@media only screen and (max-width: 900px) {
+/* Add extra margin when rendered using JavaScript */
+#profile-email-empty {
+    font-size: medium; 
+    font-weight: bold; 
+    display: inline-block;
+    margin: 11px 0px 0px 4px;
+}
+
+#upload-div {
+    float: right;
+    margin: 0 0 8px 0;
+}
+
+#upload-txt {
+    margin: 12px 0 0 0;
+    font-size: medium; 
+    font-weight: bold; 
+    display: inline-block;
+}
+
+#upload-btn {
+    display: inline-block;
+    margin: 7px 0 0 19px;
+    height: 17px;
+    width: 70px;
+    font-size: 13px;
+    font-family: "Helvetica","Arial",sans-serif;
+    text-align: center;
+}
+
+#upload-btn-new {
+    display: inline-block;
+    margin: 7px 0px 0 23px;
+    height: 17px;
+    width: 70px;
+    font-size: 13px;
+    font-family: "Helvetica","Arial",sans-serif;
+    text-align: center;
+}
+
+
+/* Table body styling ------------------------------------------------------ */
+
+input[type="file"] {
+    display: none;
+}
+
+#recordTable {
+    margin-top: 10px;
+    width: 200px;
+}
+
+.user-numbers {
+    text-align: center;
+}
+
+.btn-style {
+    background-color: #ebb54b;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    width: 80px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.btn-style:hover {
+    background-color: #c7942d;
+}
+
+.quiz-name {
+    width: 125px;
+    overflow: hidden;
+}
+
+.quiz-category {
+    width: 110px;
+    overflow: hidden;
+}
+
+
+/* Style tables with no quizzes -------------------------------------------- */
+
+#no-quiz-div {
+    width: 270px;
+    margin: 70px auto 40px auto;
+}
+
+#question-logo {
+    height: 50px;
+    display: inline-block;
+    margin-top: -10px;
+}
+
+#no-quiz-txt {
+    display: inline-block;
+    font-size: 22px;
+    color: #ebb54b;
+}
+
+
+/* Media queries for tablets ----------------------------------------------- */
+
+@media only screen and (max-width: 775px) {
+    /* Modal Content/Box */
+    .modal-content {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 775px) {
     #dashboard-container {
         width: 95%;
     }
+
+    #dashboard-container-empty {
+        width: 730px;
+    }
+
+    .no-quiz-content {
+        width: 93%;
+    }
+
+    .quiz-name {
+        width: 95px;
+    }
+    
+    .quiz-category {
+        width: 75px;
+    }
+
+    #upload-div {
+        margin: 0 0 8px 0;
+    }
 }
+
+
+/* Media queries for vertical mobile phones -------------------------------- */
+
+@media only screen and (max-width: 600px) {
+    #dashboard-container {
+        width: 100%;
+    }
+
+    .mdl-card__supporting-text {
+        width: 100%;
+        padding: 0px 0px 8px 3px !important;
+    }
+
+    #profile-div {
+        display: block;
+        margin: 5px auto 5px auto;
+    }
+
+    #profile-image {
+        margin: -5px 0px 5px 0;
+    }
+
+    #profile-email {
+        margin: 0px 0px 5px 0px;
+    }
+
+    #profile-image-new {
+        margin: -5px 4px 5px 0;
+    }
+    
+    #profile-email-empty {
+        margin: 0px 0px -15px 0px;
+    }
+
+    #no-quiz-div {
+        margin: 60px auto 30px auto;
+    }
+
+    .quiz-content {
+        margin: 15px auto 0px auto;
+    }
+
+    .no-quiz-content {
+        margin: 15px auto 10px auto;
+    }
+
+    #upload-div {
+        float: none;
+        width: 225px;
+        margin: 10px auto 15px auto;
+    }
+
+    #no-quiz-break {
+        width: 88%;
+        margin-left: 5%;
+    }
+
+    .mdl-data-table__cell--non-numeric {
+        font-size: 9px;
+    }
+
+    #table-body {
+        font-size: 8px;
+    }
+
+    .quiz-name {
+        width: 105px;
+    }
+
+    .btn-style {
+        font-size: 8px;
+        width: 55px;
+    }
+}
+

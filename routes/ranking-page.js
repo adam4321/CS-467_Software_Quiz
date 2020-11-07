@@ -57,7 +57,8 @@ function renderRanking(req, res, next) {
         .exec()
         .then(cand_doc => {
             context.cand_name = cand_doc.firstName;
-            res.status(200).render("ranking-page", context);
+            console.log(context)
+            res.render("ranking-page", context);
         })
         .catch(err => {
             console.error(err);
