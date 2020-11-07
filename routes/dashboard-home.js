@@ -106,9 +106,9 @@ function renderDashboard(req, res, next) {
         // No email found
         if (result[0] == undefined) {
             emp.save()
-            .then(result => {
-                console.log(result);
-                renderPageFromQuery(req, res, next, context, result._id, 1);
+            .then(emp_result => {
+                console.log(emp_result);
+                renderPageFromQuery(req, res, next, context, emp_result._id, 1);
             })
             .catch(err => {
                 console.error(err);
@@ -116,10 +116,8 @@ function renderDashboard(req, res, next) {
             });
         }
         else{
-            // console.log("email already exists");
-            // Find object one object in job postings data model
-            let id = '5f8a4d3ae5e2b93edc72f301';
-            renderPageFromQuery(req, res, next, context, result._id, 0);
+            // Email already exists
+            renderPageFromQuery(req, res, next, context, result[0]._id, 0);
         }
     })
     .catch(err => {
@@ -180,20 +178,61 @@ function readEmailForm(req, res, next) {
         lastName: last,
         quizResponseId: []
     });
-    // Save associated quiz into jobposting selected
-    JobPosting.findOneAndUpdate({_id: jobposting}, {useFindAndModify: false}, {
-        $push: { associatedQuiz:
-            { 
-                employer_id : req.session.employer_selected,
-                quiz_id : quiz,
-            }
-        },
-    }, function(error, success) {
-        if (error){
-            console.error(error);
-            res.status(500).render("dashboard-home", context);
+
+    var query = JobPosting.findOne(
+       // {'associatedQuiz' : { $elemMatch: { $e: { 'employer_id' : req.session.employer_selected, 'quiz_id' : quiz }}} }
+        { "associatedQuiz.employer_id": req.session.employer_selected, "associatedQuiz.quiz_id": quiz }, 
+        { "associatedQuiz.$": 1 } 
+    );
+    query.where('_id').equals(jobposting);
+    query.exec()
+    .then(result => {
+        if (result === null) {
+            // Save associated quiz into jobposting selected
+            JobPosting.findOneAndUpdate({_id: jobposting}, {useFindAndModify: false}, {
+                $push: { associatedQuiz:
+                    { 
+                        employer_id : req.session.employer_selected,
+                        quiz_id : quiz,
+                    }
+                },
+            }, function(error, success) {
+                if (error){
+                    console.error(error);
+                    res.status(500).render("dashboard-home", context);
+                }
+                else{
+                    // Check if email is already registered in collection/employers
+                    var query = Candidate.find({});
+                    query.where('email').equals(email);
+                    query.exec()
+                    .then(result => {
+                        // No email found
+                        if (result[0] == undefined) {
+                            cand.save()
+                            .then(result => {
+                                sendQuizLinkEmail(req, res, next, msg);
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                res.status(500).render("dashboard-home", context);
+                            });
+                        }
+                        else{
+                            // Email already exists
+                            sendQuizLinkEmail(req, res, next, msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).render("dashboard-home", context);
+                    });
+                }
+            });
         }
         else{
+            console.log("found");res.status(200).redirect('/dashboard');
+            // Associated quiz found
             // Check if email is already registered in collection/employers
             var query = Candidate.find({});
             query.where('email').equals(email);
@@ -220,6 +259,11 @@ function readEmailForm(req, res, next) {
                 res.status(500).render("dashboard-home", context);
             });
         }
+    })
+    .catch(err => {
+        console.error(err);
+        let context = {}; // TODO: remove
+        res.status(500).render("dashboard-home", context);
     });
 };
 
