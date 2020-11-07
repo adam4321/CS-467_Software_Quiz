@@ -9,8 +9,20 @@
 
 const express = require('express');
 const router = express.Router();
+const sgMail = require('@sendgrid/mail');
+const jwt = require('jwt-simple');
 
 const mongoose = require('mongoose');
+let CRED_ENV;
+
+// Choose credentials for dev or prod
+if (process.env.NODE_ENV === 'production'){
+    CRED_ENV = process.env;
+} else {
+    CRED_ENV = require('../credentials.js');
+}
+
+sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
 DEBUG = 1;
@@ -25,16 +37,19 @@ var calc_score =  require('../score.js');
 // TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
     var token = req.params.token;
+    var decoded = jwt.decode(token, CRED_ENV.HASH_SECRET);
+    console.log(decoded);
+    let taker_email = decoded.email
+    req.session.taker_email = taker_email;
+    let taker_jobposting= decoded.jobposting;
+    req.session.taker_jobposting = taker_jobposting;
+    let taker_quiz = decoded.quiz
+    req.session.taker_quiz = taker_quiz;
     let context = {};
-    
-    // Find object with id from quizzes data model
-    let id = '5f9890f4863f120e60b28b74';
-    let id2 = '5f98b85c9a32bc689c5949f3';
-    let id3 = '5f9cb1a2fd3e2064587bcee4';
 
     //TODO: find if the hashed quiz exists already for the hashed job posting and hashed candidate id, then dont allow
 
-    Quiz.findById(token)
+    Quiz.findById(taker_quiz)
     .exec()
     .then(doc => {
         context = doc;
@@ -60,8 +75,9 @@ function scoreQuiz(req, res, next) {
     context.response_length = response_length;
 
     // TODO: Query quiz associated with object and build quizKey object
-    let id3 = '5f9cb1a2fd3e2064587bcee4';
-    Quiz.findById(id3)
+    // TODO: email employer after finished with quiz
+    let quiz_testing_id = '5f9cb1a2fd3e2064587bcee4';
+    Quiz.findById(req.session.taker_quiz)
     .exec()
     .then(quiz_obj => {
         // Set layout with paths to css
@@ -89,18 +105,20 @@ function scoreQuiz(req, res, next) {
             let comment = response_arr[response_length];
             // If valid then save the responses and score in jobposting
             console.log(candidate_answers);
-            let jobposting_testing = '5fa351b5eb104c2c28e611e4';
+            let jobposting_id_testing = '5fa351b5eb104c2c28e611e4';
 
-            console.log(jobposting_testing);
+            console.log(req.session.taker_jobposting);
             if (DEBUG === 0){
-                JobPosting.findOneAndUpdate({_id: jobposting_testing}, {useFindAndModify: false}, {
+                JobPosting.findOneAndUpdate({_id: req.session.taker_jobposting}, {useFindAndModify: false}, {
                     $push: { quizResponses:
                         { 
                             quiz_response_id : new mongoose.Types.ObjectId,
-                            candidate_id : "5f8a4c6cf6f66534c417a374",//sample
-                            quiz_id : id3,
+                            candidate_id : "5f8a4c6cf6f66534c417a374", //TODO: query candidate via email sample
+                            quiz_id : req.session.taker_quiz,
                             candidateAnswers: candidate_answers,
                             quizComment: comment,
+                            quizEpochTime: 1604774135, // TODO: capture from Date.now() library
+                            quizTotalTime: 0, // TODO: capture from setInterval
                             quizScore: score
                         }
                     },

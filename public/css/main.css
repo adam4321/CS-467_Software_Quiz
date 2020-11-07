@@ -162,6 +162,9 @@ select {
     width: 10px !important;
 }
 
+.mdl-grid.center-items {
+    justify-content: center;
+  }
 
 /* Spacing for the submission button spinner animation --------------------- */
 

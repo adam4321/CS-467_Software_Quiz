@@ -1,4 +1,4 @@
-const { ObjectID } = require('mongodb');
+const { ObjectID, Int32 } = require('mongodb');
 const mongoose = require('mongoose');
 
 /******************************************************************************
@@ -19,6 +19,8 @@ const jobpostingSchema = mongoose.Schema({
         candidate_id : mongoose.Schema.Types.ObjectId,
         candidateAnswers: [[String]],
         quizComment: String,
+        quizEpochTime: Number,
+        quizTotalTime: Number,
         quizScore: mongoose.Schema.Types.Decimal128
     }]
 });
