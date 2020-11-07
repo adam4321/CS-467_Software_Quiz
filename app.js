@@ -78,7 +78,7 @@ app.use('/login', require('./routes/login-page.js'));
 app.use('/dashboard', require('./routes/dashboard-home.js'));
 
 // RANKING PAGE ROUTES
-app.use('/ranking', require('./routes/ranking-page.js'));
+app.use('/job_postings', require('./routes/ranking-page.js'));
 
 // QUIZ SETUP PAGE ROUTES
 app.use('/quiz_builder', require('./routes/quiz-setup-page.js'));
