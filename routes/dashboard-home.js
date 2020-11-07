@@ -12,6 +12,7 @@ const express = require('express');
 const router = express.Router();
 const sgMail = require('@sendgrid/mail');
 const jwt = require('jwt-simple');
+const { ObjectId } = require('mongodb');
 
 const mongoose = require('mongoose');
 let CRED_ENV;
@@ -27,7 +28,7 @@ sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
 var DEBUG = 1;
-const DEBUG2 = 0;
+const DEBUG_REMOVE = 1;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -272,18 +273,17 @@ function readEmailForm(req, res, next) {
 };
 
 function removeUser(req, res, next) {
-
     // Check if email is already registered in collection/employers
     var query = Employer.find({});
     query.where('email').equals(req.user.email);
     query.exec()
     .then(result => {
-        if(DEBUG2 === 0){
+        if(DEBUG_REMOVE === 0){
         // No email found
-        Employer.deleteOne({'_id': ObjectId(result._id)}).exec()
+        Employer.deleteOne({'_id': ObjectId(result[0]._id)}).exec()
         .then(() => {
             // Reply to the client
-            res.status(204).redirect('/logout');
+            res.status(204).end()
         })
         .catch(err => {
             console.error(err);
