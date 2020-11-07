@@ -283,15 +283,13 @@ function removeUser(req, res, next) {
         // No email found
         Employer.deleteOne({'_id': ObjectId(result[0]._id)}).exec()
             .then(() => {
-                Quiz.remove({ employer_id: ObjectId(result[0]._id)}).exec()
+                Quiz.deleteMany({ employer_id: ObjectId(result[0]._id)}).exec()
                 .then(remove =>{res.status(204).json(remove).end()})
-
-            })
-
-            .catch(err => {
-                console.error(err);
-                res.status(500).end();
-            })
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).end();
+                })
         }
         else{
             res.redirect('/dashboard.home');
@@ -301,12 +299,6 @@ function removeUser(req, res, next) {
         console.error(err);
         res.status(500).render("dashboard-home", context);
     });
-
-
-
-    
-
-
 };
 
 
