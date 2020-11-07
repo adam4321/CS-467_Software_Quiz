@@ -54,9 +54,11 @@ function renderPageFromQuery(req, res, next, context, user_id, emp_new){
             // Assign the quiz properties to the context object
             context.quizzes = quizzes;
             if (emp_new === 1){
+                req.session.employer_selected = user_id;
                 res.status(201).render("dashboard-home", context);
             }
             else{
+                req.session.employer_selected = user_id;
                 res.status(200).render("dashboard-home", context);
             }     
         })
@@ -161,6 +163,7 @@ function readEmailForm(req, res, next) {
     let message = first + ' ' + last + ',' +' Please click the following to take the employer quiz '+ quiz_link +' ';
     let html_message = '<strong>' +message + '</strong>';
     let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
+
     const msg = {
         to: `${email}`, // Recipient
         from: 'software.customquiz@gmail.com', // Verified sender
@@ -177,33 +180,47 @@ function readEmailForm(req, res, next) {
         lastName: last,
         quizResponseId: []
     });
-
-    // Check if email is already registered in collection/employers
-    var query = Candidate.find({});
-    query.where('email').equals(email);
-    query.exec()
-    .then(result => {
-        // No email found
-        if (result[0] == undefined) {
-            cand.save()
+    // Save associated quiz into jobposting selected
+    JobPosting.findOneAndUpdate({_id: jobposting}, {useFindAndModify: false}, {
+        $push: { associatedQuiz:
+            { 
+                employer_id : req.session.employer_selected,
+                quiz_id : quiz,
+            }
+        },
+    }, function(error, success) {
+        if (error){
+            console.error(error);
+            res.status(500).render("dashboard-home", context);
+        }
+        else{
+            // Check if email is already registered in collection/employers
+            var query = Candidate.find({});
+            query.where('email').equals(email);
+            query.exec()
             .then(result => {
-                sendQuizLinkEmail(req, res, next, msg);
+                // No email found
+                if (result[0] == undefined) {
+                    cand.save()
+                    .then(result => {
+                        sendQuizLinkEmail(req, res, next, msg);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).render("dashboard-home", context);
+                    });
+                }
+                else{
+                    // Email already exists
+                    sendQuizLinkEmail(req, res, next, msg);
+                }
             })
             .catch(err => {
                 console.error(err);
                 res.status(500).render("dashboard-home", context);
             });
         }
-        else{
-            // Email already exists
-            sendQuizLinkEmail(req, res, next, msg);
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).render("dashboard-home", context);
     });
-
 };
 
 

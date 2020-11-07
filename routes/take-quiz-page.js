@@ -9,6 +9,7 @@
 
 const express = require('express');
 const router = express.Router();
+const sgMail = require('@sendgrid/mail');
 const jwt = require('jwt-simple');
 
 const mongoose = require('mongoose');
@@ -20,6 +21,8 @@ if (process.env.NODE_ENV === 'production'){
 } else {
     CRED_ENV = require('../credentials.js');
 }
+
+sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
 DEBUG = 1;
