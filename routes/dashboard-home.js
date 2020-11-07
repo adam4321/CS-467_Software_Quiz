@@ -140,14 +140,14 @@ function sendQuizLinkEmail(req, res, next, msg) {
             res.status(500).redirect('/dashboard');
         });
         }
-        else{
-            res.status(200).redirect('/dashboard');
-        }
+    else{
+        res.status(200).redirect('/dashboard');
+    }
 }
 
 // INITIAL DASHBOARD - Function to process quiz parameters and store candidate details in database on the main dashboard --------------- */
 function readEmailForm(req, res, next) {
-    // TODO: query jobposting and place quiz in jobposting if not already there in AssociatedQuiz
+    
     let first = req.body.first;
     let last = req.body.last;
     let email = req.body.email;
@@ -178,15 +178,15 @@ function readEmailForm(req, res, next) {
         lastName: last,
         quizResponseId: []
     });
-
+    // Query jobposting and place quiz in jobposting if not already there in associatedQuiz
     var query = JobPosting.findOne(
-       // {'associatedQuiz' : { $elemMatch: { $e: { 'employer_id' : req.session.employer_selected, 'quiz_id' : quiz }}} }
         { "associatedQuiz.employer_id": req.session.employer_selected, "associatedQuiz.quiz_id": quiz }, 
         { "associatedQuiz.$": 1 } 
     );
     query.where('_id').equals(jobposting);
     query.exec()
     .then(result => {
+    if (DEBUG === 0){
         if (result === null) {
             // Save associated quiz into jobposting selected
             JobPosting.findOneAndUpdate({_id: jobposting}, {useFindAndModify: false}, {
@@ -231,7 +231,6 @@ function readEmailForm(req, res, next) {
             });
         }
         else{
-            console.log("found");res.status(200).redirect('/dashboard');
             // Associated quiz found
             // Check if email is already registered in collection/employers
             var query = Candidate.find({});
@@ -259,10 +258,14 @@ function readEmailForm(req, res, next) {
                 res.status(500).render("dashboard-home", context);
             });
         }
+    }
+    else{
+        // Email already exists
+        sendQuizLinkEmail(req, res, next, msg);
+    }
     })
     .catch(err => {
         console.error(err);
-        let context = {}; // TODO: remove
         res.status(500).render("dashboard-home", context);
     });
 };
