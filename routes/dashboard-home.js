@@ -35,6 +35,7 @@ const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
 const Candidate = require('../models/candidate.js');
 const Quiz = require('../models/quiz.js');
+const { remove } = require('../models/jobposting.js');
 
 
 // Middleware - Function to Check user is Logged in ------------------------ */
@@ -281,23 +282,27 @@ function removeUser(req, res, next) {
         if(DEBUG_REMOVE === 0){
         // No email found
         Employer.deleteOne({'_id': ObjectId(result[0]._id)}).exec()
-        .then(() => {
-            // Reply to the client
-            res.status(204).end()
+            .then(() => {
+                Quiz.remove({ employer_id: ObjectId(result[0]._id)}).exec()
+                .then(remove =>{res.status(204).json(remove).end()})
+
+            })
+
+            .catch(err => {
+                console.error(err);
+                res.status(500).end();
+            })
+        }
+        else{
+            res.redirect('/dashboard.home');
+        }
         })
-        .catch(err => {
-            console.error(err);
-            res.status(500).end();
-        });
-    }
-    else{
-        res.redirect('/dashboard.home');
-    }
-    })
     .catch(err => {
         console.error(err);
         res.status(500).render("dashboard-home", context);
     });
+
+
 
     
 

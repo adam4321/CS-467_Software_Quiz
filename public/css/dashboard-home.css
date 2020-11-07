@@ -24,8 +24,18 @@
     background-color: #ebb54b;
 }
 
+#removeUserButton{
+    background-color: crimson;
+    width: 200px;
+    justify-content: center;
+    
+    
+}
+
 @media only screen and (max-width: 900px) {
     #dashboard-container {
         width: 95%;
     }
 }
+
+
