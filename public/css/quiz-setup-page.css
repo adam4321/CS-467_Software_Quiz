@@ -11,7 +11,9 @@
     margin: 40px auto 0px auto;
 }
 
-#choose_all_btn {
+/* Setup page styling ------------------------------------------------------ */
+
+#startQuizBtn{
     background-color: #ebb54b;
 }
 

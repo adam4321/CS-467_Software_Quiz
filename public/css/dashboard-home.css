@@ -18,9 +18,24 @@
     display: inline-block;
     margin: 11px 0px 0px 0px;
 }
+/* Dashboard page styling ------------------------------------------------------ */
+
+#submit_email{
+    background-color: #ebb54b;
+}
+
+#removeUserButton{
+    background-color: crimson;
+    width: 200px;
+    justify-content: center;
+    
+    
+}
 
 @media only screen and (max-width: 900px) {
     #dashboard-container {
         width: 95%;
     }
 }
+
+

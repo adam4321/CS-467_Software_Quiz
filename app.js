@@ -56,10 +56,15 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, functio
 app.use('/', express.static('public'));
 
 // Set up cookie session and configure session storage
+const crypto = require('crypto');
+const buf = Buffer.alloc(10);
+const USERCRYPTO = crypto.randomFillSync(buf).toString('hex');
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
     name: 'session-name',
-    keys: ['key1', 'key2']
+    secret: `${USERCRYPTO}`,
+    resave: true,
+    saveUninitialized: true
 }))
 
 // Include and configure passport

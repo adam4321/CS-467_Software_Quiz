@@ -4,61 +4,97 @@
 <link type="text/css" rel="stylesheet" href="css/dashboard-home.css">
 
 {{!-- Container for the dashboard --}}
-<div id="top-row-container">
+<div id="top-row-container"></div>
     <div id="dashboard-container" class="mdl-card mdl-shadow--2dp">
 
         <div class="mdl-card__title mdl-color-text--white dashboard-top-bar">
             <h2 class="mdl-card__title-text">Home</h2>
         </div>
 
+    <div class="mdl-grid center-items">
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
             <img id="profile-image" src={{photo}}>
             <p id="profile-email">{{email}}</p>
-        </div>
+    </div>
 
-        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-            <p id="send_status"></p>
-            <h3 style="font-size: large; font-weight: bold;">Sample Job Postings Below:</h3>
-            <p style="font-size: large; font-weight: bold;">{{title}}</p>
-            <p style="font-size: large; font-weight: bold; display: inline-block;">{{description}}</p>
+    <hr>
+
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+            
+            <div class="mdl-card__supporting-text">
+            Send the one-time quiz link to prospective candidate.
+                <form id="test_sendgrid" action="/dashboard/sendmail" method="post">
+
+                <div id="jobposting_div">
+                    <div class="mdl-textfield mdl-js-textfield getmdl-select">
+                        <input type="text" value="" class="mdl-textfield__input" id="jobposting" readonly>
+                        <input type="hidden" value="" name="jobposting" />           
+                        <label for="jobposting" class="mdl-textfield__label">Job Posting</label>
+                        <ul for="jobposting" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            {{#each_jobposting jobposting}}
+                                {{#if (eq @j_index 0)}}
+                                    <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}" data-selected="true">{{job_title_expose this}}</li>
+                                {{else}}
+                                    <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}">{{job_title_expose this}}</li>
+                                {{/if}}
+                            {{/each_jobposting}}
+                        </ul>
+                    </div>
+                </div>
+                <div id="quiz_div">
+                    <div class="mdl-textfield mdl-js-textfield getmdl-select">
+                        <input type="text" value="" class="mdl-textfield__input" id="quiz" readonly>
+                        <input type="hidden" value="" name="quiz">           
+                        <label for="quiz" class="mdl-textfield__label">Quiz</label>
+                        <ul for="quiz" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            {{#each_question quizzes quizzes.length}}
+                                {{#if (eq @q_index 0)}}
+                                    <li class="mdl-menu__item" data-val="{{quiz_id_expose this}}" data-selected="true">{{quiz_name_expose this}}</li>
+                                {{else}}
+                                    <li class="mdl-menu__item" data-val="{{quiz_id_expose this}}">{{quiz_name_expose this}}</li>
+                                {{/if}}
+                            {{/each_question}}
+                        </ul>
+                    </div>
+                </div>
+                <div id="name_div">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="first" name="first" required>
+                        <label class="mdl-textfield__label" for="first">First Name</label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="last" name="last" required>
+                        <label class="mdl-textfield__label" for="last">Last Name</label>
+                    </div>
+                </div>
+                <div id="email_div">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="email" name="email" required>
+                        <label class="mdl-textfield__label" for="email">E-mail</label>
+                        <span class="mdl-textfield__error">Enter a valid email!</span>
+                    </div>
+                </div>
+                    <fieldset>
+                        <button style="justify-content: center;" type='submit' id='submit_email' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Submit</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
         </div>
     </div>
-</div>
-<hr>
 
-<div style="margin-left:40%">
-    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-        <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">Send an email</h2>
+
+    <div id="dashboard-container" class="mdl-card mdl-shadow--2dp">
+
+        <div class="mdl-card__title mdl-color-text--white dashboard-top-bar">
+            <h2 class="mdl-card__title-text">Account</h2>
         </div>
-        <div class="mdl-card__supporting-text">
-        Send the one-time quiz link to prospective candidate.
-            <form id="test_sendgrid" action="/dashboard/sendmail" method="post">
-            <div id="name">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="first">
-                    <label class="mdl-textfield__label" for="sample3">First Name</label>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="last">
-                    <label class="mdl-textfield__label" for="sample3">Last Name</label>
-                </div>
-            </div>
-            <div id="email">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="email" name="email">
-                    <label class="mdl-textfield__label" for="sample2">E-mail</label>
-                    <span class="mdl-textfield__error">Enter a valid email!</span>
-                </div>
-            </div>
-                <fieldset>
-                    <button style="margin-left: 35%" type='submit' id='submit_email' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
-                </fieldset>
-            </form>
-        </div>
+
+        <button id="removeUserButton" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Remove User</button>
     </div>
+
+
 </div>
   
-  
-
+<script src="js/remove-user-client.js"></script>
 <script src="js/send-email-client.js"></script>

@@ -11,24 +11,31 @@
 const express = require('express');
 const router = express.Router();
 const sgMail = require('@sendgrid/mail');
+const jwt = require('jwt-simple');
+const { ObjectId } = require('mongodb');
 
 const mongoose = require('mongoose');
-let SENDGRID_CRED;
+let CRED_ENV;
+
 // Choose credentials for dev or prod
 if (process.env.NODE_ENV === 'production'){
-    SENDGRID_CRED = process.env;
+    CRED_ENV = process.env;
 } else {
-    SENDGRID_CRED = require('../credentials.js');
+    CRED_ENV = require('../credentials.js');
 }
 
-sgMail.setApiKey(SENDGRID_CRED.SENDGRID_API_KEY);
+sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
-var DEBUG = 0;
+var DEBUG = 1;
+const DEBUG_REMOVE = 1;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
+const Candidate = require('../models/candidate.js');
+const Quiz = require('../models/quiz.js');
+const { remove } = require('../models/jobposting.js');
 
 
 // Middleware - Function to Check user is Logged in ------------------------ */
@@ -36,6 +43,39 @@ const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
+// INITIAL DASHBOARD - Function to query schema that is used more than once on the main dashboard --------------- */
+function renderPageFromQuery(req, res, next, context, user_id, emp_new){
+    // Find  all objects in job postings data model
+    JobPosting.find({})
+    .exec()
+    .then(doc => {
+        context.jobposting = doc;
+        req.session.jobposting_selected = doc._id;
+        // Find all quizzes for the currently logged in user
+        Quiz.find({}).lean().where('employer_id').equals(user_id).exec()
+        .then(quizzes => {
+            // Assign the quiz properties to the context object
+            context.quizzes = quizzes;
+            if (emp_new === 1){
+                req.session.employer_selected = user_id;
+                res.status(201).render("dashboard-home", context);
+            }
+            else{
+                req.session.employer_selected = user_id;
+                res.status(200).render("dashboard-home", context);
+            }     
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).render("dashboard-home", context);
+        });
+
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(404).render("dashboard-home", context);
+    });   
+}
 
 // INITIAL DASHBOARD - Function to render the main dashboard --------------- */
 function renderDashboard(req, res, next) {
@@ -69,21 +109,9 @@ function renderDashboard(req, res, next) {
         // No email found
         if (result[0] == undefined) {
             emp.save()
-            .then(result => {
-                console.log(result);
-                // Find object one object in job postings data model
-                JobPosting.findOne()
-                .exec()
-                .then(doc => {
-                    context.title = doc.title;
-                    context.description = doc.description;
-                    req.session.jobposting_selected = doc._id;
-                    res.status(201).render("dashboard-home", context);
-                })
-                .catch(err => {
-                    console.error(err);
-                    res.status(404).render("dashboard-home", context);
-                });   
+            .then(emp_result => {
+                console.log(emp_result);
+                renderPageFromQuery(req, res, next, context, emp_result._id, 1);
             })
             .catch(err => {
                 console.error(err);
@@ -91,21 +119,8 @@ function renderDashboard(req, res, next) {
             });
         }
         else{
-            // console.log("email already exists");
-            // Find object one object in job postings data model
-            let id = '5f8a4d3ae5e2b93edc72f301';
-            JobPosting.findOne()
-            .exec()
-            .then(doc => {
-                context.title = doc.title;
-                context.description = doc.description;
-                req.session.jobposting_selected = doc._id;
-                res.status(200).render("dashboard-home", context);
-            })
-            .catch(err => {
-                console.error(err);
-                res.status(404).render("dashboard-home", context);
-            });
+            // Email already exists
+            renderPageFromQuery(req, res, next, context, result[0]._id, 0);
         }
     })
     .catch(err => {
@@ -113,6 +128,180 @@ function renderDashboard(req, res, next) {
         res.status(500).render("dashboard-home", context);
     });
 };
+
+// INITIAL DASHBOARD - Function send quiz link email to the candidate using SendGrid on the main dashboard --------------- */
+function sendQuizLinkEmail(req, res, next, msg) {
+    console.log(msg);
+    if (DEBUG === 0){
+        sgMail.send(msg)
+        .then(() => {
+            console.log('Email sent')
+            res.status(200).redirect('/dashboard');
+        })
+        .catch((error) => {
+            console.error(error)
+            res.status(500).redirect('/dashboard');
+        });
+        }
+    else{
+        res.status(200).redirect('/dashboard');
+    }
+}
+
+// INITIAL DASHBOARD - Function to process quiz parameters and store candidate details in database on the main dashboard --------------- */
+function readEmailForm(req, res, next) {
+    
+    let first = req.body.first;
+    let last = req.body.last;
+    let email = req.body.email;
+    let job_arr = req.body.jobposting.split(", ");
+    let jobposting = job_arr[0];
+    let title = job_arr[1];
+    let quiz = req.body.quiz;
+    var payload = { email: email, jobposting: jobposting, quiz: quiz};
+    var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
+    let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
+    let message = first + ' ' + last + ',' +' Please click the following to take the employer quiz '+ quiz_link +' ';
+    let html_message = '<strong>' +message + '</strong>';
+    let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
+
+    const msg = {
+        to: `${email}`, // Recipient
+        from: 'software.customquiz@gmail.com', // Verified sender
+        subject: `${name}`,
+        text: `${message}`,
+        html: `${html_message}`,
+    }
+
+    // Save new object to database collection
+    const cand = new Candidate({
+        _id: new mongoose.Types.ObjectId,
+        email: email,
+        firstName: first,
+        lastName: last,
+        quizResponseId: []
+    });
+    // Query jobposting and place quiz in jobposting if not already there in associatedQuiz
+    var query = JobPosting.findOne(
+        { "associatedQuiz.employer_id": req.session.employer_selected, "associatedQuiz.quiz_id": quiz }, 
+        { "associatedQuiz.$": 1 } 
+    );
+    query.where('_id').equals(jobposting);
+    query.exec()
+    .then(result => {
+    if (DEBUG === 0){
+        if (result === null) {
+            // Save associated quiz into jobposting selected
+            JobPosting.findOneAndUpdate({_id: jobposting}, {useFindAndModify: false}, {
+                $push: { associatedQuiz:
+                    { 
+                        employer_id : req.session.employer_selected,
+                        quiz_id : quiz,
+                    }
+                },
+            }, function(error, success) {
+                if (error){
+                    console.error(error);
+                    res.status(500).render("dashboard-home", context);
+                }
+                else{
+                    // Check if email is already registered in collection/employers
+                    var query = Candidate.find({});
+                    query.where('email').equals(email);
+                    query.exec()
+                    .then(result => {
+                        // No email found
+                        if (result[0] == undefined) {
+                            cand.save()
+                            .then(result => {
+                                sendQuizLinkEmail(req, res, next, msg);
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                res.status(500).render("dashboard-home", context);
+                            });
+                        }
+                        else{
+                            // Email already exists
+                            sendQuizLinkEmail(req, res, next, msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).render("dashboard-home", context);
+                    });
+                }
+            });
+        }
+        else{
+            // Associated quiz found
+            // Check if email is already registered in collection/employers
+            var query = Candidate.find({});
+            query.where('email').equals(email);
+            query.exec()
+            .then(result => {
+                // No email found
+                if (result[0] == undefined) {
+                    cand.save()
+                    .then(result => {
+                        sendQuizLinkEmail(req, res, next, msg);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).render("dashboard-home", context);
+                    });
+                }
+                else{
+                    // Email already exists
+                    sendQuizLinkEmail(req, res, next, msg);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).render("dashboard-home", context);
+            });
+        }
+    }
+    else{
+        // Email already exists
+        sendQuizLinkEmail(req, res, next, msg);
+    }
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).render("dashboard-home", context);
+    });
+};
+
+function removeUser(req, res, next) {
+    // Check if email is already registered in collection/employers
+    var query = Employer.find({});
+    query.where('email').equals(req.user.email);
+    query.exec()
+    .then(result => {
+        if(DEBUG_REMOVE === 0){
+        // No email found
+        Employer.deleteOne({'_id': ObjectId(result[0]._id)}).exec()
+            .then(() => {
+                Quiz.deleteMany({ employer_id: ObjectId(result[0]._id)}).exec()
+                .then(remove =>{res.status(204).json(remove).end()})
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).end();
+                })
+        }
+        else{
+            res.redirect('/dashboard.home');
+        }
+        })
+    .catch(err => {
+        console.error(err);
+        res.status(500).render("dashboard-home", context);
+    });
+};
+
+
 
 
 /*
@@ -171,32 +360,8 @@ quizResponses : [{
 
 router.get('/', checkUserLoggedIn, renderDashboard);
 
-// INITIAL DASHBOARD - Function to send quiz link to candidate --------------- */
-router.post('/sendmail', checkUserLoggedIn, (req, res)=>{
-    console.log(req.body);
-    let email = req.body.email;
-    let message = 'Testing';
-    let name = 'Test from SendGrid';
-    const msg = {
-        to: `${email}`, // Change to your recipient
-        from: 'software.customquiz@gmail.com', // Change to your verified sender
-        subject: `${name}`,
-        text: `${message}`,
-    }
-    if (DEBUG === 0){
-    sgMail.send(msg)
-    .then(() => {
-        console.log('Email sent')
-        res.status(200).redirect('/dashboard');
-    })
-    .catch((error) => {
-        console.error(error)
-        res.status(500).redirect('/dashboard');
-    });
-    }
-    else{
-        res.status(200).redirect('/dashboard');
-    }
-});
+router.post('/sendmail', checkUserLoggedIn, readEmailForm);
+
+router.post('/', checkUserLoggedIn, removeUser);
 
 module.exports = router;
