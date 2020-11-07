@@ -41,9 +41,9 @@
                     <ul for="jobposting" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                         {{#each_jobposting jobposting}}
                             {{#if (eq @j_index 0)}}
-                                <li class="mdl-menu__item" data-val="{{job_id_expose this}}" data-selected="true">{{job_title_expose this}}</li>
+                                <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}" data-selected="true">{{job_title_expose this}}</li>
                             {{else}}
-                                <li class="mdl-menu__item" data-val="{{job_id_expose this}}">{{job_title_expose this}}</li>
+                                <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}">{{job_title_expose this}}</li>
                             {{/if}}
                         {{/each_jobposting}}
                     </ul>
@@ -67,23 +67,23 @@
             </div>
             <div id="name_div">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="first">
-                    <label class="mdl-textfield__label" for="sample3">First Name</label>
+                    <input class="mdl-textfield__input" type="text" id="first" name="first" required>
+                    <label class="mdl-textfield__label" for="first">First Name</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="last">
-                    <label class="mdl-textfield__label" for="sample3">Last Name</label>
+                    <input class="mdl-textfield__input" type="text" id="last" name="last" required>
+                    <label class="mdl-textfield__label" for="last">Last Name</label>
                 </div>
             </div>
             <div id="email_div">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="email" name="email">
-                    <label class="mdl-textfield__label" for="sample2">E-mail</label>
+                    <input class="mdl-textfield__input" type="email" name="email" required>
+                    <label class="mdl-textfield__label" for="email">E-mail</label>
                     <span class="mdl-textfield__error">Enter a valid email!</span>
                 </div>
             </div>
                 <fieldset>
-                    <button style="justify-content: center;" type='submit' id='submit_email' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+                    <button style="justify-content: center;" type='submit' id='submit_email' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Submit</button>
                 </fieldset>
             </form>
         </div>
