@@ -49,15 +49,16 @@ module.exports = {
         let obj = args[0]._id;
         return obj;
     },
-    'each_jobposting': function(job_obj, max, options) {
+    'each_jobposting': function(job_obj, options) {
         let ary = job_obj;
+        console.log(ary);
         let data = { };
-        if((ary.length < max) || ary.length == 0)
+        if(ary.length == 0)
             return options.inverse(this);
         var result = [];
-        for(var i = 0; i < max; ++i){
+        for(var i = 0; i < ary.length; ++i){
             if (data) {
-                data.q_index = i;
+                data.j_index = i;
             }
             result.push(options.fn(ary[i], { data: data }));
         }

@@ -31,6 +31,7 @@ var DEBUG = 1;
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
+const Quiz = require('../models/quiz.js');
 
 
 // Middleware - Function to Check user is Logged in ------------------------ */
@@ -38,6 +39,36 @@ const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
+function renderPageFromQuery(req, res, next, context, user_id, emp_new){
+    // Find object one object in job postings data model
+    JobPosting.find({})//.lean().where('associatedQuiz.employer_id').equals(user_id)
+    .exec()
+    .then(doc => {
+        context.jobposting = doc;
+        req.session.jobposting_selected = doc._id;
+        // Find all quizzes for the currently logged in user
+        Quiz.find({}).lean().where('employer_id').equals(user_id).exec()
+        .then(quizzes => {
+            // Assign the quiz properties to the context object
+            context.quizzes = quizzes;
+            if (emp_new === 1){
+                res.status(201).render("dashboard-home", context);
+            }
+            else{
+                res.status(200).render("dashboard-home", context);
+            }     
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).render("dashboard-home", context);
+        });
+
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(404).render("dashboard-home", context);
+    });   
+}
 
 // INITIAL DASHBOARD - Function to render the main dashboard --------------- */
 function renderDashboard(req, res, next) {
@@ -73,19 +104,7 @@ function renderDashboard(req, res, next) {
             emp.save()
             .then(result => {
                 console.log(result);
-                // Find object one object in job postings data model
-                JobPosting.findOne()
-                .exec()
-                .then(doc => {
-                    context.title = doc.title;
-                    context.description = doc.description;
-                    req.session.jobposting_selected = doc._id;
-                    res.status(201).render("dashboard-home", context);
-                })
-                .catch(err => {
-                    console.error(err);
-                    res.status(404).render("dashboard-home", context);
-                });   
+                renderPageFromQuery(req, res, next, context, result._id, 1);
             })
             .catch(err => {
                 console.error(err);
@@ -96,18 +115,7 @@ function renderDashboard(req, res, next) {
             // console.log("email already exists");
             // Find object one object in job postings data model
             let id = '5f8a4d3ae5e2b93edc72f301';
-            JobPosting.find()
-            .exec()
-            .then(doc => {
-                context.jobposting = doc;
-                context.quiz = [];
-                req.session.jobposting_selected = doc._id;
-                res.status(200).render("dashboard-home", context);
-            })
-            .catch(err => {
-                console.error(err);
-                res.status(404).render("dashboard-home", context);
-            });
+            renderPageFromQuery(req, res, next, context, result._id, 0);
         }
     })
     .catch(err => {

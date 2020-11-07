@@ -72,6 +72,7 @@ function scoreQuiz(req, res, next) {
     context.response_length = response_length;
 
     // TODO: Query quiz associated with object and build quizKey object
+    // TODO: email employer after finished with quiz
     let id3 = '5f9cb1a2fd3e2064587bcee4';
     Quiz.findById(id3)
     .exec()
