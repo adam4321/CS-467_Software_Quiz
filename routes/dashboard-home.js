@@ -28,7 +28,7 @@ sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
 var DEBUG = 0;
-const DEBUG_REMOVE = 0;
+const DEBUG_REMOVE = 1;
 const DEBUG_EMAIL = 1;
 
 // Get schemas
