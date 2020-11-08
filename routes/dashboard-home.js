@@ -157,12 +157,13 @@ function readEmailForm(req, res, next) {
     let job_arr = req.body.jobposting.split(", ");
     let jobposting = job_arr[0];
     let title = job_arr[1];
+    let message_header = job_arr[2];
     let quiz = req.body.quiz;
     var payload = { email: email, jobposting: jobposting, quiz: quiz};
     var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
     let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
     let message = first + ' ' + last + ',' +' Please click the following to take the employer quiz '+ quiz_link +' ';
-    let html_message = '<strong>' +message + '</strong>';
+    let html_message = '<p>' + message_header + '</p></br><strong>' + message + '</strong>';
     let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
 
     const msg = {
@@ -181,60 +182,9 @@ function readEmailForm(req, res, next) {
         lastName: last,
         quizResponseId: []
     });
-    // Query jobposting and place quiz in jobposting if not already there in associatedQuiz
-    var query = JobPosting.findOne(
-        { "associatedQuiz.employer_id": req.session.employer_selected, "associatedQuiz.quiz_id": quiz }, 
-        { "associatedQuiz.$": 1 } 
-    );
-    query.where('_id').equals(jobposting);
-    query.exec()
-    .then(result => {
+
     if (DEBUG === 0){
-        if (result === null) {
-            // Save associated quiz into jobposting selected
-            JobPosting.findOneAndUpdate({_id: jobposting}, {useFindAndModify: false}, {
-                $push: { associatedQuiz:
-                    { 
-                        employer_id : req.session.employer_selected,
-                        quiz_id : quiz,
-                    }
-                },
-            }, function(error, success) {
-                if (error){
-                    console.error(error);
-                    res.status(500).render("dashboard-home", context);
-                }
-                else{
-                    // Check if email is already registered in collection/employers
-                    var query = Candidate.find({});
-                    query.where('email').equals(email);
-                    query.exec()
-                    .then(result => {
-                        // No email found
-                        if (result[0] == undefined) {
-                            cand.save()
-                            .then(result => {
-                                sendQuizLinkEmail(req, res, next, msg);
-                            })
-                            .catch(err => {
-                                console.error(err);
-                                res.status(500).render("dashboard-home", context);
-                            });
-                        }
-                        else{
-                            // Email already exists
-                            sendQuizLinkEmail(req, res, next, msg);
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        res.status(500).render("dashboard-home", context);
-                    });
-                }
-            });
-        }
-        else{
-            // Associated quiz found
+             // Associated quiz found
             // Check if email is already registered in collection/employers
             var query = Candidate.find({});
             query.where('email').equals(email);
@@ -260,17 +210,11 @@ function readEmailForm(req, res, next) {
                 console.error(err);
                 res.status(500).render("dashboard-home", context);
             });
-        }
     }
     else{
         // Email already exists
         sendQuizLinkEmail(req, res, next, msg);
     }
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).render("dashboard-home", context);
-    });
 };
 
 function removeUser(req, res, next) {

@@ -52,6 +52,11 @@ module.exports = {
         let obj = args[0].title;
         return obj;
     },
+    'job_message_expose': function () {
+        const args = Array.prototype.slice.call(arguments, 0, -1);
+        let obj = args[0].messageText;
+        return obj;
+    },
     'job_id_expose': function () {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0]._id;

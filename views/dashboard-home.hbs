@@ -33,44 +33,28 @@
                         <ul for="jobposting" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                             {{#each_jobposting jobposting}}
                                 {{#if (eq @j_index 0)}}
-                                    <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}" data-selected="true">{{job_title_expose this}}</li>
+                                    <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}, {{job_message_expose this}}" data-selected="true">{{job_title_expose this}}</li>
                                 {{else}}
-                                    <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}">{{job_title_expose this}}</li>
+                                    <li class="mdl-menu__item" data-val="{{job_id_expose this}}, {{job_title_expose this}}, {{job_message_expose this}}">{{job_title_expose this}}</li>
                                 {{/if}}
                             {{/each_jobposting}}
-                        </ul>
-                    </div>
-                </div>
-                <div id="quiz_div">
-                    <div class="mdl-textfield mdl-js-textfield getmdl-select">
-                        <input type="text" value="" class="mdl-textfield__input" id="quiz" readonly>
-                        <input type="hidden" value="" name="quiz">           
-                        <label for="quiz" class="mdl-textfield__label">Quiz</label>
-                        <ul for="quiz" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                            {{#each_question quizzes quizzes.length}}
-                                {{#if (eq @q_index 0)}}
-                                    <li class="mdl-menu__item" data-val="{{quiz_id_expose this}}" data-selected="true">{{quiz_name_expose this}}</li>
-                                {{else}}
-                                    <li class="mdl-menu__item" data-val="{{quiz_id_expose this}}">{{quiz_name_expose this}}</li>
-                                {{/if}}
-                            {{/each_question}}
                         </ul>
                     </div>
                 </div>
                 <div id="name_div">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="text" id="first" name="first" required>
-                        <label class="mdl-textfield__label" for="first">First Name</label>
+                        <label class="mdl-textfield__label" for="first">Candidate First Name</label>
                     </div>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="text" id="last" name="last" required>
-                        <label class="mdl-textfield__label" for="last">Last Name</label>
+                        <label class="mdl-textfield__label" for="last">Candidate Last Name</label>
                     </div>
                 </div>
                 <div id="email_div">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="email" name="email" required>
-                        <label class="mdl-textfield__label" for="email">E-mail</label>
+                        <label class="mdl-textfield__label" for="email">Candidate E-mail</label>
                         <span class="mdl-textfield__error">Enter a valid email!</span>
                     </div>
                 </div>

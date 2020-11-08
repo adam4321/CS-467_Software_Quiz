@@ -7,8 +7,10 @@ const mongoose = require('mongoose');
 
 const jobpostingSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    employer_id: mongoose.Schema.Types.ObjectId,
     title: String,
     description: String,
+    messageText: String,
     associatedQuiz : [{
         quiz_id : mongoose.Schema.Types.ObjectId,
         employer_id : mongoose.Schema.Types.ObjectId
