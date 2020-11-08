@@ -3,7 +3,7 @@
 **               a verifies quiz responses, handles POST and times the quiz
 **
 **  Contains:    1 function that veririfes check-box is checked if not leave
-**               default value.
+**               default value. Also timing functionality for client.
 ******************************************************************************/
 
 

@@ -29,7 +29,7 @@ sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 // Debug Flag
 var DEBUG = 0;
 const DEBUG_REMOVE = 1;
-const DEBUG_EMAIL = 1;
+const DEBUG_EMAIL = 0;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -143,7 +143,7 @@ function sendQuizLinkEmail(req, res, next, msg) {
             console.error(error)
             res.status(500).redirect('/dashboard');
         });
-        }
+    }
     else{
         res.status(200).redirect('/dashboard');
     }
@@ -185,7 +185,6 @@ function readEmailForm(req, res, next) {
     });
 
     if (DEBUG === 0){
-        // Associated quiz found
         // Check if email is already registered in collection/candidate for jobposting
         var query = Candidate.find({});
         query.where('email').equals(email);
@@ -211,7 +210,9 @@ function readEmailForm(req, res, next) {
                 query.exec()            
                 .then(job_result => {
                     if (job_result === null) {
-                        // Email found, but not for this job posting, add candidate
+                        // TODO: Alert employer they have already sent an email to this candidate email
+
+                        // Email found, but candidate has not submitted response yet for this job posting, add candidate
                         cand.save()
                         .then(result => {
                             sendQuizLinkEmail(req, res, next, msg);
