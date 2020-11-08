@@ -67,7 +67,6 @@ function renderQuiz(req, res, next) {
 
 // SCORE QUIZ - Function to score the answers from the candidates choices ----------------------------- */
 function scoreQuiz(req, res, next) {
-    var token = req.params.token;
     let context = {};
     context.answers = req.body;
     // Set layout with paths to css
@@ -164,6 +163,6 @@ function scoreQuiz(req, res, next) {
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
 router.get('/:token', renderQuiz);
-router.post('/:token', scoreQuiz);
+router.post('/', scoreQuiz);
 
 module.exports = router;

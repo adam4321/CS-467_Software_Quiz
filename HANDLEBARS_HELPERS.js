@@ -64,7 +64,6 @@ module.exports = {
     },
     'each_jobposting': function(job_obj, options) {
         let ary = job_obj;
-        console.log(ary);
         let data = { };
         if(ary.length == 0)
             return options.inverse(this);
