@@ -2,12 +2,50 @@
 **  Description: QUIZ BUILDER PAGE - css file for the page
 ******************************************************************************/
 
+/* Timer settings */
+#timer-header {
+    color:  rgb(66,66,66);
+    margin-left: 20px;
+}
+
+#timer-text {
+    color: rgb(66,66,66);
+    border: 2px solid  rgb(54, 53, 53);
+    padding: 6px 5px 0px 10px;
+    min-width:100px; 
+    height:40px;
+}
+
+#timer-div {
+    width: 480px;
+    margin: 10px auto 0 auto;
+    border: 2px solid  rgb(66,66,66);
+    padding: 0px 10px 0px 10px;
+}
+
+#timer-logo {
+    margin-bottom: 10px;
+}
+
+#start-btn {
+    background-color: #ebb54b;
+    color: rgb(66,66,66);
+    margin: 80px auto 0 auto;
+    width: 100px;
+    font-size: 18px;
+}
+
+#start-btn:hover {
+    background-color: #d4a037;
+}
+
 #dashboard-container {
-    width: 960px;
+    width: 730px;
 }
 
 #quiz-container{
     margin: 30px 0px 30px 0px;
+    width: 730px;
     text-align: center;
 }
 
@@ -34,7 +72,7 @@
 }
 
 .question-btn {
-    background-color: #ebb5b4;
+    background-color: #ebb54b;
     font-size: 10px;
     margin-right: 3px;
     margin-bottom: 20px;
@@ -99,9 +137,14 @@
 
 #submit-btn {
     margin: 0px auto -15px auto;
-    color: white;
-    background-color: rgb(49, 166, 202);
+    color: rgb(66,66,66);
+    background-color:  #ebb54b;
     width: 130px;
+    font-size: 12px;
+}
+
+#submit-btn:hover {
+    background-color:  #ce9b36;
 }
 
 #quiz_display_container {

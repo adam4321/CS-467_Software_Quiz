@@ -3,8 +3,16 @@
 ******************************************************************************/
 
 #dashboard-container {
-    width: 800px;
+    width: 730px;
 }
+
+#account-container {
+    width: 730px;
+    margin: 10px auto 0px auto;
+}
+
+
+/* Dashboard page styling ------------------------------------------------------ */
 
 #profile-image {
     height: 35px; 
@@ -18,24 +26,50 @@
     display: inline-block;
     margin: 11px 0px 0px 0px;
 }
-/* Dashboard page styling ------------------------------------------------------ */
+
+#submit-msg {
+    text-align: center;
+}
 
 #submit_email{
+    display: block;
+    justify-content: center;
     background-color: #ebb54b;
+    width: 80px;
+    margin: 30px auto -10px auto;
+}
+
+#submit_email:hover {
+    background-color: #d39c2e;
 }
 
 #removeUserButton{
-    background-color: crimson;
+    background-color: rgb(241, 42, 42);
+    color: white;
     width: 200px;
+    margin: 50px 0 0 5%;
     justify-content: center;
-    
-    
 }
 
-@media only screen and (max-width: 900px) {
+#removeUserButton:hover{
+    background-color: rgb(209, 21, 21);
+}
+
+
+/* Media queries  ---------------------------------------------------------- */
+
+@media only screen and (max-width: 775px) {
     #dashboard-container {
+        width: 95%;
+    }
+
+    #account-container {
         width: 95%;
     }
 }
 
-
+@media only screen and (max-width: 400px) {
+    #email-form-container {
+        margin-left: -15px;
+    }
+}

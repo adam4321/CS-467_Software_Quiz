@@ -35,7 +35,7 @@ td:hover {
 
 #profile-div {
     display: inline-block;
-    width: 240px;
+    max-width: 100%;
 }
 
 #profile-email {
@@ -138,6 +138,7 @@ input[type="file"] {
     height: 50px;
     display: inline-block;
     margin-top: -10px;
+    margin-left: 15px;
 }
 
 #no-quiz-txt {
@@ -197,7 +198,10 @@ input[type="file"] {
 
     #profile-div {
         display: block;
+        text-align: center;
+        position: relative;
         margin: 5px auto 5px auto;
+        padding-right: 25px;
     }
 
     #profile-image {

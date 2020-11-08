@@ -77,8 +77,16 @@ label {
     margin-right: 40px;
 }
 
+.page-links:hover {
+    color: rgb(224, 224, 224);
+}
+
 #logout-button {
     background-color: #f0efef;
+}
+
+#logout-button:hover {
+    background-color: #cac7c7;
 }
 
 .mdl-layout__drawer-button {
@@ -106,6 +114,10 @@ label {
     width: 140px;
     margin-top: 20px;
     margin-left: 20px;
+}
+
+#logout-button-drawer:hover {
+    background-color: #cac7c7;
 }
 
 

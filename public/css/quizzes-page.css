@@ -244,9 +244,10 @@ input[type="file"] {
 
     #profile-div {
         display: block;
+        text-align: center;
+        position: relative;
         margin: 5px auto 5px auto;
-        padding-right: auto;
-        padding-left: auto;
+        padding-right: 25px;
     }
 
     #profile-image {

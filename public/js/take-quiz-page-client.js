@@ -11,24 +11,74 @@
 let el_start_quiz = document.getElementById("start_quiz");
 
 el_start_quiz.addEventListener('click', (e) => {
-  //e.preventDefault();
-  let el_quiz = document.getElementById('quiz_elements');
-  let el_start_quiz_div = document.getElementById('start_quiz_div');
-  el_quiz.style.display = "block";
-  el_start_quiz_div.style.display = "none";
+    e.preventDefault();
 
-  //TODO: start timing
+    // Display the quiz and hide the start button
+    let el_quiz = document.getElementById('quiz_elements');
+    let el_start_quiz_div = document.getElementById('start_quiz_div');
+    el_quiz.style.display = "block";
+    el_start_quiz_div.style.display = "none";
+
+    // Auto-submit the quiz when time runs out
+    let timerText = document.getElementById('timer-text').textContent.split(':');
+    let TIME_LIMIT = timerText[0] * 60000;
+
+    setTimeout(() => {
+        document.getElementById('timer-text').textContent = `00:00`;
+        document.getElementById('submit-btn').click();
+    }, TIME_LIMIT);
+
+    // Count down on the timer display
+    let minutes = parseInt(timerText[0]);
+    let seconds = parseInt(timerText[1]);
+    
+    setInterval(() => {
+        // Update the time and render the new time to the screen
+        if (seconds == 0) {
+            seconds = 59
+            minutes--;
+
+            if (minutes < 10) {
+                document.getElementById('timer-text').textContent = `0${minutes}:${seconds}`;
+            }
+            else {
+                document.getElementById('timer-text').textContent = `${minutes}:${seconds}`;
+            }
+        }
+        else if (seconds <= 10) {
+            seconds--;
+
+            if (minutes < 10) {
+                document.getElementById('timer-text').textContent = `0${minutes}:0${seconds}`;
+            }
+            else {
+                document.getElementById('timer-text').textContent = `${minutes}:0${seconds}`;
+            }
+        }
+        else {
+            seconds--;
+
+            if (minutes < 10) {
+                document.getElementById('timer-text').textContent = `0${minutes}:${seconds}`;
+            }
+            else {
+                document.getElementById('timer-text').textContent = `${minutes}:${seconds}`;
+            }
+        }        
+    }, 1000);
 });
+
 
 /* =================== QUIZ POST VALIDATION FUNCTIONS ======================== */
 document.getElementById("take_quiz").onsubmit = function() {verifyResponses()};
 
 /* SUBMIT form - Function to verify responses before posting -------------- */
-var verifyResponses = function(){
+var verifyResponses = function() {
   let el_checks = document.querySelectorAll('input[class="check-all"]:not([id="default-check"])');
   let prev_name = "";
   let curr_name = "";
   let validate_any_chosen = 0;
+
   // Query all check-all classes with same name and if none selected. leave hidden default checkbox checked,
   // Else uncheck hidden default checkbox
   for (let i = 0; i < el_checks.length; i++){
@@ -36,6 +86,7 @@ var verifyResponses = function(){
     if (i === 0){
         prev_name = curr_name;
     }
+
     // For each question,
     // If any checks, then set hidden default checkbox to unchecked
     if ((curr_name != prev_name) || (i === (el_checks.length - 1))){
@@ -49,6 +100,7 @@ var verifyResponses = function(){
         validate_any_chosen = 0;
         prev_name = curr_name;
     }
+
     // If an answer is checked increment
     if (el_checks.item(i).checked === true){
         validate_any_chosen += 1;

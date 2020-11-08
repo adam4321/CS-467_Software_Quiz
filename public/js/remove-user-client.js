@@ -10,14 +10,9 @@ let el_remove_user = document.getElementById("removeUserButton");
 
 /* SUBMIT form - Function to display status -------------- */
 el_remove_user.addEventListener('click', (e) => {
+    e.preventDefault();
 
     if (confirm('Are you sure you want to remove the current user?')) {
-        // Remove navigation prompt on form submission
-        e.preventDefault();
-
-        // Remove navigation prompt on form submission
-        window.onbeforeunload = null;
-    
         let req = new XMLHttpRequest();
         let path = '/dashboard';
     
@@ -37,5 +32,4 @@ el_remove_user.addEventListener('click', (e) => {
     else {
         return false;
     }
-
 });
