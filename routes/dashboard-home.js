@@ -210,7 +210,7 @@ function readEmailForm(req, res, next) {
                 query.where('_id').equals( ObjectId(jobposting_id) );
                 query.exec()            
                 .then(job_result => {
-                    if (job_result[0] === null) {
+                    if (job_result === null) {
                         // Email found, but not for this job posting, add candidate
                         cand.save()
                         .then(result => {
