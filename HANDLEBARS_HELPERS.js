@@ -62,6 +62,15 @@ module.exports = {
         let obj = args[0]._id;
         return obj;
     },
+    'job_quiz_expose': function () {
+        const args = Array.prototype.slice.call(arguments, 0, -1);
+        let quiz_idx = 0;
+        if (args[1] !== undefined){
+            quiz_idx = args[1];
+        }
+        let obj = args[0].associatedQuiz[quiz_idx].quiz_id;
+        return obj;
+    },
     'each_jobposting': function(job_obj, options) {
         let ary = job_obj;
         let data = { };

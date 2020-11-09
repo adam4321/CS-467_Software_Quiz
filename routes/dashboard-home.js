@@ -46,7 +46,7 @@ const checkUserLoggedIn = (req, res, next) => {
 
 // INITIAL DASHBOARD - Function to query schema that is used more than once on the main dashboard --------------- */
 function renderPageFromQuery(req, res, next, context, user_id, emp_new){
-    // Find  all objects in job postings data model
+    // Find all in job postings data model TODO: constrain to employer ids only
     JobPosting.find({})
     .exec()
     .then(doc => {
@@ -159,10 +159,11 @@ function readEmailForm(req, res, next) {
     let jobposting_id = job_arr[0];
     let title = job_arr[1];
     let message_header = job_arr[2];
-    let quiz = req.body.quiz;
+    let quiz = job_arr[3];
     var payload = { email: email, jobposting: jobposting_id, quiz: quiz};
     var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
     let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
+    //let quiz_link = 'http://localhost:3500/take_quiz/'+token;
     let message = first + ' ' + last + ',' +' Please click the following to take the employer quiz '+ quiz_link +' ';
     let html_message = '<p>' + message_header + '</p></br><strong>' + message + '</strong>';
     let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
@@ -212,18 +213,21 @@ function readEmailForm(req, res, next) {
                     if (job_result === null) {
                         // TODO: Alert employer they have already sent an email to this candidate email
 
-                        // Email found, but candidate has not submitted response yet for this job posting, add candidate
-                        cand.save()
-                        .then(result => {
-                            sendQuizLinkEmail(req, res, next, msg);
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            res.status(500).render("dashboard-home", context);
-                        });
+                            // Yes, continue
+                            console.log("Already sent");
+                            // Email found, but candidate has not submitted response yet for this job posting, add candidate
+                            cand.save()
+                            .then(result => {
+                                sendQuizLinkEmail(req, res, next, msg);
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                res.status(500).render("dashboard-home", context);
+                            });
+
                     }
                     else{
-                        // Email already exists and for this job posting
+                        // Email already exists and for this job posting and has submitted response
                         sendQuizLinkEmail(req, res, next, msg);
                     }
                 })

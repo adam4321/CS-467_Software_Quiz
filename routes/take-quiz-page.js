@@ -33,6 +33,7 @@ var DEBUG_EMAIL = 1;
 const Quiz = require('../models/quiz.js');
 const JobPosting = require('../models/jobposting.js');
 const Candidate = require('../models/candidate.js');
+const Employer = require('../models/employer.js');
 
 // Get Scoring Algorithm
 var calc_score =  require('../score.js');
@@ -48,7 +49,7 @@ function renderQuiz(req, res, next) {
     req.session.taker_jobposting = taker_jobposting;
     let taker_quiz = decoded.quiz
     req.session.taker_quiz = taker_quiz;
-    let context = {};
+    var context = {};
 
     // Find if the hashed quiz exists already for the hashed job posting and hashed candidate id, 
     // then display already taken if true
@@ -76,8 +77,6 @@ function renderQuiz(req, res, next) {
                     })
                     .catch(err => {
                         console.log(err);
-                        // Set layout with paths to css
-                        context.layout = 'quiz';
                         res.status(404).render("404", context);
                     });
                 }
@@ -89,15 +88,11 @@ function renderQuiz(req, res, next) {
             })
             .catch((err) => {
                 console.log(err);
-                // Set layout with paths to css
-                context.layout = 'quiz';
                 res.status(500).render("500", context);
             });
     })
     .catch((err) => {
         console.log(err);
-        // Set layout with paths to css
-        context.layout = 'quiz';
         res.status(500).render("500", context);
     });
 };
@@ -110,8 +105,6 @@ function scoreQuiz(req, res, next) {
     let response_length = Object.keys(req.body).length - 1
     context.response_length = response_length;
 
-    // TODO: Query quiz associated with object and build quizKey object of correct incorrect
-    let quiz_testing_id = '5f9cb1a2fd3e2064587bcee4';
     Quiz.findById(req.session.taker_quiz)
     .exec()
     .then(quiz_obj => {
@@ -138,65 +131,100 @@ function scoreQuiz(req, res, next) {
             }
             // Set commment
             let comment = response_arr[response_length];
-            // If valid then save the responses and score in jobposting
-            console.log(candidate_answers);
-            let jobposting_id_testing = '5fa351b5eb104c2c28e611e4';
 
+            console.log(candidate_answers);
             console.log(req.session.taker_jobposting);
             if (DEBUG === 0){
                 // Capture epoch time in seconds
                 const secondsSinceEpoch = Math.round(Date.now() / 1000);
+                req.session.quiz_response_id = new mongoose.Types.ObjectId;
+                console.log(secondsSinceEpoch);
                 // Update jobposting wth candidate responses and statistics
-                JobPosting.findOneAndUpdate({'_id': ObjectId(req.session.taker_jobposting)}, {useFindAndModify: false}, {
+                                        // TODO: capture from setInterval
+                JobPosting.findByIdAndUpdate(req.session.taker_jobposting, 
+                {
                     $push: { quizResponses:
                         { 
-                            quiz_response_id : new mongoose.Types.ObjectId,
-                            candidate_id : req.session.taker_id,
+                            quiz_response_id : req.session.quiz_response_id,
                             quiz_id : req.session.taker_quiz,
+                            candidate_id : req.session.taker_id,
                             candidateAnswers: candidate_answers,
                             quizComment: comment,
                             quizEpochTime: secondsSinceEpoch,
-                            quizTotalTime: 0, // TODO: capture from setInterval
+                            quizTotalTime: 0,
                             quizScore: score
                         }
-                    },
-                }, function(error, success) {
-                    if (error){
-                        console.error(error);
-                        // Set layout with paths to css
-                        context.layout = 'quiz';
-                        res.status(500).render("quiz-submitted-page", context);
                     }
-                    else{
-                        // TODO: email employer after finished with quiz
-                        if (DEBUG_EMAIL === 0){
+                },
+                {useFindAndModify: false} ).exec()
+                .then(job_obj => {
+                    if (job_obj.employer !== null){
+                        req.session.employer_id = job_obj.employer_id;
+                    }
+                    // Add quizResponseId to candidate
+                    Candidate.findByIdAndUpdate(req.session.taker_id, 
+                        {
+                            $push: { quizResponseId: req.session.quiz_response_id }
+                        },
+                    {useFindAndModify: false} ).exec()
+                    .then(cand_obj => {
+                        if ((cand_obj.firstName !== null) && (cand_obj.lastName !== null)){
+                            req.session.cand_name = cand_obj.firstName + " " + cand_obj.lastName;
+                        }
+                        // Email employer after finished with quiz
+                        Employer.findById(req.session.employer_id)
+                        .exec()
+                        .then(emp_obj => {
+                            let cand_name = req.session.cand_name;
+                            let emp_email = emp_obj.email;
+                            let emp_name = emp_obj.name;
+                            let subject = "Quiz Soft Notification: Response Submitted";
+                            let message = "Hello, " + emp_name + " a quiz has been submitted by user " + cand_name  + ", visit our website to view the results.";
+                            let html_message = '<strong>' + message + '</strong></br><p> QuizSoft Link: https://softwarecustomquiz.herokuapp.com/login</a>';
+                            
                             const msg = {
-                                to: `${email}`, // Recipient
+                                to: `${emp_email}`, // Recipient
                                 from: 'software.customquiz@gmail.com', // Verified sender
-                                subject: `${name}`,
+                                subject: `${subject}`,
                                 text: `${message}`,
                                 html: `${html_message}`,
                             }
-
-                            sgMail.send(msg)
-                            .then(() => {
-                                console.log('Email sent to employer')
+                            console.log(msg);
+                            if (DEBUG_EMAIL === 0){
+                                sgMail.send(msg)
+                                .then(() => {
+                                    console.log('Email sent to employer')
+                                    // Set layout with paths to css
+                                    context.layout = 'quiz';
+                                    res.status(201).render("quiz-submitted-page", context);
+                                })
+                                .catch((error) => {
+                                    console.error(error)
+                                    res.status(500).render("500", context);
+                                });
+                            }
+                            else{
                                 // Set layout with paths to css
                                 context.layout = 'quiz';
                                 res.status(201).render("quiz-submitted-page", context);
-                            })
-                            .catch((error) => {
-                                console.error(error)
-                                // Set layout with paths to css
-                                context.layout = 'quiz';
-                                res.status(500).render("quiz-submitted-page", context);
-                            });
-                        }
-                        // Set layout with paths to css
-                        context.layout = 'quiz';
-                        res.status(201).render("quiz-submitted-page", context);
-                    }
-                });
+                            }
+
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                            res.status(500).render("500", context);
+                        })
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        res.status(500).render("500", context);
+                    });
+                })
+                .catch((err)=>{
+                    console.error(err);
+                    res.status(500).render("500", context);
+
+                })
             }
             else{
                 // Set layout with paths to css
@@ -205,15 +233,11 @@ function scoreQuiz(req, res, next) {
             }
         }, function(error) {
             console.log(error);
-            // Set layout with paths to css
-            context.layout = 'quiz';
             res.status(500).render("500", context);
         });
     })
-    .catch(err => {
+    .catch((err) => {
         console.log(err);
-        // Set layout with paths to css
-        context.layout = 'quiz';
         res.status(404).render("404", context);
     });
 
