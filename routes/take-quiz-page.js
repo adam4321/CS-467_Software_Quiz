@@ -57,6 +57,7 @@ function renderQuiz(req, res, next) {
     cand_query.where('email').equals(taker_email);
     cand_query.exec()
     .then(cand_result => {
+        if (cand_result[0] !== undefined){
             req.session.taker_id = cand_result[0]._id;
             var query = JobPosting.findOne(
                 { "quizResponses.candidate_id": ObjectId(cand_result[0]._id), "quizResponses.quiz_id": ObjectId(taker_quiz) }, 
@@ -90,6 +91,10 @@ function renderQuiz(req, res, next) {
                 console.log(err);
                 res.status(500).render("500", context);
             });
+        }
+        else{
+            res.status(500).render("500", context);
+        }
     })
     .catch((err) => {
         console.log(err);
@@ -102,7 +107,7 @@ function scoreQuiz(req, res, next) {
     let context = {};
     context.answers = req.body;
     // Set layout with paths to css
-    let response_length = Object.keys(req.body).length - 1
+    let response_length = Object.keys(req.body).length - 2
     context.response_length = response_length;
 
     Quiz.findById(req.session.taker_quiz)
@@ -130,8 +135,16 @@ function scoreQuiz(req, res, next) {
                 }
             }
             // Set commment
-            let comment = response_arr[response_length];
-
+            let comment = response_arr.comment;
+            // Set total time
+            let time_remaining = response_arr.time;
+            // Convert total_time to seconds and decrease from time limit
+            let total_time_split = time_remaining.split(":");
+            let total_time_sec = parseInt(quiz_obj.timeLimit * 60) - (parseInt(total_time_split[0]) * 60 + parseInt(total_time_split[1]));
+            // Convert total_time to minutes
+            let total_time = parseInt(total_time_sec / 60);
+            console.log(total_time);
+            console.log();
             console.log(candidate_answers);
             console.log(req.session.taker_jobposting);
             if (DEBUG === 0){
@@ -140,7 +153,6 @@ function scoreQuiz(req, res, next) {
                 req.session.quiz_response_id = new mongoose.Types.ObjectId;
                 console.log(secondsSinceEpoch);
                 // Update jobposting wth candidate responses and statistics
-                                        // TODO: capture from setInterval
                 JobPosting.findByIdAndUpdate(req.session.taker_jobposting, 
                 {
                     $push: { quizResponses:
@@ -151,7 +163,7 @@ function scoreQuiz(req, res, next) {
                             candidateAnswers: candidate_answers,
                             quizComment: comment,
                             quizEpochTime: secondsSinceEpoch,
-                            quizTotalTime: 0,
+                            quizTotalTime: total_time,
                             quizScore: score
                         }
                     }
@@ -180,7 +192,7 @@ function scoreQuiz(req, res, next) {
                             let emp_name = emp_obj.name;
                             let subject = "Quiz Soft Notification: Response Submitted";
                             let message = "Hello, " + emp_name + " a quiz has been submitted by user " + cand_name  + ", visit our website to view the results.";
-                            let html_message = '<strong>' + message + '</strong></br><p> QuizSoft Link: https://softwarecustomquiz.herokuapp.com/login</a>';
+                            let html_message = '<strong>' + message + '</strong></br><p> QuizSoft Link: https://softwarecustomquiz.herokuapp.com/login</p>';
                             
                             const msg = {
                                 to: `${emp_email}`, // Recipient

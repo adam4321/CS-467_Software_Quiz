@@ -107,5 +107,10 @@ var verifyResponses = function() {
     }
   }
 
+  let el_time_display = document.getElementById('timer-text');
+  let el_time_field = document.getElementById('timing_data');
+  // Attach new value to hidden input based on timing
+  el_time_field.setAttribute("value", el_time_display.innerText);
+  
   alert("The quiz was submitted");
 };

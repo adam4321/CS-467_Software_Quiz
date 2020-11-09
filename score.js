@@ -7,7 +7,6 @@ function calculate_score(quiz_obj, response_arr){
         for (let i = 0; i < key_length; i++){
             key_arr[i] = quiz_obj.questions[i].quizKey;
         }
-        console.log(key_arr);
         var score = 100.0;
         var simple_dec = (100.0/key_length);
         // Match the values of each respective question and determine the score
