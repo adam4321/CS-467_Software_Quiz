@@ -19,6 +19,7 @@ const jobpostingSchema = mongoose.Schema({
         quiz_response_id : mongoose.Schema.Types.ObjectId,
         quiz_id : mongoose.Schema.Types.ObjectId,
         candidate_id : mongoose.Schema.Types.ObjectId,
+        candidate_email : String,
         candidateAnswers: [[String]],
         quizComment: String,
         quizEpochTime: Number,

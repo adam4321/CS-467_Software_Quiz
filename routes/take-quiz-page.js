@@ -27,7 +27,7 @@ sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
 var DEBUG = 0;
-var DEBUG_EMAIL = 1;
+var DEBUG_EMAIL = 0;
 
 // Get Schema
 const Quiz = require('../models/quiz.js');
@@ -160,6 +160,7 @@ function scoreQuiz(req, res, next) {
                             quiz_response_id : req.session.quiz_response_id,
                             quiz_id : req.session.taker_quiz,
                             candidate_id : req.session.taker_id,
+                            candidate_email : req.session.taker_email,
                             candidateAnswers: candidate_answers,
                             quizComment: comment,
                             quizEpochTime: secondsSinceEpoch,
