@@ -12,17 +12,18 @@ const express = require('express');
 const router = express.Router();
 
 // Get Schemas
-const Candidate = require('../models/candidate.js');
 const JobPosting = require('../models/jobposting.js');
+const Candidate = require('../models/candidate.js');
+const { ObjectId } = require('mongodb');
 
 
-// Middleware - Function to Check user is Logged in ------------------------ */
+/* Middleware - Function to Check user is Logged in ------------------------ */
 const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
 
-// RANKING PAGE - Function to render user's ranking page ------------------- */
+/* RANKING PAGE - Function to render user's ranking page ------------------- */
 function renderRanking(req, res, next) {
     let context = {};
 
@@ -38,37 +39,43 @@ function renderRanking(req, res, next) {
         context.photo = req.user.photos[0].value;
     }
 
-    
-    // The job posting object is populated with sample candidate responses for the quizzes 
-    // Python quiz (quiz_id: 5fa1d0dc3121f939908558b2)
-    // Javascript quiz (quiz_id: 5fa1d0df3121f939908558b9)
-    // c++ quiz (quiz_id: 5fa1d0c83121f939908558ae)
-    
-    let id = '5f8a4d3ae5e2b93edc72f301';
+    // // Query the user's quizzes and add them to the context object
+    // Employer.findOne({email: context.email})
+    // .exec((err, user) => {
+    //     // Find all quizzes for the currently logged in user
+    //     JobPosting.find({}).lean().where('employer_id').equals(user._id).exec()
+    //     .then(postings => {
+    //         // Assign the quiz properties to the context object
+    //         context.postings = postings;
+    //         console.log(context);
+
+    //         res.status(200).render("ranking-page", context);
+    //     })
+    //     .catch(err => {
+    //         console.error(err);
+    //         res.status(500).render("ranking-page", context);
+    //     });
+    // })
+
 
     // Find object with id from jobpostings data model
-    JobPosting.findById(id)
-    .exec()
+    JobPosting.findOne({'_id': ObjectId(req.query.id)}).lean().exec()
     .then(doc => {
-        context.score = doc.quizResponses[0].quizScore;
-        context.title = doc.title;
-        let id = doc.quizResponses[0].candidate_id;
-        Candidate.findById(id)
-        .exec()
-        .then(cand_doc => {
-            context.cand_name = cand_doc.firstName;
-            console.log(context)
+        Candidate.find({}).lean().exec()
+        .then(() => {
+            console.log(doc)
+            context.title = doc.title;
+            context.rankings = doc.quizResponses;
+            context.quizzes = doc.associatedQuiz;
+            console.log(context);
+
             res.render("ranking-page", context);
         })
-        .catch(err => {
-            console.error(err);
-            res.status(404).render("ranking-page", context);
-        });   
     })
     .catch(err => {
         console.error(err);
         res.status(404).render("ranking-page", context);
-    });   
+    });
 };
 
 

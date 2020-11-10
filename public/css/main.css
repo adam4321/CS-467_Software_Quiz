@@ -107,6 +107,7 @@ label {
 .mdl-layout__drawer.is-visible {
     left: 0;
     width: 200px;
+    z-index: 300;
 }
 
 #logout-button-drawer {

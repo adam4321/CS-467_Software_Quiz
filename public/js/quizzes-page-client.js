@@ -1,12 +1,13 @@
 /******************************************************************************
-**  Description:  MY QUIZZES PAGE - client side javascript file that 
+**  Description:  MY QUIZZES PAGE - client side javascript file that handles
+**                the dynamic behavior of the page 
 **
 **  Contains:     deleteQuiz
 **                downloadQuiz
 **                uploadQuiz
 ******************************************************************************/
 
-// /* DISPLAY QUIZ MODAL - Function to display each quiz ---------------------- */
+/* DISPLAY QUIZ MODAL - Function to display each quiz ---------------------- */
 
 function createModals() {
     let table = document.getElementById('table-body');
@@ -202,7 +203,7 @@ function deleteQuiz(tbl, curRow, quizId, event) {
 
         req.send(reqBody);
     }
-} 
+}
 
 
 /* DOWNLOAD QUIZ - Function to download a quiz ----------------------------- */

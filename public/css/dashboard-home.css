@@ -8,7 +8,10 @@
 
 #account-container {
     width: 730px;
-    margin: 10px auto 0px auto;
+    min-height: min-content;
+    height: 125px;
+    margin: 8px auto 0px auto;
+    position: relative;
 }
 
 
@@ -36,7 +39,7 @@
     justify-content: center;
     background-color: #ebb54b;
     width: 80px;
-    margin: 30px auto -10px auto;
+    margin: 30px auto -15px auto;
 }
 
 #submit_email:hover {
@@ -44,15 +47,21 @@
 }
 
 #removeUserButton{
-    background-color: rgb(241, 42, 42);
+    display: inline-block;
+    background-color: rgb(219, 41, 41);
     color: white;
-    width: 200px;
-    margin: 50px 0 0 5%;
+    width: 180px;
+    margin: -10px 20px 0 -5px;
     justify-content: center;
 }
 
 #removeUserButton:hover{
-    background-color: rgb(209, 21, 21);
+    background-color: rgb(175, 9, 9);
+}
+
+#delete-msg {
+    display: inline-block;
+    width: 200px;
 }
 
 
@@ -68,8 +77,34 @@
     }
 }
 
+@media only screen and (max-width: 500px) {
+    #account-container {
+        height: 180px;
+        margin: 8px auto 0px auto;
+    }
+
+    #removeUserButton{
+        display: block;
+        margin: 0 auto 15px auto;
+    }
+
+    #delete-msg {
+        display: block;
+        margin: 0 auto 0 auto;
+    }
+}
+
 @media only screen and (max-width: 400px) {
+    hr {
+        width: 95%;
+    }
+    
     #email-form-container {
-        margin-left: -15px;
+        margin: 0 0 -15px -18px;
+        width: 315px;
+    }
+
+    #account-container.mdl-card.mdl-shadow--2dp div.mdl-card__supporting-text.mdl-color-text--grey-600 {
+        width: 280px;
     }
 }

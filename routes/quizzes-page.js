@@ -57,7 +57,6 @@ function renderQuizzes(req, res, next) {
             console.error(err);
             res.status(500).render("quizzes-page", context);
         });
-
     })
 };
 

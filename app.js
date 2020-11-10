@@ -82,8 +82,11 @@ app.use('/login', require('./routes/login-page.js'));
 // MAIN DASHBOARD PAGE ROUTES
 app.use('/dashboard', require('./routes/dashboard-home.js'));
 
+// JOB POSTINGS PAGE ROUTES
+app.use('/job_postings', require('./routes/job-postings-page.js'));
+
 // RANKING PAGE ROUTES
-app.use('/job_postings', require('./routes/ranking-page.js'));
+app.use('/ranking', require('./routes/ranking-page.js'));
 
 // QUIZ SETUP PAGE ROUTES
 app.use('/quiz_builder', require('./routes/quiz-setup-page.js'));
