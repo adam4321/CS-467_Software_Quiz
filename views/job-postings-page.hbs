@@ -20,6 +20,11 @@
                     <img id="profile-image" src={{photo}}>
                     <p id="profile-email">{{email}}</p>
                 </div>
+
+                <div id="link-div">
+                    <p id="link-txt">Create a Job</p>
+                    <button id="link-btn" class="btn-style" onclick="location.href=`/create_posting`;">Create</button>
+                </div>
         
                 {{!-- Display No postings OR Table that displays the user's postings --}}
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="recordTable">

@@ -17,6 +17,10 @@ td:hover {
     padding-right: 0;
 }
 
+.posting-content {
+    width: 93%;
+}
+
 .no-posting-content {
     width: 93%;
 }
@@ -54,6 +58,37 @@ td:hover {
 }
 
 
+/* Back button ------------------------------------------------------------- */
+
+#link-div {
+    float: right;
+    margin: 0 0 8px 0;
+}
+
+#link-txt {
+    margin: 12px 0 0 0;
+    font-size: medium; 
+    font-weight: bold; 
+    display: inline-block;
+}
+
+#link-btn {
+    display: inline-block;
+    margin: 7px 0px 0 19px;
+    width: 81px;
+    height: 27px;
+    text-align: center;
+}
+
+#link-btn-new {
+    display: inline-block;
+    margin: 7px 0px 0 23px;
+    width: 81px;
+    height: 27px;
+    text-align: center;
+}
+
+
 /* Table body styling ------------------------------------------------------ */
 
 #recordTable {
@@ -66,8 +101,12 @@ td:hover {
 }
 
 .btn-style {
+    font-weight: 100;
+    font-size: 12px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    text-transform: uppercase;
     background-color: #ebb54b;
-    color: black;
+    color: rgb(66,66,66);
     border: none;
     cursor: pointer;
     border-radius: 2px;
@@ -104,6 +143,31 @@ td:hover {
     display: inline-block;
     font-size: 22px;
     color: #ebb54b;
+}
+
+
+/* Media queries for tablets ----------------------------------------------- */
+
+@media only screen and (max-width: 775px) {
+    #dashboard-container {
+        width: 95%;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    #title-div {
+        display: block;
+        text-align: center;
+        position: relative;
+        margin: 5px auto 5px auto;
+        padding-right: 25px;
+    }
+
+    #link-div {
+        float: none;
+        width: 210px;
+        margin: 10px auto 15px auto;
+    }
 }
 
 
@@ -153,6 +217,10 @@ td:hover {
 
     .no-posting-content {
         margin: 15px auto 10px auto;
+    }
+
+    #link-btn {
+        font-size: 12px;
     }
 
     #no-posting-break {

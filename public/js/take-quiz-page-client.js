@@ -6,6 +6,11 @@
 **               default value. Also timing functionality for client.
 ******************************************************************************/
 
+/* Confirm back button page exit ------------------------------------------- */
+window.onbeforeunload = function() {
+    return true;
+};
+
 
 /* =================== QUIZ DISPLAY FUNCTIONS ======================== */
 let el_start_quiz = document.getElementById("start_quiz");
@@ -111,6 +116,9 @@ var verifyResponses = function() {
   let el_time_field = document.getElementById('timing_data');
   // Attach new value to hidden input based on timing
   el_time_field.setAttribute("value", el_time_display.innerText);
+
+  // Remove navigation prompt on form submission
+  window.onbeforeunload = null;
   
   alert("The quiz was submitted");
 };

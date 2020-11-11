@@ -4,6 +4,8 @@
 **  Root path:  localhost:3500/dashboard
 **
 **  Contains:   /
+**              /sendmail
+**              /
 **
 **  SECURED ROUTES!  --  All routes must call checkUserLoggedIn        
 ******************************************************************************/
@@ -39,12 +41,13 @@ const Quiz = require('../models/quiz.js');
 const { remove } = require('../models/jobposting.js');
 
 
-// Middleware - Function to Check user is Logged in ------------------------ */
+/* Middleware - Function to Check user is Logged in ------------------------ */
 const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
-// INITIAL DASHBOARD - Function to query schema that is used more than once on the main dashboard --------------- */
+
+/* FIND POSTINGS - Function to query schema that is used more than once on the main dashboard --------------- */
 function renderPageFromQuery(req, res, next, context, user_id, emp_new){
     // Find all in job postings data model TODO: constrain to employer ids only
     JobPosting.find({})
@@ -78,7 +81,8 @@ function renderPageFromQuery(req, res, next, context, user_id, emp_new){
     });   
 }
 
-// INITIAL DASHBOARD - Function to render the main dashboard --------------- */
+
+/* RENDER DASHBOARD - Function to render the main dashboard --------------- */
 function renderDashboard(req, res, next) {
     let context = {};
 
@@ -119,7 +123,7 @@ function renderDashboard(req, res, next) {
                 res.status(500).render("dashboard-home", context);
             });
         }
-        else{
+        else {
             // Email already exists
             renderPageFromQuery(req, res, next, context, result[0]._id, 0);
         }
@@ -130,10 +134,11 @@ function renderDashboard(req, res, next) {
     });
 };
 
-// INITIAL DASHBOARD - Function send quiz link email to the candidate using SendGrid on the main dashboard --------------- */
+
+/* SENDLINK - Function send quiz link email to the candidate using SendGrid on the main dashboard --------------- */
 function sendQuizLinkEmail(req, res, next, msg) {
     console.log(msg);
-    if (DEBUG_EMAIL === 0){
+    if (DEBUG_EMAIL === 0) {
         sgMail.send(msg)
         .then(() => {
             console.log('Email sent')
@@ -149,7 +154,8 @@ function sendQuizLinkEmail(req, res, next, msg) {
     }
 }
 
-// INITIAL DASHBOARD - Function to process quiz parameters and store candidate details in database on the main dashboard --------------- */
+
+/* INITIAL DASHBOARD - Function to process quiz parameters and store candidate details in database on the main dashboard */
 function readEmailForm(req, res, next) {
     
     let first = req.body.first;
@@ -204,10 +210,10 @@ function readEmailForm(req, res, next) {
             }
             else{
                 var query = JobPosting.findOne(
-                    { "quizResponses.candidate_id": ObjectId(cand_result[0]._id) }, 
-                    { "quizResponses.$": 1 } 
+                    {"quizResponses.candidate_id": ObjectId(cand_result[0]._id)}, 
+                    {"quizResponses.$": 1} 
                 );
-                query.where('_id').equals( ObjectId(jobposting_id) );
+                query.where('_id').equals(ObjectId(jobposting_id));
                 query.exec()            
                 .then(job_result => {
                     if (job_result === null) {
@@ -248,6 +254,8 @@ function readEmailForm(req, res, next) {
     }
 };
 
+
+/* DELETE USER - Function to remove a user --------------------------------- */
 function removeUser(req, res, next) {
 
     // Check if email for employer then remove all associated jobpostings quizzes and candiates connected to jobpostings
@@ -255,7 +263,7 @@ function removeUser(req, res, next) {
     query.where('email').equals(req.user.email);
     query.exec()
     .then(result => {
-        if(DEBUG_REMOVE === 0){
+        if (DEBUG_REMOVE === 0) {
         // Query JobPosting for associations to Candidates
         JobPosting.find({employer_id: ObjectId(result[0]._id)}).exec()
             .then(job_data => {
@@ -265,12 +273,12 @@ function removeUser(req, res, next) {
                 };
                 var job_delete = [];
                 var candidate_delete = [];
-                for (let i = 0; i < job_data.length; i++){
+                for (let i = 0; i < job_data.length; i++) {
                     job_delete.push((job_data[i]._id).toString());
 
-                    JobPosting.deleteOne({ '_id': ObjectId(job_data[i]._id) });
-                    for (let j = 0; j < job_data[i].quizResponses.length; j++){
-                        if (job_data[i].quizResponses[j].candidate_id != undefined){
+                    JobPosting.deleteOne({'_id': ObjectId(job_data[i]._id)});
+                    for (let j = 0; j < job_data[i].quizResponses.length; j++) {
+                        if (job_data[i].quizResponses[j].candidate_id != undefined) {
                             candidate_delete.push((job_data[i].quizResponses[j].candidate_id).toString());
                         }
                     }
@@ -334,66 +342,10 @@ function removeUser(req, res, next) {
 };
 
 
-
-
-/*
-SAMPLES 
-for testing displays of Data Models:
-quiz_id: 5f8a4903274de7478c48b4c1
-employer_id: 5f87b245e587de4bfc0aca0f
-candidate_id: 5f8a4c6cf6f66534c417a374
-jpbposting_id: 5f8a4d3ae5e2b93edc72f301
-quiz_response_id: 5f8a4d3ae5e2b93edc72f304
-*/
-
-/*const cand = new Candidate({
-    _id: new mongoose.Types.ObjectId,
-    email: "joe.schmoe@email.com",
-    firstName: "Joe",
-    lastName: "Schmoe",
-    quizResponseId: []
-});*/
-
-/*const quiz = new Quiz({
-    _id: new mongoose.Types.ObjectId,
-    questions : [{
-        quizQuestion: "How old is the universe?",
-        quizAnswers: ["12.8 billion years", "7 billion years", "13.8 billion years", "14.4 billion years"],
-        quizKey: "2",
-        quizType: "multiple_choice"
-    },{
-        quizQuestion: "What year did Neil Armstrong walk on the moon?",
-        quizAnswers: ["1966", "1969", "1950", "2000"],
-        quizKey: "1",
-        quizType: "multiple_choice"
-    }
-    ]
-});*/
-
-/*const jobposting = new JobPosting({
-_id: new mongoose.Types.ObjectId,
-title: "Software Engineer I",
-description: "Agile Rockstar",
-associatedQuiz : [{
-    quiz_id : "5f8a4903274de7478c48b4c1",
-    employer_id : "5f87b245e587de4bfc0aca0f"
-}],
-quizResponses : [{
-    quiz_response_id : new mongoose.Types.ObjectId,
-    candidate_id : "5f8a4c6cf6f66534c417a374",
-    quiz_id : "5f8a4903274de7478c48b4c1",
-    candidateAnswers: ["2", "1"],
-    quizScore: 100.0
-}]
-});*/
-
-
 /* DASHBOARD PAGE ROUTES --------------------------------------------------- */
 
 router.get('/', checkUserLoggedIn, renderDashboard);
-
 router.post('/sendmail', checkUserLoggedIn, readEmailForm);
-
 router.post('/', checkUserLoggedIn, removeUser);
 
 module.exports = router;

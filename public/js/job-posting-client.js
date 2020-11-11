@@ -71,7 +71,7 @@ function deletePosting(tbl, curRow, quizId, event) {
 
                     // Create the empty quiz container
                     let emptyContainer       = document.createElement('div');
-                    emptyContainer.classList = 'mdl-card__supporting-text mdl-color-text--grey-600 no-quiz-content';
+                    emptyContainer.classList = 'mdl-card__supporting-text mdl-color-text--grey-600 no-posting-content';
                     quizzesEmpty.appendChild(emptyContainer);
 
                     // Fill the empty quiz container with the user's information
@@ -86,6 +86,23 @@ function deletePosting(tbl, curRow, quizId, event) {
                     emptyContainer.appendChild(profileDiv);
                     profileDiv.appendChild(newPhoto);
                     profileDiv.appendChild(newEmail);
+
+                    // Create the upload button
+                    let linkDiv = document.createElement('div');
+                    let linkMsg = document.createElement('p');
+                    let linkBtn = document.createElement('button');
+
+                    linkDiv.id          = 'link-div';
+                    linkMsg.id          = 'link-txt';
+                    linkMsg.textContent = 'Create a Job';
+                    linkBtn.id           = 'link-btn-new';
+                    linkBtn.className    = 'btn-style';
+                    linkBtn.textContent  = 'Create';
+                    linkBtn.className   = 'btn-style';
+
+                    emptyContainer.appendChild(linkDiv);
+                    linkDiv.appendChild(linkMsg);
+                    linkDiv.appendChild(linkBtn);
 
                     // Fill the empty quiz container with the no quizzes message
                     let newBreak = document.createElement('hr');

@@ -21,14 +21,14 @@
             <p id="profile-email">{{email}}</p>
             <hr>
         
-            <h6 id="submit-msg">Send the one-time quiz link to prospective candidate</h6>
+            <h6 id="submit-msg">Send a one-time quiz link to a job candidate</h6>
             <div id="email-form-container" class="demo-card-wide mdl-card mdl-shadow--2dp mdl-grid center-items">
                 <div class="mdl-card__supporting-text">
                     <form id="test_sendgrid" action="/dashboard/sendmail" method="post">
                         <div id="jobposting_div">
                             <div class="mdl-textfield mdl-js-textfield getmdl-select">
                                 <input type="text" value="" class="mdl-textfield__input" id="jobposting" readonly>
-                                <input type="hidden" value="" name="jobposting" />           
+                                <input type="hidden" value="" name="jobposting" required/>           
                                 <label for="jobposting" class="mdl-textfield__label">Job Posting</label>
                                 <ul for="jobposting" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                                     {{#each_jobposting jobposting}}
@@ -55,7 +55,7 @@
 
                         <div id="email_div">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input" type="email" name="email" required>
+                                <input class="mdl-textfield__input" type="email" name="email" id="email" required>
                                 <label class="mdl-textfield__label" for="email">Candidate E-mail</label>
                                 <span class="mdl-textfield__error">Enter a valid email!</span>
                             </div>

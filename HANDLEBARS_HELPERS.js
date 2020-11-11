@@ -3,12 +3,12 @@
 ******************************************************************************/
 
 module.exports = {
-    'eq': function () {
+    'eq': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         return args.every(function (expression) {
             return args[0] === args[1]});
     },
-    'eq_str_num': function (arg1, arg2) {
+    'eq_str_num': function(arg1, arg2) {
         if (arg1 == arg2) {
             return true;
         } 
@@ -16,53 +16,56 @@ module.exports = {
             return false;
         }
     },
-    'inc': function () {
+    'inc': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let index = args[0];
             return index + 1;
     },
-    'quiz_name_expose': function () {
+    'round': function(num) {
+        return Math.round(parseFloat(num));
+    },
+    'quiz_name_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0];
         return obj.name;
     },
-    'quiz_id_expose': function () {
+    'quiz_id_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0];
         return obj._id;
     },
-    'quiz_question_expose': function () {
+    'quiz_question_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0];
         let index = args[1];
         return obj.quizQuestion[index];
     },
-    'quiz_answer_expose': function () {
+    'quiz_answer_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0].quizAnswers;
         return obj;
     },
-    'quiz_type_expose': function () {
+    'quiz_type_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         return args.every(function (expression) {
             return args[0].quizType === args[1]; });
     },
-    'job_title_expose': function () {
+    'job_title_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0].title;
         return obj;
     },
-    'job_message_expose': function () {
+    'job_message_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0].messageText;
         return obj;
     },
-    'job_id_expose': function () {
+    'job_id_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0]._id;
         return obj;
     },
-    'job_quiz_expose': function () {
+    'job_quiz_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let quiz_idx = 0;
         if (args[1] !== undefined){
@@ -74,10 +77,10 @@ module.exports = {
     'each_jobposting': function(job_obj, options) {
         let ary = job_obj;
         let data = { };
-        if(ary.length == 0)
+        if (ary.length == 0)
             return options.inverse(this);
         var result = [];
-        for(var i = 0; i < ary.length; ++i){
+        for (var i = 0; i < ary.length; ++i){
             if (data) {
                 data.j_index = i;
             }
@@ -88,10 +91,10 @@ module.exports = {
     'each_question': function(quiz_obj, max, options) {
         let ary = quiz_obj;
         let data = { };
-        if((ary.length < max) || ary.length == 0)
+        if ((ary.length < max) || ary.length == 0)
             return options.inverse(this);
         var result = [];
-        for(var i = 0; i < max; ++i){
+        for (var i = 0; i < max; ++i){
             if (data) {
                 data.q_index = i;
             }
@@ -100,7 +103,7 @@ module.exports = {
         return result.join('');
     },
     'each_answer': function(quiz_obj, options) {
-        var extend = function () {
+        var extend = function() {
             // Variables
             var extended = {};
             var deep = false;

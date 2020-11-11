@@ -15,6 +15,7 @@
 
 #startQuizBtn{
     background-color: #ebb54b;
+    color: rgb(66,66,66);
 }
 
 #startQuizBtn:hover{

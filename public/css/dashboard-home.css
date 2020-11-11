@@ -30,6 +30,19 @@
     margin: 11px 0px 0px 0px;
 }
 
+.mdl-card__supporting-text {
+    width: 93%;
+}
+
+#submit-msg {
+    margin-top: -1px;
+    margin-bottom: 8px;
+}
+
+#jobposting {
+    margin-top: -10px;
+}
+
 #submit-msg {
     text-align: center;
 }
@@ -40,6 +53,7 @@
     background-color: #ebb54b;
     width: 80px;
     margin: 30px auto -15px auto;
+    color: rgb(66,66,66);
 }
 
 #submit_email:hover {
@@ -74,6 +88,10 @@
 
     #account-container {
         width: 95%;
+    }
+
+    .mdl-card__supporting-text {
+        width: 90%;
     }
 }
 

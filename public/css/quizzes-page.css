@@ -197,19 +197,17 @@ input[type="file"] {
 /* Media queries for tablets ----------------------------------------------- */
 
 @media only screen and (max-width: 775px) {
-    /* Modal Content/Box */
-    .modal-content {
-        width: 60%;
-    }
-}
-
-@media only screen and (max-width: 775px) {
     #dashboard-container {
         width: 95%;
     }
 
     #dashboard-container-empty {
         width: 730px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        width: 60%;
     }
 
     .no-quiz-content {

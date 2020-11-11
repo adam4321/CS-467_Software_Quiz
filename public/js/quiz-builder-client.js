@@ -1246,9 +1246,9 @@ quiz_form.addEventListener('submit', (e) => {
     req.setRequestHeader('Content-Type', 'application/json');
     req.addEventListener('load', () => {
         if (req.status >= 200 && req.status < 400) {
-            console.log('Quiz sent to server');
             window.location.href = '/quiz_builder';
-        } else {
+        } 
+        else {
             console.error('Database return error');
         }
     });
