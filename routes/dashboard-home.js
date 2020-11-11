@@ -1,5 +1,5 @@
 /******************************************************************************
-**  Description: DASHBOARD HOME / JOB POSTING - server side node.js routes
+**  Description: DASHBOARD HOME - server side node.js routes
 **
 **  Root path:  localhost:3500/dashboard
 **

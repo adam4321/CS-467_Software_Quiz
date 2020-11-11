@@ -85,6 +85,9 @@ app.use('/dashboard', require('./routes/dashboard-home.js'));
 // JOB POSTINGS PAGE ROUTES
 app.use('/job_postings', require('./routes/job-postings-page.js'));
 
+// JOB POSTINGS BUILDER PAGE ROUTES
+app.use('/job_postings_builder', require('./routes/job-postings-builder-page.js'));
+
 // RANKING PAGE ROUTES
 app.use('/ranking', require('./routes/ranking-page.js'));
 
