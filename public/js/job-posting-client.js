@@ -2,9 +2,15 @@
 **  Description:  JOB POSTING PAGE - client side javascript file that handles
 **                the dynamic behavior for the page
 **
-**  Contains:     followLink
+**  Contains:     navigateToBuilder
+**                followLink
 **                deletePosting
 ******************************************************************************/
+
+/* NAVIGATE TO JOBPOSTING BUILDER - Function to move to jobposting builder page ------------------ */
+function navigateToBuilder() {
+    window.location.href=`/job_postings_builder`
+}
 
 /* NAVIGATE TO RANKING - Function to move to ranking page ------------------ */
 function folowLink(id) {

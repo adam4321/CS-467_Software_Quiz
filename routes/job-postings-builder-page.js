@@ -16,6 +16,7 @@ const mongoose = require('mongoose');
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
+const Quiz = require('../models/quiz.js');
 
 
 /* Middleware - Function to Check user is Logged in ------------------------ */
@@ -26,7 +27,35 @@ const checkUserLoggedIn = (req, res, next) => {
 
 /* JOBPOSTINGS BUILDER - Function to render jobposting builder page --------------------- */
 function renderBuilder(req, res, next) {
-    res.status(200).render("job-postings-builder-page", {layout: 'login'});
+    let context = {};
+
+    // Test for the auth provider (Google vs Facebook) and create context object
+    if (req.user.provider === 'google') {
+        context.email = req.user.email;
+        context.name = req.user.displayName;
+        context.photo = req.user.picture;
+    } 
+    else {
+        context.email = req.user.emails[0].value;
+        context.name = req.user.displayName;
+        context.photo = req.user.photos[0].value;
+    }
+    // Query the user's quizzes and add them to the context object
+    Employer.findOne({email: context.email})
+    .exec((err, user) => {
+        // Find all quizzes for the currently logged in user
+        Quiz.find({}).lean().where('employer_id').equals(user._id).exec()
+        .then(quizzes => {
+            // Assign the quiz properties to the context object
+            context.quizzes = quizzes;
+            res.status(200).render("job-postings-builder-page", context);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).render("500", context);
+        });
+    })
+        
 };
 
 
@@ -42,9 +71,9 @@ function submitJobPosting(req, res, next) {
         const saved_job_posting = new JobPosting({
             _id: new mongoose.Types.ObjectId,
             employer_id: doc[0]._id,
-            title: req.body.title,
-            description: req.body.description,
-            messageText: req.body.messageText,
+            title: req.body.job_title,
+            description: req.body.job_description,
+            messageText: req.body.job_message_text,
             associatedQuiz : [{
                 quiz_id : req.body.quiz,
                 employer_id : doc[0]._id

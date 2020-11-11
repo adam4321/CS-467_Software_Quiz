@@ -3,9 +3,13 @@
 <title>Quiz Soft | Job Posting Builder</title>
 <link type="text/css" rel="stylesheet" href="css/job-postings-builder-page.css">
 
+{{!--getmdl-select>--}}  
+<link rel="stylesheet" href="css/getmdl-select.min.css">
+<script defer src="js/getmdl-select.min.js"></script>
+
 {{!-- Container for the dashboard --}}
 <div id="top-row-container">
-    <div id="dashboard-container" class="mdl-card mdl-shadow--2dp">
+    <div id="job-container" class="mdl-card mdl-shadow--2dp">
 
         <div class="mdl-card__title mdl-color-text--white dashboard-top-bar">
             <h2 class="mdl-card__title-text">Job Posting Builder</h2>
@@ -14,24 +18,40 @@
         <div id="setup-container">
             
             <!--Unwritten route in action -->
-            <form id="setup_form" name="setup_form" action="/quiz_create" method="get">
+            <form id="setup_form" name="setup_form" action="/save_job_posting" method="post">
+            <label>QUIZ:</label>
+                <div id="quiz_div">
+                    <div class="mdl-textfield mdl-js-textfield getmdl-select">
+                        <input type="text" value="" class="mdl-textfield__input" id="quiz" readonly>
+                        <input type="hidden" value="" name="quiz" required/>           
+                        <label for="quiz" class="mdl-textfield__label">Quiz</label>
+                        <ul for="quiz" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            {{#each quizzes}}
+                                {{#if (eq @index 0)}}
+                                    <li class="mdl-menu__item" data-val="{{quiz_id_expose this}}" data-selected="true">{{quiz_name_expose this}}</li>
+                                {{else}}
+                                    <li class="mdl-menu__item" data-val="{{quiz_id_expose this}}">{{quiz_name_expose this}}</li>
+                                {{/if}}
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
+                <p></p>
+
                 <label class="quiz_title">JOB POSTING TITLE:</label>
                 <br>
-                <input required type="text" id="quiz_title" name="quiz_title" placeholder="Enter quiz name">
+                <input required type="text" id="quiz_title" name="job_title" placeholder="Enter job title">
                 <p></p>
-
-                <label for="question">CATEGORY:</label>
+                <label for="job_description">DESCRIPTION:</label>
                 <br>
-                <input required type="text" id="category" name="category" placeholder="Enter quiz category">
+                <input required type="text" id="job_description" name="job_description" placeholder="Enter job description">
                 <p></p>
-
-                <label for="question">TIME LIMIT:</label>
+                <label for="job_message_text">MESSAGE TEXT:</label>
                 <br>
-                <input required min="1" type="number" id="time_limit" name="time_limit" placeholder="Time limit in minutes">
+                <textarea name="job_message_text" rows="10" cols="30" style="maxlength:40; height:160px; width:250px" placeholder="Message body to auto-email to candidate"></textarea></br>
                 <p></p>
-
-                <button id="startQuizBtn" class="mdl-button mdl-js-button mdl-button--raised question-btn" > 
-                    Start Building Quiz
+                <button id="buildjobPosting" class="mdl-button mdl-js-button mdl-button--raised question-btn" > 
+                    Build Job Posting
                 </button>
             </form>
 
