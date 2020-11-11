@@ -11,7 +11,7 @@ const express = require('express');
 const app = express();
 
 // PORT NUMBER - Set a static port for the appliction 
-const PORT = process.env.PORT || 3500;
+const PORT = process.env.PORT || 3000;
 
 // Set up express-handlebars
 const handlebars = require('express-handlebars');
