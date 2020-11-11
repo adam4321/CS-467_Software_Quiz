@@ -107,7 +107,7 @@ function scoreQuiz(req, res, next) {
     let context = {};
     context.answers = req.body;
     // Set layout with paths to css
-    let response_length = Object.keys(req.body).length - 2
+    let response_length = Object.keys(req.body).length - 2;
     context.response_length = response_length;
 
     Quiz.findById(req.session.taker_quiz)
@@ -121,7 +121,7 @@ function scoreQuiz(req, res, next) {
             let total_points = Object.keys(quiz_obj.questions).length;
             let points = (total_points * score) / 100;
             context.total_points = total_points;
-            context.points = points;
+            context.points = points.toFixed(2);
             // Put responses in array
             let candidate_answers = [];
             for (let y = 0; y < response_length; y++) {
