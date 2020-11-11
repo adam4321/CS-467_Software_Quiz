@@ -12,10 +12,7 @@ const express = require('express');
 const router = express.Router();
 
 
-// Middleware - Function to Check user is Logged in ------------------------ */
-const checkUserLoggedIn = (req, res, next) => {
-    req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
-}
+
 
 
 // QUIZ SETUP - Function to render quiz setup page ------------------------- */
@@ -26,6 +23,6 @@ function renderSetup(req, res, next) {
 
 /* QUIZ SETUP PAGE ROUTES -------------------------------------------------- */
 
-router.get('/', checkUserLoggedIn, renderSetup);
+router.get('/', renderSetup);
 
 module.exports = router;

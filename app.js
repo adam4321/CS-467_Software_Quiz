@@ -29,28 +29,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Set up Mongodb, Mongoose, and authentication credentials
-const mongoose = require('mongoose');
-let credentials;
-
-// Choose credentials for dev or prod
-if (process.env.NODE_ENV === 'production'){
-    credentials = process.env;
-} else {
-    credentials = require('./credentials.js');
-}
-
-// Create database url using credentials
-const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
-
-// Connect to Atlas remote database
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, function (err, res) {
-    if (err) {
-        console.error('ERROR connecting ' + err);
-    } else {
-        console.log('Successful connection');
-    }
-});
 
 // Set up path to static files
 app.use('/', express.static('public'));
@@ -66,13 +44,6 @@ app.use(cookieSession({
     resave: true,
     saveUninitialized: true
 }))
-
-// Include and configure passport
-const passport = require('passport');
-require('./passport.js');
-app.use(passport.initialize());
-app.use(passport.session());
-
 
 /* PAGE ROUTES -------------------------------------------------------------- */
 
@@ -102,26 +73,6 @@ app.use('/take_quiz', require('./routes/take-quiz-page.js'));
 
 
 /* AUTHENTICATION ROUTES ---------------------------------------------------- */
-
-// GOOGLE AUTH REQUEST 
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-// GOOGLE POST-AUTH REDIRECT
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login/failed' }),
-    function(req, res) {
-        res.redirect('/dashboard');
-    }
-);
-
-// FACEBOOK AUTH REQUEST 
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'] }));
-
-// FACEBOOK POST-AUTH REDIRECT
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login/failed' }),
-    function(req, res) {
-        res.redirect('/dashboard');
-    }
-);
 
 // LOG OUT ROUTE - for all pages
 app.get('/logout', (req, res) => {

@@ -12,11 +12,6 @@
 const express = require('express');
 const router = express.Router();
 
-// Get Schemas
-const Employer = require('../models/employer.js');
-const JobPosting = require('../models/jobposting.js');
-const { ObjectId } = require('mongodb');
-
 
 /* Middleware - Function to Check user is Logged in ------------------------ */
 const checkUserLoggedIn = (req, res, next) => {
@@ -27,69 +22,22 @@ const checkUserLoggedIn = (req, res, next) => {
 /* POSTINGS PAGE - Function to render user's ranking page ------------------ */
 function renderRanking(req, res, next) {
     let context = {};
-
-    // Test for the auth provider (Google vs Facebook) and create context object
-    if (req.user.provider === 'google') {
-        context.email = req.user.email;
-        context.name = req.user.displayName;
-        context.photo = req.user.picture;
-    } 
-    else {
-        context.email = req.user.emails[0].value;
-        context.name = req.user.displayName;
-        context.photo = req.user.photos[0].value;
-    }
-
-    // Query the user's quizzes and add them to the context object
-    Employer.findOne({email: context.email}).exec((err, user) => {
-
-        // Find all quizzes for the currently logged in user
-        JobPosting.find({}).lean().where('employer_id').equals(user._id).exec()
-        .then(postings => {
-            // Assign the quiz properties to the context object
-            context.postings = postings;
-
             res.status(200).render("job-postings-page", context);
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).render("job-postings-page", context);
-        });
-    })
+
 };
 
 
 /* DELETE POSTING - Function to delete a posting from database ------------- */
 function deletePosting(req, res, next) {
     let context = {};
-
-    // // Find the quiz by the id in the request body
-    // JobPosting.deleteOne({'_id': ObjectId(req.body.id)}).exec()
-    // .then(() => {
-    //     // Reply to the client
-    //     res.status(204).send(context).end();
-    // })
-    // .catch(err => {
-    //     console.error(err);
-    //     res.status(500).end();
-    // });
-
-    JobPosting.findOne({'_id': ObjectId(req.body.id)}).exec()
-    .then(doc => {
-        // Reply to the client
-        console.log(doc)
         res.status(204).send(context).end();
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).end();
-    });
+
 };
 
 
 /* RANKING PAGE ROUTES ---------------------------------------------------- */
 
-router.get('/', checkUserLoggedIn, renderRanking);
-router.post('/delete', checkUserLoggedIn, deletePosting);
+router.get('/', renderRanking);
+router.post('/delete', deletePosting);
 
 module.exports = router;
