@@ -168,8 +168,8 @@ function readEmailForm(req, res, next) {
     let quiz = job_arr[3];
     var payload = { email: email, jobposting: jobposting_id, quiz: quiz};
     var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
-    //let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
-    let quiz_link = 'http://localhost:3500/take_quiz/'+token;
+    let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
+    //let quiz_link = 'http://localhost:3500/take_quiz/'+token;
     let message = first + ' ' + last + ',' +' Please click the following to take the employer quiz '+ quiz_link +' ';
     let html_message = '<p>' + message_header + '</p></br><strong>' + message + '</strong>';
     let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
