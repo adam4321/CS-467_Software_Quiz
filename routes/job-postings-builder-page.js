@@ -65,36 +65,43 @@ function submitJobPosting(req, res, next) {
     else {
         context.email = req.user.emails[0].value;
     }
-    // Save new object to database collection and associate to employer
-    Employer.find({email: req.user.email}).exec()
-    .then(doc => {
-        // Create a new job posting document
-        const saved_job_posting = new JobPosting({
-            _id: new mongoose.Types.ObjectId,
-            employer_id: ObjectId(doc[0]._id),
-            title: req.body.job_title,
-            description: req.body.job_description,
-            messageText: req.body.job_message_text,
-            associatedQuiz : [{
-                quiz_id : ObjectId(req.body.quiz),
-                employer_id : ObjectId(doc[0]._id)
-            }]
-        });
+    console.log(req.body);
+    if (req.body.quiz !== ""){
+        // Save new object to database collection and associate to employer
+        Employer.find({email: req.user.email}).exec()
+        .then(doc => {
+            // Create a new job posting document
+            const saved_job_posting = new JobPosting({
+                _id: new mongoose.Types.ObjectId,
+                employer_id: ObjectId(doc[0]._id),
+                title: req.body.job_title,
+                description: req.body.job_description,
+                messageText: req.body.job_message_text,
+                associatedQuiz : [{
+                    quiz_id : ObjectId(req.body.quiz),
+                    employer_id : ObjectId(doc[0]._id)
+                }]
+            });
 
-        // Save job posting to the database
-        saved_job_posting.save()
-        .then(() => {
-            res.status(201).redirect("job-postings-page", context);
+            // Save job posting to the database
+            saved_job_posting.save()
+            .then(() => {
+                res.status(201).end();
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).end();
+            });
         })
         .catch(err => {
             console.error(err);
-            res.status(500).end();
+            res.status(404).end();
         });
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(404).end();
-    });
+    }
+    else{
+        console.log("No quiz selected!!");
+        res.status(500).end();
+    }
 }
 
 

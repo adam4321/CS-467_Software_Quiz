@@ -18,12 +18,12 @@
         <div id="setup-container">
             
             <!--Unwritten route in action -->
-            <form id="setup_form" name="setup_form" action="/job_postings_builder/save_job_posting" method="post">
+            <form id="job_building_form" name="setup_form">
             <label>ASSOCIATED QUIZ:</label>
                 <div id="quiz_div">
                     <div class="mdl-textfield mdl-js-textfield getmdl-select">
                         <input type="text" value="" class="mdl-textfield__input" id="quiz" readonly>
-                        <input type="hidden" value="" name="quiz" required/>           
+                        <input type="hidden" id="hidden_id" value="" name="quiz" required/>           
                         <label for="quiz" class="mdl-textfield__label">Quiz</label>
                         <ul for="quiz" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                             {{#each quizzes}}
@@ -40,15 +40,15 @@
 
                 <label class="quiz_title">JOB POSTING TITLE:</label>
                 <br>
-                <input required type="text" id="quiz_title" name="job_title" style="width:250px" placeholder="Enter job title">
+                <input required type="text" id="job_title" name="job_title" style="width:250px" placeholder="Enter job title">
                 <p></p>
                 <label for="job_description">DESCRIPTION:</label>
                 <br>
-                <textarea required name="job_description" rows="3" cols="30" style="maxlength:100; height:50px; width:250px" placeholder="Enter job description"></textarea></br>
+                <textarea required id="job_description" name="job_description" rows="3" cols="30" style="maxlength:100; height:50px; width:250px" placeholder="Enter job description"></textarea></br>
                 <p></p>
                 <label for="job_message_text">MESSAGE TEXT:</label>
                 <br>
-                <textarea required name="job_message_text" rows="11" cols="30" style="maxlength:240; height:200px; width:250px" placeholder="Message body to auto-email to candidate"></textarea></br>
+                <textarea required id="job_message_text" name="job_message_text" rows="11" cols="30" style="maxlength:240; height:200px; width:250px" placeholder="Message body to auto-email to candidate"></textarea></br>
                 <p></p>
                 <button id="buildjobPosting" class="mdl-button mdl-js-button mdl-button--raised question-btn" > 
                     Build Job Posting
@@ -59,3 +59,5 @@
         </div> 
     </div>
 </div>
+
+<script src="js/job-posting-builder-client.js"></script>
