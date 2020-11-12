@@ -6,11 +6,21 @@
 ******************************************************************************/
 
 /* =================== QUIZ POST VALIDATION FUNCTIONS ======================== */
-let el_send_email = document.getElementById("submit_email");
+// Get form
+let el_send_email = document.getElementById("test_sendgrid");
+// Get button
+let el_send_email_btn = document.getElementById("submit_email");
 
 /* SUBMIT form - Function to display status -------------- */
-el_send_email.addEventListener('click', (e) => {
-    //e.preventDefault();
-    let status_tag = document.getElementById('send_status');
-    status_tag.innerText = "Email on its way"
+el_send_email_btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    for(var i=0; i < el_send_email.elements.length; i++){
+        if(el_send_email.elements[i].value === '' && el_send_email.elements[i].hasAttribute('mandatory')){
+            alert('There are some required fields!');
+            return false;
+        }
+    }
+    console.log("Email on its way");
+    el_send_email.submit();
+   
 });

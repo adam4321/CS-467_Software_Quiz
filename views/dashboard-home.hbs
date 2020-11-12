@@ -28,7 +28,7 @@
                         <div id="jobposting_div">
                             <div class="mdl-textfield mdl-js-textfield getmdl-select">
                                 <input type="text" value="" class="mdl-textfield__input" id="jobposting" readonly>
-                                <input type="hidden" value="" name="jobposting" required/>           
+                                <input type="hidden" value="" name="jobposting" mandatory/>           
                                 <label for="jobposting" class="mdl-textfield__label">Job Posting</label>
                                 <ul for="jobposting" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                                     {{#each_jobposting jobposting}}
@@ -44,18 +44,18 @@
 
                         <div id="name_div">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input" type="text" id="first" name="first" required>
+                                <input class="mdl-textfield__input" type="text" id="first" name="first" mandatory>
                                 <label class="mdl-textfield__label" for="first">Candidate First Name</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input" type="text" id="last" name="last" required>
+                                <input class="mdl-textfield__input" type="text" id="last" name="last" mandatory>
                                 <label class="mdl-textfield__label" for="last">Candidate Last Name</label>
                             </div>
                         </div>
 
                         <div id="email_div">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input" type="email" name="email" id="email" required>
+                                <input class="mdl-textfield__input" type="email" name="email" id="email" mandatory>
                                 <label class="mdl-textfield__label" for="email">Candidate E-mail</label>
                                 <span class="mdl-textfield__error">Enter a valid email!</span>
                             </div>

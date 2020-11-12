@@ -7,9 +7,11 @@
 
 let el_job_posting = document.getElementById("job_building_form");
 
-/* SUBMIT FORM VERIFY RESPONSE OF JOBPOSTING BUILDER - Function to check if quiz is selected page ------------------ */
+/* SUBMIT FORM VERIFY RESPONSE - Function to check if quiz is selected page ------------------ */
 el_job_posting.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    // Capture form data
     let el_job_title = document.getElementById('job_title');
     let el_job_description = document.getElementById('job_description');
     let el_job_message_text = document.getElementById('job_message_text');
@@ -28,7 +30,7 @@ el_job_posting.addEventListener('submit', (e) => {
         job_message_text: el_job_message_text.value,
         quiz: el_quiz.value
     };
-console.log(el_quiz);
+
     reqBody = JSON.stringify(reqBody);
 
     // Ajax HTTP POST request
@@ -47,7 +49,7 @@ console.log(el_quiz);
         req.send(reqBody);
     }
     else{
-        alert("Please select a quiz before building a Job Posting");
+        alert("Please select a quiz before building a Job Posting!");
         return false;
     }
 });
