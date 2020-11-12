@@ -63,21 +63,10 @@ function renderRanking(req, res, next) {
 function deletePosting(req, res, next) {
     let context = {};
 
-    // // Find the quiz by the id in the request body
-    // JobPosting.deleteOne({'_id': ObjectId(req.body.id)}).exec()
-    // .then(() => {
-    //     // Reply to the client
-    //     res.status(204).send(context).end();
-    // })
-    // .catch(err => {
-    //     console.error(err);
-    //     res.status(500).end();
-    // });
-
-    JobPosting.findOne({'_id': ObjectId(req.body.id)}).exec()
-    .then(doc => {
+    // Find the quiz by the id in the request body
+    JobPosting.deleteOne({'_id': ObjectId(req.body.id)}).exec()
+    .then(() => {
         // Reply to the client
-        console.log(doc)
         res.status(204).send(context).end();
     })
     .catch(err => {

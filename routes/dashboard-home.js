@@ -47,20 +47,20 @@ const checkUserLoggedIn = (req, res, next) => {
 }
 
 
-/* FIND POSTINGS - Function to query schema that is used more than once on the main dashboard --------------- */
-function renderPageFromQuery(req, res, next, context, user_id, emp_new){
+/* FIND QUIZZES - Function to query schema that is used more than once on the main dashboard --------------- */
+function renderPageFromQuery(req, res, next, context, user_id, emp_new) {
     // Find all in job postings data model TODO: constrain to employer ids only
-    JobPosting.find({})
-    .exec()
+    JobPosting.find({}).exec()
     .then(doc => {
         context.jobposting = doc;
         req.session.jobposting_selected = doc._id;
+
         // Find all quizzes for the currently logged in user
         Quiz.find({}).lean().where('employer_id').equals(user_id).exec()
         .then(quizzes => {
             // Assign the quiz properties to the context object
             context.quizzes = quizzes;
-            if (emp_new === 1){
+            if (emp_new === 1) {
                 req.session.employer_selected = user_id;
                 res.status(201).render("dashboard-home", context);
             }
@@ -82,7 +82,7 @@ function renderPageFromQuery(req, res, next, context, user_id, emp_new){
 }
 
 
-/* RENDER DASHBOARD - Function to render the main dashboard --------------- */
+/* RENDER DASHBOARD - Function to render the main dashboard ---------------- */
 function renderDashboard(req, res, next) {
     let context = {};
 
@@ -135,7 +135,7 @@ function renderDashboard(req, res, next) {
 };
 
 
-/* SENDLINK - Function send quiz link email to the candidate using SendGrid on the main dashboard --------------- */
+/* SEND LINK - Function send quiz link email to the candidate using SendGrid on the main dashboard --------------- */
 function sendQuizLinkEmail(req, res, next, msg) {
     console.log(msg);
     if (DEBUG_EMAIL === 0) {
@@ -155,9 +155,8 @@ function sendQuizLinkEmail(req, res, next, msg) {
 }
 
 
-/* INITIAL DASHBOARD - Function to process quiz parameters and store candidate details in database on the main dashboard */
+/* SUBMIT EMAIL - Function to process quiz parameters and store candidate details in database on the main dashboard */
 function readEmailForm(req, res, next) {
-    
     let first = req.body.first;
     let last = req.body.last;
     let email = req.body.email;

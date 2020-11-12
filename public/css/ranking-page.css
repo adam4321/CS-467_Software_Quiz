@@ -116,6 +116,10 @@ td:hover {
     margin: 70px auto 40px auto;
 }
 
+#no-posting-break {
+    margin-top: 32px;
+}
+
 #question-logo {
     height: 50px;
     display: inline-block;

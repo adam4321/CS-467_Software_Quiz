@@ -48,7 +48,7 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, functio
     if (err) {
         console.error('ERROR connecting ' + err);
     } else {
-        console.log('Successful connection');
+        console.log('Successful database connection\n');
     }
 });
 

@@ -13,9 +13,8 @@ window.onbeforeunload = function() {
 
 
 /* =================== QUIZ DISPLAY FUNCTIONS ======================== */
-let el_start_quiz = document.getElementById("start_quiz");
 
-el_start_quiz.addEventListener('click', (e) => {
+document.getElementById("start-btn").addEventListener('click', (e) => {
     e.preventDefault();
 
     // Display the quiz and hide the start button

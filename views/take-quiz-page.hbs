@@ -16,11 +16,9 @@
     </div>
     <div class="mdl-layout-spacer"></div> 
  
-    <div id="start_quiz_div" style="display: inline-block; margin-left: 45%;">
-        <div id="start_quiz" class="square-card mdl-card--expand mdl-shadow--2dps mdl-color-text--black-600">
-            <button id="start-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent question-btn">Start Quiz
-            </button>
-        </div>
+    <div id="start_quiz_div" class="square-card mdl-card--expand mdl-shadow--2dps mdl-color-text--black-600">
+        <button id="start-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent question-btn">Start Quiz
+        </button>
     </div>
 
     <div id="quiz_elements" style="display: none;">
@@ -87,14 +85,16 @@
                                 {{/if}}
                                 {{#if (quiz_type_expose this "check-all")}}
                                     <label><i>{{quiz_question_expose this 0}}</i></label></br>
-                                    {{#each_answer this}}
-                                    <input type = "checkbox"
+                                    {{#each this.quizAnswers}}
+                                        <input 
+                                            type = "checkbox"
                                             name = "{{@q_index}}"
-                                            id = "Q{{@q_index}}_{{this.a_index}}"
+                                            id = "Q{{@q_index}}_{{@index}}"
                                             class = "check-all"
-                                            value = "{{this.a_index}}" />
-                                        <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
-                                    {{/each_answer}}
+                                            value = "{{@index}}" 
+                                        />
+                                        <label for = "Q{{@q_index}}_{{@index}}">{{this}}</label></br>
+                                    {{/each}}
                                     <input type="checkbox" style="display:none;" name="{{@q_index}}" id="default-check" class="check-all" value="" checked="checked"/>
                                 {{/if}}
                             </p>

@@ -4,7 +4,8 @@
 **  Root path:  localhost:3500/take_quiz
 **
 **  Contains:   /
-**       
+**              /:token
+**
 ******************************************************************************/
 
 const express = require('express');
@@ -38,7 +39,8 @@ const Employer = require('../models/employer.js');
 // Get Scoring Algorithm
 var calc_score =  require('../score.js');
 
-// TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
+
+/* TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
     var token = req.params.token;
     var decoded = jwt.decode(token, CRED_ENV.HASH_SECRET);
@@ -68,7 +70,7 @@ function renderQuiz(req, res, next) {
             .then(job_result => {
                 if (job_result === null) {
                     // No candidate response for this quiz yet
-                    Quiz.findById(taker_quiz)
+                    Quiz.findById(taker_quiz).lean()
                     .exec()
                     .then(doc => {
                         context = doc;
@@ -102,7 +104,8 @@ function renderQuiz(req, res, next) {
     });
 };
 
-// SCORE QUIZ - Function to score the answers from the candidates choices ----------------------------- */
+
+/* SCORE QUIZ - Function to score the answers from the candidates choices ---------------------- */
 function scoreQuiz(req, res, next) {
     let context = {};
     context.answers = req.body;
@@ -116,19 +119,21 @@ function scoreQuiz(req, res, next) {
         // Set layout with paths to css
         context.layout = 'quiz';
         let response_arr = req.body;
+
         // Score quiz
         calc_score.calculate_score(quiz_obj, response_arr).then(function(score) {
             let total_points = Object.keys(quiz_obj.questions).length;
             let points = (total_points * score) / 100;
             context.total_points = total_points;
             context.points = points.toFixed(2);
+
             // Put responses in array
             let candidate_answers = [];
             for (let y = 0; y < response_length; y++) {
-                if (Array.isArray(response_arr[y])){
+                if (Array.isArray(response_arr[y])) {
                     candidate_answers[y] = response_arr[y];
                 }
-                else{
+                else {
                     let ary = [];
                     ary[0] = response_arr[y];
                     candidate_answers.push(ary); 
