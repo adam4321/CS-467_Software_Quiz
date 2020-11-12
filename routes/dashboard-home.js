@@ -49,8 +49,8 @@ const checkUserLoggedIn = (req, res, next) => {
 
 /* FIND QUIZZES - Function to query schema that is used more than once on the main dashboard --------------- */
 function renderPageFromQuery(req, res, next, context, user_id, emp_new) {
-    // Find all in job postings data model TODO: constrain to employer ids only
-    JobPosting.find({}).exec()
+    // Find only job postings for current user (employer)
+    JobPosting.find({}).lean().where('employer_id').equals(user_id).exec()
     .then(doc => {
         context.jobposting = doc;
         req.session.jobposting_selected = doc._id;
