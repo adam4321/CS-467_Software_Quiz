@@ -12,8 +12,7 @@ const jobpostingSchema = mongoose.Schema({
     description: String,
     messageText: String,
     associatedQuiz : [{
-        quiz_id : mongoose.Schema.Types.ObjectId,
-        employer_id : mongoose.Schema.Types.ObjectId
+        quiz: mongoose.Schema.Types.Mixed
     }],
     quizResponses : [{
         quiz_response_id : mongoose.Schema.Types.ObjectId,
