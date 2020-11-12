@@ -108,6 +108,7 @@ function renderQuiz(req, res, next) {
 /* SCORE QUIZ - Function to score the answers from the candidates choices ---------------------- */
 function scoreQuiz(req, res, next) {
     let context = {};
+    // Place comment and answers in context
     context.answers = req.body;
     // Set layout with paths to css
     let response_length = Object.keys(req.body).length - 2;
@@ -122,11 +123,6 @@ function scoreQuiz(req, res, next) {
 
         // Score quiz
         calc_score.calculate_score(quiz_obj, response_arr).then(function(score) {
-            let total_points = Object.keys(quiz_obj.questions).length;
-            let points = (total_points * score) / 100;
-            context.total_points = total_points;
-            context.points = points.toFixed(2);
-
             // Put responses in array
             let candidate_answers = [];
             for (let y = 0; y < response_length; y++) {
@@ -148,6 +144,8 @@ function scoreQuiz(req, res, next) {
             let total_time_sec = parseInt(quiz_obj.timeLimit * 60) - (parseInt(total_time_split[0]) * 60 + parseInt(total_time_split[1]));
             // Convert total_time to minutes
             let total_time = parseInt(total_time_sec / 60);
+            // Place time taken in context
+            context.total_time = total_time;
             console.log(total_time);
             console.log();
             console.log(candidate_answers);
