@@ -12,6 +12,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
@@ -32,13 +33,9 @@ function renderBuilder(req, res, next) {
     // Test for the auth provider (Google vs Facebook) and create context object
     if (req.user.provider === 'google') {
         context.email = req.user.email;
-        context.name = req.user.displayName;
-        context.photo = req.user.picture;
     } 
     else {
         context.email = req.user.emails[0].value;
-        context.name = req.user.displayName;
-        context.photo = req.user.photos[0].value;
     }
     // Query the user's quizzes and add them to the context object
     Employer.findOne({email: context.email})
@@ -62,37 +59,41 @@ function renderBuilder(req, res, next) {
 /* SUBMIT JOBPOSTING - Function to store the completed job posting into the db ---------- */
 function submitJobPosting(req, res, next) {
     let context = {};
-
+    if (req.user.provider === 'google') {
+        context.email = req.user.email;
+    } 
+    else {
+        context.email = req.user.emails[0].value;
+    }
     // Save new object to database collection and associate to employer
     Employer.find({email: req.user.email}).exec()
     .then(doc => {
-        
         // Create a new job posting document
         const saved_job_posting = new JobPosting({
             _id: new mongoose.Types.ObjectId,
-            employer_id: doc[0]._id,
+            employer_id: ObjectId(doc[0]._id),
             title: req.body.job_title,
             description: req.body.job_description,
             messageText: req.body.job_message_text,
             associatedQuiz : [{
-                quiz_id : req.body.quiz,
-                employer_id : doc[0]._id
+                quiz_id : ObjectId(req.body.quiz),
+                employer_id : ObjectId(doc[0]._id)
             }]
         });
 
         // Save job posting to the database
         saved_job_posting.save()
         .then(() => {
-            res.status(201).end();
+            res.status(201).redirect("job-postings-page", context);
         })
         .catch(err => {
             console.error(err);
             res.status(500).end();
-        }); 
+        });
     })
     .catch(err => {
         console.error(err);
-        res.status(404).render("job-postings-page", context);
+        res.status(404).end();
     });
 }
 

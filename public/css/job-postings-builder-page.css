@@ -15,36 +15,8 @@
     text-align: center;
 }
 
-#exit_btn {
-    margin: -19px auto -5px auto;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.76);
-}
-
-#exit_btn:hover {
-    background-color: rgba(0, 0, 0, 0.87)
-}
-
-#question-count-label {
-    font-size: large;
-    display: inline-block;
-    margin: 7px 5px 7px 0px;
-}
-
-#question-count {
-    font-size: large; 
-    display: inline-block;
-    
-}
-
-#question-prompt {
-    margin: 40px 0px 20px 0px;
-}
-
-.question-btn {
-    font-size: 10px;
-    margin-right: 3px;
-    margin-bottom: 20px;
+textarea {
+  resize: none;
 }
 
 .mdl-button--raised.mdl-button--colored {
