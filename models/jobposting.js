@@ -1,5 +1,7 @@
 const { ObjectID, Int32 } = require('mongodb');
 const mongoose = require('mongoose');
+const Quiz = require('./quiz.js');
+
 
 /******************************************************************************
 **  Description:  Mongodb / Mongoose data model for the Job Posting entity
@@ -12,7 +14,7 @@ const jobpostingSchema = mongoose.Schema({
     description: String,
     messageText: String,
     associatedQuiz : [{
-        quiz: mongoose.Schema.Types.Mixed
+        quiz: Quiz.schema
     }],
     quizResponses : [{
         quiz_response_id : mongoose.Schema.Types.ObjectId,
