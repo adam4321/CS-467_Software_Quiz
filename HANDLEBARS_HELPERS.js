@@ -71,7 +71,7 @@ module.exports = {
         if (args[1] !== undefined){
             quiz_idx = args[1];
         }
-        let obj = args[0].associatedQuiz[quiz_idx].quiz_id;
+        let obj = args[0].associatedQuiz[quiz_idx].quiz._id;
         return obj;
     },
     'each_jobposting': function(job_obj, options) {

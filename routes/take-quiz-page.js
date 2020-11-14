@@ -114,15 +114,14 @@ function scoreQuiz(req, res, next) {
     let response_length = Object.keys(req.body).length - 2;
     context.response_length = response_length;
 
-    Quiz.findById(req.session.taker_quiz)
+    JobPosting.findById(ObjectId(req.session.taker_jobposting))
     .exec()
-    .then(quiz_obj => {
+    .then(job_obj => {
         // Set layout with paths to css
         context.layout = 'quiz';
         let response_arr = req.body;
-
         // Score quiz
-        calc_score.calculate_score(quiz_obj, response_arr).then(function(score) {
+        calc_score.calculate_score(job_obj.associatedQuiz[0].quiz, response_arr).then(function(score) {
             // Put responses in array
             let candidate_answers = [];
             for (let y = 0; y < response_length; y++) {
@@ -141,7 +140,7 @@ function scoreQuiz(req, res, next) {
             let time_remaining = response_arr.time;
             // Convert total_time to seconds and decrease from time limit
             let total_time_split = time_remaining.split(":");
-            let total_time_sec = parseInt(quiz_obj.timeLimit * 60) - (parseInt(total_time_split[0]) * 60 + parseInt(total_time_split[1]));
+            let total_time_sec = parseInt(job_obj.associatedQuiz[0].quiz.timeLimit * 60) - (parseInt(total_time_split[0]) * 60 + parseInt(total_time_split[1]));
             // Convert total_time to minutes
             let total_time = parseInt(total_time_sec / 60);
             // Place time taken in context
