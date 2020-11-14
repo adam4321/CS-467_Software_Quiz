@@ -186,6 +186,7 @@ function scoreQuiz(req, res, next) {
                         if ((cand_obj.firstName !== null) && (cand_obj.lastName !== null)){
                             req.session.cand_name = cand_obj.firstName + " " + cand_obj.lastName;
                         }
+                        let cand_email = cand_obj.email;
                         // Email employer after finished with quiz
                         Employer.findById(req.session.employer_id)
                         .exec()
@@ -194,7 +195,7 @@ function scoreQuiz(req, res, next) {
                             let emp_email = emp_obj.email;
                             let emp_name = emp_obj.name;
                             let subject = "Quiz Soft Notification: Response Submitted";
-                            let message = "Hello, " + emp_name + " a quiz has been submitted by user " + cand_name  + ", visit our website to view the results.";
+                            let message = "Hello, " + emp_name + " a quiz has been submitted by user " + cand_name + " , with email contact: " + cand_email  + ", visit our website to view the results.";
                             let html_message = '<strong>' + message + '</strong></br><p> QuizSoft Link: https://softwarecustomquiz.herokuapp.com/login</p>';
                             
                             const msg = {
