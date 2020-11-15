@@ -9,6 +9,7 @@
 // Set up express
 const express = require('express');
 const app = express();
+var socket = require('socket.io')
 
 // PORT NUMBER - Set a static port for the appliction 
 const PORT = process.env.PORT || 3500;
@@ -72,7 +73,6 @@ const passport = require('passport');
 require('./passport.js');
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 /* PAGE ROUTES -------------------------------------------------------------- */
 
@@ -156,6 +156,21 @@ app.use((err, req, res, next) => {
 /* LISTEN ON PORT ---------------------------------------------------------- */
 
 // Set to render on a static port set globally
-app.listen(PORT, () => {
+var server = app.listen(PORT, () => {
     console.log(`\nExpress started at http://localhost:${PORT}/login\nPress ctrl-C to terminate.\n`);
 });
+
+let io = socket(server)
+io.on('connection', function(socket){
+    console.log(`${socket.id} is connected`);
+    socket.on('start', function(){
+    setInterval(() => {
+        io.emit('tick');
+    }, 1000);
+  });
+});
+
+/* Socket.io server side timing
+io.on('connection', function(socket){
+
+});*/

@@ -12,6 +12,8 @@ window.onbeforeunload = function() {
 };
 
 
+
+
 /* =================== QUIZ DISPLAY FUNCTIONS ======================== */
 
 document.getElementById("start-btn").addEventListener('click', (e) => {
@@ -27,6 +29,10 @@ document.getElementById("start-btn").addEventListener('click', (e) => {
     let timerText = document.getElementById('timer-text').textContent.split(':');
     let TIME_LIMIT = timerText[0] * 60000;
 
+    // Initialize socket to server
+    var socket = io();
+    socket.emit('start');
+
     setTimeout(() => {
         document.getElementById('timer-text').textContent = `00:00`;
         document.getElementById('submit-btn').click();
@@ -36,7 +42,7 @@ document.getElementById("start-btn").addEventListener('click', (e) => {
     let minutes = parseInt(timerText[0]);
     let seconds = parseInt(timerText[1]);
     
-    setInterval(() => {
+    socket.on('tick', function(){
         // Update the time and render the new time to the screen
         if (seconds == 0) {
             seconds = 59
@@ -69,7 +75,7 @@ document.getElementById("start-btn").addEventListener('click', (e) => {
                 document.getElementById('timer-text').textContent = `${minutes}:${seconds}`;
             }
         }        
-    }, 1000);
+    });
 });
 
 
