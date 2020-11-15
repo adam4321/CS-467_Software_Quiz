@@ -69,18 +69,18 @@ function renderQuiz(req, res, next) {
             query.exec()            
             .then(job_result => {
                 if (job_result === null) {
-                    // No candidate response for this quiz yet
-                    Quiz.findById(taker_quiz).lean()
+                    JobPosting.findById(ObjectId(taker_jobposting)).lean()
                     .exec()
-                    .then(doc => {
-                        context = doc;
+                    .then(job_obj => {
+                        // No candidate response for this quiz yet
+                        context = job_obj.associatedQuiz[0].quiz;
                         // Set layout with paths to css
                         context.layout = 'quiz';
                         res.status(200).render("take-quiz-page", context);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         console.log(err);
-                        res.status(404).render("404", context);
+                         res.status(404).render("404", context);
                     });
                 }
                 else{
