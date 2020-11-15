@@ -101,10 +101,11 @@ function deletePosting(tbl, curRow, quizId, event) {
                     linkDiv.id          = 'link-div';
                     linkMsg.id          = 'link-txt';
                     linkMsg.textContent = 'Create a Job';
-                    linkBtn.id           = 'link-btn-new';
-                    linkBtn.className    = 'btn-style';
-                    linkBtn.textContent  = 'Create';
+                    linkBtn.id          = 'link-btn-new';
                     linkBtn.className   = 'btn-style';
+                    linkBtn.textContent = 'Create';
+                    linkBtn.className   = 'btn-style';
+                    linkBtn.addEventListener("click", navigateToBuilder);
 
                     emptyContainer.appendChild(linkDiv);
                     linkDiv.appendChild(linkMsg);

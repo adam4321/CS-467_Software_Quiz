@@ -24,8 +24,8 @@ const checkUserLoggedIn = (req, res, next) => {
 }
 
 
-/* POSTINGS PAGE - Function to render user's ranking page ------------------ */
-function renderRanking(req, res, next) {
+/* POSTINGS PAGE - Function to render user's job postings ------------------ */
+function renderPostings(req, res, next) {
     let context = {};
 
     // Test for the auth provider (Google vs Facebook) and create context object
@@ -78,7 +78,7 @@ function deletePosting(req, res, next) {
 
 /* RANKING PAGE ROUTES ---------------------------------------------------- */
 
-router.get('/', checkUserLoggedIn, renderRanking);
+router.get('/', checkUserLoggedIn, renderPostings);
 router.post('/delete', checkUserLoggedIn, deletePosting);
 
 module.exports = router;

@@ -34,13 +34,13 @@
     width: 93%;
 }
 
+#email-form-inner {
+    padding-top: 15px !important;
+}
+
 #submit-msg {
     margin-top: -1px;
     margin-bottom: 8px;
-}
-
-#jobposting {
-    margin-top: -10px;
 }
 
 #submit-msg {
@@ -52,7 +52,7 @@
     justify-content: center;
     background-color: #ebb54b;
     width: 80px;
-    margin: 30px auto -15px auto;
+    margin: 25px auto -15px auto;
     color: rgb(66,66,66);
 }
 

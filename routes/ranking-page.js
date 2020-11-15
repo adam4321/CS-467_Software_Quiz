@@ -33,9 +33,6 @@ function renderRanking(req, res, next) {
         // Add the Job Posting title to context
         context.title = doc.title;
 
-        // Add the quiz_id for marking up candidate quizzes
-        context.quizId = doc.associatedQuiz[0].quiz_id;
-
         // Sort the candidate's quiz responses by score and time to break ties
         let temp = doc.quizResponses;
 
@@ -46,14 +43,12 @@ function renderRanking(req, res, next) {
 
         context.rankings = temp;
 
-        // Find associated quiz and store quiz into context object
-        Quiz.findById(context.quizId).exec().then(quiz => {
-            context.quiz = quiz;
+        // Add the Quiz questions and answers into the context object
+        context.associatedQuiz = doc.associatedQuiz[0];
 
-            console.log(context);
+        console.log(context);
 
-            res.render("ranking-page", context);
-        })
+        res.render("ranking-page", context);
     })
     .catch(err => {
         console.error(err);
