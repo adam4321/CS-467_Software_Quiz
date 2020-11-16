@@ -25,6 +25,10 @@
     background-color: rgba(0, 0, 0, 0.87)
 }
 
+.question-list {
+    margin-bottom: 10px;
+}
+
 #question-count-label {
     font-size: large;
     display: inline-block;
@@ -132,8 +136,14 @@
     width: auto;
 }
 
-#quiz_display_table {
-    margin:auto;
+table{
+    table-layout: fixed;
+    margin: auto;
+}
+
+td {
+    word-wrap:break-word;
+    white-space: normal;
 }
 
 #quiz_display {

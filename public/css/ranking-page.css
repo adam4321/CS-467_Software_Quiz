@@ -181,12 +181,25 @@ td:hover {
     cursor: pointer;
 }
 
+#quiz-comment {
+    height:160px;
+    width:250px
+}
+
+#quiz-comment-container {
+    margin: 40px auto 10px auto;
+}
+
 
 /* Media queries for tablets ----------------------------------------------- */
 
 @media only screen and (max-width: 775px) {
     #dashboard-container {
         width: 95%;
+    }
+
+    .modal-content {
+        width: 60%;
     }
 }
 
@@ -204,12 +217,21 @@ td:hover {
         width: 210px;
         margin: 10px auto 15px auto;
     }
+
+    #quiz-comment {
+        min-height: 160px;
+        max-width:220px
+    }
+
+    #quiz-comment-container {
+        width: 95%;
+    }
 }
 
 
 /* Media queries for vertical mobile phones -------------------------------- */
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 500px) {
     #dashboard-container {
         width: 100%;
     }
@@ -258,5 +280,15 @@ td:hover {
 
     .quiz-rank {
         text-align: center;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #quiz-comment {
+        width: 95%;
+    }
+
+    #quiz-comment-container {
+        width: 100%;
     }
 }
