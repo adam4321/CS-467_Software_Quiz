@@ -18,57 +18,54 @@
     </head>
 
     <body>
-        <div style="height: 100px">
-            <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-                <header id="top-bar" class="mdl-layout__header mdl-color-text--white">
-                    <div class="mdl-layout__header-row">
-                        <span class="mdl-layout-title">
-                            <h3>
-                            <a href="/dashboard"><img  id="logo" src="images/logo.png" alt="question mark logo">
-                                <p id="page-title">Quiz Soft</p>
-                            </a>
-                            </h3>
-                        </span>
-                        <div class="mdl-layout-spacer"></div>
-                        <nav class="mdl-navigation mdl-layout--large-screen-only">
-                            <a class="page-links" href="/dashboard">Home</a>
-                            <a class="page-links" href="/job_postings">JobPostings</a>
-                            <a class="page-links" href="/quiz_builder">QuizBuilder</a>
-                            <a class="page-links" href="/quizzes">MyQuizzes</a>
-                            <button 
-                                class="mdl-button mdl-js-button mdl-button--raised" 
-                                id="logout-button" 
-                                onclick="window.location.href = `/logout`" 
-                            >Log Out
-                            </button>
-                        </nav>
-                    </div>
-                </header>
-
-                <div class="mdl-layout__drawer">
-                    <span class="mdl-layout-title">Quiz Soft</span>
-                    <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" href="/dashboard">Home</a>
-                        <a class="mdl-navigation__link" href="/job_postings">JobPostings</a>
-                        <a class="mdl-navigation__link" href="/quiz_builder">QuizBuilder</a>
-                        <a class="mdl-navigation__link" href="/quizzes">MyQuizzes</a>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header id="top-bar" class="mdl-layout__header mdl-color-text--white">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">
+                        <h3>
+                        <a href="/dashboard"><img  id="logo" src="images/logo.png" alt="question mark logo">
+                            <p id="page-title">Quiz Soft</p>
+                        </a>
+                        </h3>
+                    </span>
+                    <div class="mdl-layout-spacer"></div>
+                    <nav class="mdl-navigation mdl-layout--large-screen-only">
+                        <a class="page-links" href="/dashboard">Home</a>
+                        <a class="page-links" href="/job_postings">JobPostings</a>
+                        <a class="page-links" href="/quiz_builder">QuizBuilder</a>
+                        <a class="page-links" href="/quizzes">MyQuizzes</a>
                         <button 
                             class="mdl-button mdl-js-button mdl-button--raised" 
-                            id="logout-button-drawer" 
+                            id="logout-button" 
                             onclick="window.location.href = `/logout`" 
                         >Log Out
                         </button>
-                    </nav>        
+                    </nav>
                 </div>
+            </header>
+
+            <div class="mdl-layout__drawer">
+                <span class="mdl-layout-title">Quiz Soft</span>
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="/dashboard">Home</a>
+                    <a class="mdl-navigation__link" href="/job_postings">JobPostings</a>
+                    <a class="mdl-navigation__link" href="/quiz_builder">QuizBuilder</a>
+                    <a class="mdl-navigation__link" href="/quizzes">MyQuizzes</a>
+                    <button 
+                        class="mdl-button mdl-js-button mdl-button--raised" 
+                        id="logout-button-drawer" 
+                        onclick="window.location.href = `/logout`" 
+                    >Log Out
+                    </button>
+                </nav>        
             </div>
+
+            {{!-- Content Box to load the other views into --}}
+            <main class="mdl-layout__content">
+                <div class="page-content" id="page-content">
+                    {{{body}}}
+                </div>
+            </main>
         </div>
-
-        {{!-- Content Box to load the other views into --}}
-        <main class="mdl-layout__content">
-            <div class="page-content" id="page-content">
-                {{{body}}}
-            </div>
-        </main>
-
     </body>
 </html>

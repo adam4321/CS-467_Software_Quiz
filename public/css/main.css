@@ -16,6 +16,8 @@ a {
 /* Header bar settings ----------------------------------------------------- */
 
 #top-bar {
+    min-height: 91px;
+    margin-bottom: 5px;
     overflow: hidden;
     background-color: rgb(49, 166, 202);
     padding: 20px 0 15px 0;
@@ -99,22 +101,16 @@ label {
 
 
 /* Drawer settings --------------------------------------------------------- */
-
-.mdl-layout__drawer {
-    left: -70px;
-}
   
 .mdl-layout__drawer.is-visible {
     left: 0;
     width: 200px;
-    z-index: 300;
 }
 
 #logout-button-drawer {
     background-color: #e0e0e0;
-    width: 140px;
-    margin-top: 20px;
-    margin-left: 20px;
+    width: 75%;
+    margin: 30px auto 0px auto;
 }
 
 #logout-button-drawer:hover {
@@ -129,7 +125,7 @@ label {
 }
 
 .page-content {
-    margin: 2%;
+    margin: 1.7%;
 }
 
 .radio-input {
@@ -177,7 +173,8 @@ select {
 
 .mdl-grid.center-items {
     justify-content: center;
-  }
+}
+
 
 /* Spacing for the submission button spinner animation --------------------- */
 
@@ -214,4 +211,13 @@ select {
 
 .dashboard-top-bar {
     background-color: rgb(49, 166, 202);
+}
+
+
+/* Media queries ----------------------------------------------------------- */
+
+@media only screen and (max-width: 600px) {
+    .page-content {
+        margin-top: 5px;
+    }
 }
