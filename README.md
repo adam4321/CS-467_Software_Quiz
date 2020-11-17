@@ -100,11 +100,14 @@ the question you wish to remove.
 Once you have entered all the questions that will make up the quiz
 you can click the SUBMIT QUIZ button in order to save the quiz. 
 
-
 ### MyQuizzes
 
 In this section you will be able to see the quizes that you 
-have previously saved.
+have previously saved. The user can click on a row in the table to
+view the quiz as a modal. There is a button available in each row to
+delete a quiz or to download a quiz. There is also a button on the
+page to upload a quiz which has previously been downloaded. The
+quizzes are saved with .quiz as the file extension.
 
 ## Released under MIT License
 
