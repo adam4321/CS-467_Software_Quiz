@@ -106,7 +106,7 @@ you can click the SUBMIT QUIZ button in order to save the quiz.
 In this section you will be able to see the quizes that you 
 have previously saved.
 
-### Released under MIT License
+## Released under MIT License
 
 Copyright (c) 2020 Kevin Hill, Adam Slusser, Adam Wright.
 
