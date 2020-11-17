@@ -10,8 +10,8 @@ adding those credentials in a file called GOOGLE-credentials.js.
 
 Then just npm install and node app.js!
 
+#### SIGNING IN
 
-**********************SIGNING IN*******************************
 Two sign in options exist:
 1) Using your Google (Gmail) account
 2) Using your Facebook account
@@ -21,10 +21,9 @@ your choice of login. Upon return to the site you will be at the
 site's homepage. You will be greeted with a greetings message 
 with your name and the email linked to the login method that you
 chose. 
-***************************************************************+
 
+#### Quiz Creation
 
-**********************Quiz Creation****************************
 On the top right portion of the page you will see five buttons
 one of which being "QuizBuilder" click on this button. This is 
 the start of the quiz building process. You will see three 
@@ -52,13 +51,13 @@ quiz. True/false, multiple choice, fill in the blank and choose
 all that apply. Regardless of which type of question you choose
 you will be then prompted to enter a question. 
 
-...................True/False..................................
+##### True/False
 True and False choices will be displayed for you 
 under the question you entered. Please choose which answer is
 the CORRECT answer. 
 
 
-...................Multiple Choice.............................
+##### Multiple Choice
 Initially you will have only one answer input available. You 
 can add another by clicking the plus symbol (+) or remove an 
 answer option by clicking the subtraction symbol(-). You must 
@@ -66,7 +65,7 @@ have at least one answer in order to add this question to your
 quiz. Add the desired amount of answers and click the circle 
 next to which answer is the correct answer. 
 
-...................Fill in the blank...........................
+##### Fill in the blank
 You will have two parts to your question here the section 
 before the blank and the section of the question after the 
 blank. An example is given below.
@@ -84,8 +83,7 @@ When entering the answer to this question note that if the
 quiz taker's answer does not match the answer that you put in 
 exactly it will be graded as incorrect.
 
-
-...................ALL THAT APPLY..............................
+##### ALL THAT APPLY
 Initially you will have only one answer input available. You 
 can add another by clicking the plus symbol (+) or remove an 
 answer option by clicking the subtraction symbol(-). You can 
@@ -93,8 +91,6 @@ have as many answers as you like but must have at least one.
 Once you have entered all the possible answer choices click
 the box(es) to the left of the answers that you wish to mark
 as correct.
-
-...............................................................
 
 As you enter the questions they will appear above where you select
 that type of question you would like to ask. If you entered a question
@@ -105,11 +101,12 @@ Once you have entered all the questions that will make up the quiz
 you can click the SUBMIT QUIZ button in order to save the quiz. 
 
 
-*************************MyQuizzes****************************
+#### MyQuizzes
+
 In this section you will be able to see the quizes that you 
 have previously saved.
 
-# Released under MIT License
+## Released under MIT License
 
 Copyright (c) 2020 Kevin Hill, Adam Slusser, Adam Wright.
 
