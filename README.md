@@ -10,7 +10,7 @@ adding those credentials in a file called GOOGLE-credentials.js.
 
 Then just npm install and node app.js!
 
-#### SIGNING IN
+### SIGNING IN
 
 Two sign in options exist:
 1) Using your Google (Gmail) account
@@ -22,7 +22,7 @@ site's homepage. You will be greeted with a greetings message
 with your name and the email linked to the login method that you
 chose. 
 
-#### Quiz Creation
+### Quiz Creation
 
 On the top right portion of the page you will see five buttons
 one of which being "QuizBuilder" click on this button. This is 
@@ -101,7 +101,7 @@ Once you have entered all the questions that will make up the quiz
 you can click the SUBMIT QUIZ button in order to save the quiz. 
 
 
-#### MyQuizzes
+### MyQuizzes
 
 In this section you will be able to see the quizes that you 
 have previously saved.
