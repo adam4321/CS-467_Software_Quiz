@@ -128,6 +128,14 @@
 }
 
 /* Mail animation  ---------------------------------------------------------- */
+#status-container {
+    width: 300px;
+    min-height: min-content;
+    height: 95px;
+    margin: 8px auto 0px auto;
+    text-align: center;
+    position: relative;
+}
 
 .spinning-mail {
     width: 60px;
