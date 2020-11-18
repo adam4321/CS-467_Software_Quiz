@@ -67,7 +67,7 @@
                                         <h6><b>Quiz Name: </b>{{this.name}}</h6>
                                         <h6><b>Email: </b>{{../candidate_email}}</h6>
                                         <h6><b>Time Used: </b>{{../quizTotalTime}} minutes</h6>
-                                        <h6><b>Score: </b>{{../quizScore}}%</h6>
+                                        <h6><b>Score: </b>{{round ../quizScore}}%</h6>
                                     </fieldset>
                                     <hr>
 
@@ -78,7 +78,7 @@
                                             <h5>Q{{inc @q_index}}</h5>
                                             <p>  
 
-                                                {{!--Multiple choice question  --}}
+                                                {{!--  Multiple choice question --}}
                                                 {{#if (quiz_type_expose this "mult-choice")}}
                                                     <label><i>{{quiz_question_expose this 0}}</i></label></br>
                                                     {{#each_answer this}}                                         
