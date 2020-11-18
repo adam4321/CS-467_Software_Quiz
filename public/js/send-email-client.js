@@ -10,6 +10,8 @@
 let el_send_email = document.getElementById("test_sendgrid");
 // Get button
 let el_send_email_btn = document.getElementById("submit_email");
+// Get animation
+let el_send_email_animation = document.getElementById("status-container");
 
 /* SUBMIT form - Function to display status -------------- */
 el_send_email_btn.addEventListener('click', (e) => {
@@ -22,5 +24,9 @@ el_send_email_btn.addEventListener('click', (e) => {
     }
     console.log("Email on its way");
     el_send_email.submit();
-   
+
+    el_send_email_animation.style.display = 'block';
+    setTimeout(() => {
+        el_send_email_animation.style.display = 'none';
+    }, 3000);
 });
