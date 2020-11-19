@@ -11,7 +11,7 @@ let el_send_email = document.getElementById("test_sendgrid");
 // Get button
 let el_send_email_btn = document.getElementById("submit_email");
 // Get animation
-let el_send_email_animation = document.getElementById("status-container");
+let el_send_email_animation = document.getElementById("modal");
 
 /* SUBMIT form - Function to display status -------------- */
 el_send_email_btn.addEventListener('click', (e) => {

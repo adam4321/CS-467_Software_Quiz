@@ -127,6 +127,33 @@
     }
 }
 
+/* MAIL MODAL -------------------------------------------------------------- */
+
+/* The Modal (background) */
+.modal {
+    display: none;      /* Hidden by default */
+    position: fixed;    /* Stay in place */
+    z-index: 8000;         /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;        /* Full width */
+    height: 100%;       /* Full height */
+    overflow: auto;     /* Enable scroll if needed */
+    background-color: rgb(0,0,0);       /* Fallback color */
+    background-color: rgba(0,0,0,0.4);  /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 130px auto 0px auto;       /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 2px;
+    width: 660px;             /* Could be more or less, depending on screen size */
+    text-align: center;
+}
+
 /* Mail animation  ---------------------------------------------------------- */
 #status-container {
     width: 300px;
@@ -140,7 +167,10 @@
 .spinning-mail {
     width: 60px;
     height: 60px;
-    background-color: #333;
+    background-color: rgb(49, 166, 202);
+    border-color: #ebb54b;
+    border-width: thick;
+    border-style: solid;
 
     margin: 0 auto;
     -webkit-animation: rotatesquare 1.2s infinite ease-in-out;
