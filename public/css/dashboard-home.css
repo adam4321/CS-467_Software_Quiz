@@ -79,53 +79,6 @@
 }
 
 
-/* Media queries  ---------------------------------------------------------- */
-
-@media only screen and (max-width: 775px) {
-    #dashboard-container {
-        width: 95%;
-    }
-
-    #account-container {
-        width: 95%;
-    }
-
-    .mdl-card__supporting-text {
-        width: 90%;
-    }
-}
-
-@media only screen and (max-width: 500px) {
-    #account-container {
-        height: 180px;
-        margin: 8px auto 0px auto;
-    }
-
-    #removeUserButton{
-        display: block;
-        margin: 0 auto 15px auto;
-    }
-
-    #delete-msg {
-        display: block;
-        margin: 0 auto 0 auto;
-    }
-}
-
-@media only screen and (max-width: 400px) {
-    hr {
-        width: 95%;
-    }
-    
-    #email-form-container {
-        margin: 0 0 -15px -18px;
-        width: 315px;
-    }
-
-    #account-container.mdl-card.mdl-shadow--2dp div.mdl-card__supporting-text.mdl-color-text--grey-600 {
-        width: 280px;
-    }
-}
 
 /* MAIL MODAL -------------------------------------------------------------- */
 
@@ -187,4 +140,61 @@
   0% { transform: perspective(120px) rotateX(0deg) rotateY(0deg); } 
   50% { transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); } 
   100% { transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); }
+}
+
+
+/* Media queries  ---------------------------------------------------------- */
+
+@media only screen and (max-width: 775px) {
+    #dashboard-container {
+        width: 95%;
+    }
+
+    #account-container {
+        width: 95%;
+    }
+
+    .mdl-card__supporting-text {
+        width: 90%;
+    }
+
+    .modal-content {
+        width: 70%;
+    }
+
+    #status-container {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #account-container {
+        height: 180px;
+        margin: 8px auto 0px auto;
+    }
+
+    #removeUserButton{
+        display: block;
+        margin: 0 auto 15px auto;
+    }
+
+    #delete-msg {
+        display: block;
+        margin: 0 auto 0 auto;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    hr {
+        width: 95%;
+    }
+    
+    #email-form-container {
+        margin: 0 0 -15px -18px;
+        width: 315px;
+    }
+
+    #account-container.mdl-card.mdl-shadow--2dp div.mdl-card__supporting-text.mdl-color-text--grey-600 {
+        width: 280px;
+    }
 }
