@@ -46,8 +46,6 @@ function renderRanking(req, res, next) {
         // Add the Quiz questions and answers into the context object
         context.associatedQuiz = doc.associatedQuiz[0];
 
-        console.log(context);
-
         res.render("ranking-page", context);
     })
     .catch(err => {

@@ -190,6 +190,15 @@ td:hover {
     margin: 40px auto 10px auto;
 }
 
+/* Quiz markup correct / incorrect */
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
 
 /* Media queries for tablets ----------------------------------------------- */
 
