@@ -16,6 +16,12 @@ module.exports = {
             return false;
         }
     },
+    'eq_arr': function(a, b) {
+        return Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index]);
+    },
     'inc': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let index = args[0];
@@ -24,6 +30,9 @@ module.exports = {
     'round': function(num) {
         return Math.round(parseFloat(num));
     },
+    'capitalize': function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    },      
     'quiz_name_expose': function() {
         const args = Array.prototype.slice.call(arguments, 0, -1);
         let obj = args[0];
