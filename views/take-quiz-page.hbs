@@ -4,7 +4,9 @@
 
 {{!-- Container for the quiz --}}
 <div id="dashboard-container">
+{{#if}}
 
+{{else}}
     <div id="timer-div" class="container">
         <div class="row justify-content-lg-center justify-content-md-center justify-content-sm-center justify-content-xs-center">
             <div class="col-lg-auto col-md-auto col-sm-auto col-xs-auto">
@@ -120,5 +122,6 @@
             </div> 
         </div>
     </div>
-        
+    {{/if}}
+</div>
 <script src="../js/take-quiz-page-client.js"></script>
