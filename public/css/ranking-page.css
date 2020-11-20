@@ -28,7 +28,7 @@ td:hover {
 #title-div {
     display: inline-block;
     max-width: 100%;
-    margin: 5px 0 0 10px;
+    margin: 5px 0 0 7px;
     font-size: medium;
     font-weight: bold;
     font-size: 17px;
@@ -45,7 +45,7 @@ td:hover {
 }
 
 #back-txt {
-    margin: 12px 0 0 0;
+    margin: 5px 0 0 0;
     font-size: medium; 
     font-weight: bold; 
     display: inline-block;
@@ -53,7 +53,7 @@ td:hover {
 
 #back-btn {
     display: inline-block;
-    margin: 7px 0px 0 19px;
+    margin: 0 0 0 19px;
     width: 81px;
     height: 27px;
     text-align: center;
@@ -84,6 +84,11 @@ td:hover {
 
 .btn-style:hover {
     background-color: #d39c2e;
+}
+
+#row-msg {
+    margin: 20px 0 -20px 5px;
+    font-size: 12px;
 }
 
 
@@ -213,6 +218,11 @@ td:hover {
 }
 
 @media only screen and (max-width: 575px) {
+    #row-msg {
+        font-size: 10px;
+        margin-top: 25px;
+    }
+
     #title-div {
         display: block;
         text-align: center;

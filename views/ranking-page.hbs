@@ -22,6 +22,8 @@
                     <p id="back-txt">Job Postings</p>
                     <button id="back-btn" class="btn-style" onclick="goBack()">Back</button>
                 </div>
+
+                <p id="row-msg"><i>Click a row to display the quiz</i></p>
         
                 {{!-- Display No postings OR Table that displays the user's postings --}}
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="recordTable">
@@ -34,7 +36,7 @@
                         </tr>
                     </thead>
 
-                    {{!-- The rankings table --}}
+                    {{!-- The rankings table body --}}
                     <tbody id="table-body">
                         
                         {{#each rankings}}
