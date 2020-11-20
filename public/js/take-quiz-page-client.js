@@ -7,8 +7,44 @@
 ******************************************************************************/
 
 /* Confirm back button page exit ------------------------------------------- */
-window.onbeforeunload = function() {
-    return true;
+window.onbeforeunload = function(e) {
+    e.preventDefault();
+
+    if (confirm('Are you sure you want to refresh the page, data will be lost?')) {
+        let secondsTimeStampeEpoch = Math.round(Date.now() / 1000);
+        // Remove navigation prompt on form submission
+        window.onbeforeunload = null;
+        //refresh page post a timestamp
+        let el_time_display = document.getElementById('timer-text');
+        let req = new XMLHttpRequest();
+        let path = '/take_quiz/time_stamp';
+
+        // String that holds the form data
+        let reqBody = {
+            time_stamp: secondsTimeStampeEpoch
+        };
+
+        reqBody = JSON.stringify(reqBody);
+
+        // Ajax HTTP POST request
+        req.open('POST', path, true);
+        req.setRequestHeader('Content-Type', 'application/json');
+        req.addEventListener('load', () => {
+            if (req.status >= 200 && req.status < 400) {
+                window.location.href = '/take_quiz';
+            } 
+            else {
+                console.error('Database return error');
+            }
+        });
+
+        req.send(reqBody);
+        return true;
+    }
+    else {
+        //do not refresh page
+        return false;
+    }
 };
 
 
