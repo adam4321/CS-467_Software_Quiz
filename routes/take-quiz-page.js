@@ -27,8 +27,8 @@ if (process.env.NODE_ENV === 'production'){
 sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
-var DEBUG = 0;
-var DEBUG_EMAIL = 0;
+var DEBUG = 1;
+var DEBUG_EMAIL = 1;
 
 // Get Schema
 const Quiz = require('../models/quiz.js');
@@ -68,7 +68,7 @@ function renderQuiz(req, res, next) {
             query.where('_id').equals( ObjectId(taker_jobposting) );
             query.exec()            
             .then(job_result => {
-                if (job_result === null) {
+
                     JobPosting.findById(ObjectId(taker_jobposting)).lean()
                     .exec()
                     .then(job_obj => {
@@ -82,12 +82,8 @@ function renderQuiz(req, res, next) {
                         console.log(err);
                          res.status(404).render("404", context);
                     });
-                }
-                else{
-                    // Set layout with paths to css
-                    context.layout = 'quiz';
-                    res.status(404).render("quiz-taken-error-page", context);
-                }
+
+
             })
             .catch((err) => {
                 console.log(err);
@@ -145,7 +141,6 @@ function scoreQuiz(req, res, next) {
             let total_time = parseInt(total_time_sec / 60);
             // Place time taken in context
             context.total_time = total_time;
-            console.log(total_time);
             console.log();
             console.log(candidate_answers);
             console.log(req.session.taker_jobposting);

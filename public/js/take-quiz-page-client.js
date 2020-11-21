@@ -9,9 +9,11 @@
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function(e) {
     e.preventDefault();
-
+    const now = moment();
+    console.log(now);
     if (confirm('Are you sure you want to refresh the page, data will be lost?')) {
         let secondsTimeStampeEpoch = Math.round(Date.now() / 1000);
+        console.log(secondsTimeStampEpoch);
         // Remove navigation prompt on form submission
         window.onbeforeunload = null;
         //refresh page post a timestamp
