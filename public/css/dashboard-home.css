@@ -6,6 +6,14 @@
     width: 730px;
 }
 
+#inbox-container {
+    width: 730px;
+    min-height: min-content;
+    height: 200px;
+    margin: 8px auto 0px auto;
+    position: relative;
+}
+
 #account-container {
     width: 730px;
     min-height: min-content;
@@ -78,6 +86,13 @@
     width: 200px;
 }
 
+#inbox-msg {
+    text-align: center;
+}
+
+#inbox-image {
+    margin-left: 45%;
+}
 
 
 /* MAIL MODAL -------------------------------------------------------------- */
@@ -150,6 +165,10 @@
         width: 95%;
     }
 
+    #inbox-container {
+        width: 95%;
+    }
+
     #account-container {
         width: 95%;
     }
@@ -182,6 +201,16 @@
         display: block;
         margin: 0 auto 0 auto;
     }
+
+    #inbox-container {
+        height: 180px;
+        margin: 8px auto 0px auto;
+    }
+
+    #inbox-msg {
+        display: block;
+        margin: 0 auto 0 auto;
+    }
 }
 
 @media only screen and (max-width: 400px) {
@@ -195,6 +224,10 @@
     }
 
     #account-container.mdl-card.mdl-shadow--2dp div.mdl-card__supporting-text.mdl-color-text--grey-600 {
+        width: 280px;
+    }
+
+    #inbox-container.mdl-card.mdl-shadow--2dp div.mdl-card__supporting-text.mdl-color-text--grey-600 {
         width: 280px;
     }
 }
