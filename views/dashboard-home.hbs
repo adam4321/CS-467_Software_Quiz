@@ -92,7 +92,11 @@
 
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
         <!-- Number badge on icon -->
-            <div id="inbox-image" class="material-icons mdl-badge mdl-badge--overlap" data-badge="{{missedMessages}}"><img  id="email-logo" src="/images/email-black-48dp.svg" alt="email logo"></div>
+            {{#if (eq missedMessages 0)}}
+                <div id="inbox-image" class="material-icons"><img  id="email-logo" src="/images/email-black-48dp.svg" alt="email logo"></div>
+            {{else}}
+                <div id="inbox-image" class="material-icons mdl-badge mdl-badge--overlap" data-badge="{{missedMessages}}"><img  id="email-logo" src="/images/email-black-48dp.svg" alt="email logo"></div>
+            {{/if}}
             <br>
             <p id="inbox-msg">Click the mail icon to view job postings and responses</p>
         </div>

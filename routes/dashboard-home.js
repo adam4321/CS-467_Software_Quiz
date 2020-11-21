@@ -111,6 +111,8 @@ function renderDashboard(req, res, next) {
     query.where('email').equals(req.user.email);
     query.exec()
     .then(result => {
+        // TODO: missedmessages from employer
+        context.missedMessages = 1;
         // No email found
         if (result[0] == undefined) {
             emp.save()
