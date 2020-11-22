@@ -156,18 +156,9 @@ function sendQuizLinkEmail(req, res, next, msg) {
     }
 }
 
-
-/* SUBMIT EMAIL - Function to process quiz parameters and store candidate details in database on the main dashboard */
-function readEmailForm(req, res, next) {
-    let first = req.body.first;
-    let last = req.body.last;
-    let email = req.body.email;
-    let job_arr = req.body.jobposting.split("<,> ");
-    let jobposting_id = job_arr[0];
-    let title = job_arr[1];
-    let message_header = job_arr[2];
-    let quiz = job_arr[3];
-    var payload = { email: email, jobposting: jobposting_id, quiz: quiz};
+/* GENERATE MESSAGE - Function to generate the msg object*/
+function generateMessage(email, cand_id, jobposting_id, quiz, title, message_header){
+    var payload = { email: email, cand_id: cand_id, jobposting: jobposting_id, quiz: quiz};
     var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
     let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
     //let quiz_link = 'http://localhost:3500/take_quiz/'+token;
@@ -182,6 +173,22 @@ function readEmailForm(req, res, next) {
         text: `${message}`,
         html: `${html_message}`,
     }
+
+    return msg;
+}
+
+
+/* SUBMIT EMAIL - Function to process quiz parameters and store candidate details in database on the main dashboard */
+function readEmailForm(req, res, next) {
+    let first = req.body.first;
+    let last = req.body.last;
+    let email = req.body.email;
+    let job_arr = req.body.jobposting.split("<,> ");
+    let jobposting_id = job_arr[0];
+    let title = job_arr[1];
+    let message_header = job_arr[2];
+    let quiz = job_arr[3];
+    
 
     // Save new object to database collection
     const cand = new Candidate({
@@ -202,6 +209,8 @@ function readEmailForm(req, res, next) {
             if (cand_result[0] == undefined) {
                 cand.save()
                 .then(result => {
+                    let cand_id = cand._id;
+                    var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header);
                     sendQuizLinkEmail(req, res, next, msg);
                 })
                 .catch(err => {
@@ -225,6 +234,8 @@ function readEmailForm(req, res, next) {
                             // Email found, but candidate has not submitted response yet for this job posting, add candidate
                             cand.save()
                             .then(result => {
+                                let cand_id = cand._id;
+                                var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header);
                                 sendQuizLinkEmail(req, res, next, msg);
                             })
                             .catch(err => {
@@ -235,6 +246,8 @@ function readEmailForm(req, res, next) {
                     }
                     else{
                         // Email already exists and for this job posting and has submitted response
+                        let cand_id = cand_result[0]._id
+                        var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header);
                         sendQuizLinkEmail(req, res, next, msg);
                     }
                 })
