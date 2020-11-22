@@ -53,7 +53,7 @@ quiz. True/false, multiple choice, fill in the blank and choose
 all that apply. Regardless of which type of question you choose
 you will be then prompted to enter a question. 
 
-##### True/False
+##### True / False
 
 True and False choices will be displayed for you 
 under the question you entered. Please choose which answer is
@@ -88,7 +88,7 @@ When entering the answer to this question note that if the
 quiz taker's answer does not match the answer that you put in 
 exactly it will be graded as incorrect.
 
-##### ALL THAT APPLY
+##### All That Apply
 
 Initially you will have only one answer input available. You 
 can add another by clicking the plus symbol (+) or remove an 
