@@ -10,49 +10,24 @@
 window.onbeforeunload = function(e) {
     e.preventDefault();
 
-    let el_start_quiz_check = document.getElementById('start_quiz_div');
-    // If submit button is present no need to check if user wants there data
-    if (el_start_quiz_check.style.display === 'block'){
-        return true;
-    }
-    else{         
+       
         let secondsTimeStampEpoch = moment.utc().valueOf(); 
+        let myName = localStorage.getItem('time_stamp');
+        console.log(myName);
             console.log(secondsTimeStampEpoch);
-            // Remove navigation prompt on form submission
-            window.onbeforeunload = null;
-            //refresh page post a timestamp
-            let el_time_display = document.getElementById('timer-text');
-            let req = new XMLHttpRequest();
-            let path = '/take_quiz/time_stamp';
-
-            // String that holds the form data
-            let reqBody = {
-                time_stamp: secondsTimeStampEpoch
-            };
-
-            reqBody = JSON.stringify(reqBody);
-
-            // Ajax HTTP POST request
-            req.open('POST', path, true);
-            req.setRequestHeader('Content-Type', 'application/json');
-            req.addEventListener('load', () => {
-                if (req.status >= 200 && req.status < 400) {
-                    window.location.href = '/take_quiz';
-                } 
-                else {
-                    console.error('Database return error');
-                }
-            });
-
-            req.send(reqBody);
-            return true;
-    }
+        localStorage.setItem('time_stamp', secondsTimeStampEpoch);
+        // Remove navigation prompt on form submission
+        window.onbeforeunload = null;
+        //refresh page post a timestamp
+        let el_time_display = document.getElementById('timer-text');
+        
+        return true;
 };
 
 
 /* =================== QUIZ DISPLAY FUNCTIONS ======================== */
 
-document.getElementById("start-btn").addEventListener('click', (e) => {
+window.onload = function(e) {
     e.preventDefault();
 
     // Display the quiz and hide the start button
@@ -108,7 +83,7 @@ document.getElementById("start-btn").addEventListener('click', (e) => {
             }
         }        
     }, 1000);
-});
+};
 
 
 /* =================== QUIZ POST VALIDATION FUNCTIONS ======================== */

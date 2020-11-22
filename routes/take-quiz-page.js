@@ -39,6 +39,27 @@ const Employer = require('../models/employer.js');
 // Get Scoring Algorithm
 var calc_score =  require('../score.js');
 
+/* START QUIZ - Function to render the start quiz button that candidate clicks ----------------------------- */
+function renderStart(req, res, next) {
+    var token = req.params.token;
+    var decoded = jwt.decode(token, CRED_ENV.HASH_SECRET);
+    let taker_jobposting= decoded.jobposting;
+    let context = {};
+    JobPosting.findById(ObjectId(taker_jobposting)).lean()
+    .exec()
+    .then(job_obj => {
+        // No candidate response for this quiz yet
+        context = job_obj.associatedQuiz[0].quiz;
+        // Set layout with paths to css
+        context.layout = 'quiz';
+        res.status(200).render("start-quiz-page", context);
+    })
+    .catch((err) => {
+        console.log(err);
+            res.status(404).render("404", context);
+    });
+
+}
 
 /* TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
@@ -52,8 +73,6 @@ function renderQuiz(req, res, next) {
     let taker_quiz = decoded.quiz
     req.session.taker_quiz = taker_quiz;
     var context = {};
-    context.time_stamp = req.session.time_stamp;
-    console.log(req.session.time_stamp);
     // Find if the hashed quiz exists already for the hashed job posting and hashed candidate id, 
     // then display already taken if true
     var cand_query = Candidate.find({});
@@ -76,7 +95,7 @@ function renderQuiz(req, res, next) {
                         // No candidate response for this quiz yet
                         context = job_obj.associatedQuiz[0].quiz;
                         // Set layout with paths to css
-                        context.layout = 'quiz';
+                        context.layout = 'take_quiz';
                         res.status(200).render("take-quiz-page", context);
                     })
                     .catch((err) => {
@@ -265,7 +284,8 @@ function generateTimeStamp(req, res, next) {
 
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
-router.get('/:token', renderQuiz);
+router.get('/:token', renderStart);
+router.get('/:token/quiz', renderQuiz);
 router.post('/', scoreQuiz);
 router.post('/time_stamp', generateTimeStamp);
 
