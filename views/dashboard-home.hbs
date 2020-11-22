@@ -83,6 +83,25 @@
         </div>
     </div>
     <br>
+
+    <div id="inbox-container" class="mdl-card mdl-shadow--2dp">
+
+        <div class="mdl-card__title mdl-color-text--white dashboard-top-bar">
+            <h2 class="mdl-card__title-text">Inbox</h2>
+        </div>
+
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+        <!-- Number badge on icon -->
+            {{#if (eq missedMessages 0)}}
+                <div id="inbox-image" class="material-icons"><img  id="email-logo" src="/images/email-black-48dp.svg" alt="email logo"></div>
+            {{else}}
+                <div id="inbox-image" class="material-icons mdl-badge mdl-badge--overlap" data-badge="{{missedMessages}}"><img  id="email-logo" src="/images/email-black-48dp.svg" alt="email logo"></div>
+            {{/if}}
+            <br>
+            <p id="inbox-msg">Click the mail icon to view job postings and responses</p>
+        </div>
+    </div>
+    <br>
     
     <div id="account-container" class="mdl-card mdl-shadow--2dp">
 
