@@ -9,43 +9,43 @@
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function(e) {
     e.preventDefault();
-    const now = moment();
-    console.log(now);
-    if (confirm('Are you sure you want to refresh the page, data will be lost?')) {
-        let secondsTimeStampeEpoch = Math.round(Date.now() / 1000);
-        console.log(secondsTimeStampEpoch);
-        // Remove navigation prompt on form submission
-        window.onbeforeunload = null;
-        //refresh page post a timestamp
-        let el_time_display = document.getElementById('timer-text');
-        let req = new XMLHttpRequest();
-        let path = '/take_quiz/time_stamp';
 
-        // String that holds the form data
-        let reqBody = {
-            time_stamp: secondsTimeStampeEpoch
-        };
-
-        reqBody = JSON.stringify(reqBody);
-
-        // Ajax HTTP POST request
-        req.open('POST', path, true);
-        req.setRequestHeader('Content-Type', 'application/json');
-        req.addEventListener('load', () => {
-            if (req.status >= 200 && req.status < 400) {
-                window.location.href = '/take_quiz';
-            } 
-            else {
-                console.error('Database return error');
-            }
-        });
-
-        req.send(reqBody);
+    let el_start_quiz_check = document.getElementById('start_quiz_div');
+    // If submit button is present no need to check if user wants there data
+    if (el_start_quiz_check.style.display === 'block'){
         return true;
     }
-    else {
-        //do not refresh page
-        return false;
+    else{         
+        let secondsTimeStampEpoch = moment.utc().valueOf(); 
+            console.log(secondsTimeStampEpoch);
+            // Remove navigation prompt on form submission
+            window.onbeforeunload = null;
+            //refresh page post a timestamp
+            let el_time_display = document.getElementById('timer-text');
+            let req = new XMLHttpRequest();
+            let path = '/take_quiz/time_stamp';
+
+            // String that holds the form data
+            let reqBody = {
+                time_stamp: secondsTimeStampEpoch
+            };
+
+            reqBody = JSON.stringify(reqBody);
+
+            // Ajax HTTP POST request
+            req.open('POST', path, true);
+            req.setRequestHeader('Content-Type', 'application/json');
+            req.addEventListener('load', () => {
+                if (req.status >= 200 && req.status < 400) {
+                    window.location.href = '/take_quiz';
+                } 
+                else {
+                    console.error('Database return error');
+                }
+            });
+
+            req.send(reqBody);
+            return true;
     }
 };
 

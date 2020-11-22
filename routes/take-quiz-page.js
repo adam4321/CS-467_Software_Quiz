@@ -52,7 +52,8 @@ function renderQuiz(req, res, next) {
     let taker_quiz = decoded.quiz
     req.session.taker_quiz = taker_quiz;
     var context = {};
-
+    context.time_stamp = req.session.time_stamp;
+    console.log(req.session.time_stamp);
     // Find if the hashed quiz exists already for the hashed job posting and hashed candidate id, 
     // then display already taken if true
     var cand_query = Candidate.find({});
@@ -257,10 +258,15 @@ function scoreQuiz(req, res, next) {
 
 };
 
+/* GENERATE TIME STAMP - Function to generate time stamp and put in session from page refresh to track how long page was refreshed ---------------------- */
+function generateTimeStamp(req, res, next) {
+    req.session.time_stamp = req.body.time_stamp;
+}
 
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
 router.get('/:token', renderQuiz);
 router.post('/', scoreQuiz);
+router.post('/time_stamp', generateTimeStamp);
 
 module.exports = router;
