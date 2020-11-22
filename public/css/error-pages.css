@@ -1,0 +1,13 @@
+/******************************************************************************
+**  Description: 400 & 500 Error pages - css file for the pages
+******************************************************************************/
+
+#dashboard-container {
+    max-width: 730px;
+}
+
+@media only screen and (max-width: 775px) {
+    #dashboard-container {
+        width: 95%;
+    }
+}

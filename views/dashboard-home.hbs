@@ -1,4 +1,5 @@
 {{!-- Home dashboard view - using express handlebars --}}
+
 <title>Quiz Soft | Home</title>
 <link type="text/css" rel="stylesheet" href="css/dashboard-home.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -7,13 +8,12 @@
 <link rel="stylesheet" href="css/getmdl-select.min.css">
 <script defer src="js/getmdl-select.min.js"></script>
 
-
-    <div id="modal" class="modal">
+<div id="modal" class="modal">
     {{!-- Modal content --}}
     <div class="modal-content square-card mdl-card--expand mdl-shadow--2dps mdl-color-text--black-600">
         <div id="status-container" style="display:block;" class="mdl-card__supporting-text mdl-color-text--grey-600"><h5>Sending Mail<div class="spinning-mail" ></div> </h5></div>
     </div>
-    </div>
+</div>
 
 {{!-- Container for the dashboard --}}
 <div id="top-row-container">
@@ -23,7 +23,6 @@
             <h2 class="mdl-card__title-text">Home</h2>
         </div>
 
-        
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
             <img id="profile-image" src={{photo}}>
             <p id="profile-email">{{email}}</p>
