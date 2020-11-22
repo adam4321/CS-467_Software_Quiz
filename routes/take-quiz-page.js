@@ -51,12 +51,13 @@ function renderQuiz(req, res, next) {
     req.session.taker_jobposting = taker_jobposting;
     let taker_quiz = decoded.quiz
     req.session.taker_quiz = taker_quiz;
+    let candidate_id = decoded.cand_id;
     var context = {};
 
     // Find if the hashed quiz exists already for the hashed job posting and hashed candidate id, 
     // then display already taken if true
     var cand_query = Candidate.find({});
-    cand_query.where('email').equals(taker_email);
+    cand_query.where('_id').equals(candidate_id);
     cand_query.exec()
     .then(cand_result => {
         if (cand_result[0] !== undefined){
