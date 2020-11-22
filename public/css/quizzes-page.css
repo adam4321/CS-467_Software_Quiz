@@ -129,7 +129,12 @@ td:hover {
 }
 
 
-/* Table body styling ------------------------------------------------------ */
+/* Table styling ----------------------------------------------------------- */
+
+#row-msg {
+    margin: 25px 0 -10px 100px;
+    font-size: 12px;
+}
 
 input[type="file"] {
     display: none;
@@ -280,6 +285,12 @@ input[type="file"] {
         float: none;
         width: 225px;
         margin: 10px auto 15px auto;
+    }
+
+    #row-msg {
+        font-size: 10px;
+        margin-top: 25px;
+        margin-left: 85px;
     }
 
     #no-quiz-break {

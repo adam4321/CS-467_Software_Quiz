@@ -344,6 +344,14 @@ function uploadFile(e) {
                         btnLabel.appendChild(uploadBtn);
                         uploadBtn.onchange = uploadFile;
 
+                        // Add click row message
+                        let rowMsg = document.createElement('p');
+                        let italic = document.createElement('i');
+                        rowMsg.id  = 'row-msg';
+                        italic.textContent = 'Click a row to view the submissions';
+                        rowMsg.appendChild(italic);
+                        emptyContainer.appendChild(rowMsg);
+
                         // Create the table
                         let newTable       = document.createElement('table');
                         newTable.id        = 'recordTable';
