@@ -6,7 +6,7 @@ job applicants.
 
 It can be run by cloning the project and then setting up the
 necessary Google Oauth2 credentials in the GCP dashboard and
-adding those credentials in a file called GOOGLE-credentials.js.
+adding those credentials in a file called credentials.js.
 
 Then just call 'npm install' and call 'node app.js'!
 
