@@ -28,7 +28,7 @@ td:hover {
 #title-div {
     display: inline-block;
     max-width: 100%;
-    margin: 5px 0 0 7px;
+    margin: 10px 0 0 7px;
     font-size: medium;
     font-weight: bold;
     font-size: 17px;
@@ -41,7 +41,7 @@ td:hover {
 
 #back-div {
     float: right;
-    margin: 0 0 8px 0;
+    margin: 5px 0 8px 0;
 }
 
 #back-txt {

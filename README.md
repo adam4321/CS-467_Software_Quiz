@@ -8,9 +8,11 @@ It can be run by cloning the project and then setting up the
 necessary Google Oauth2 credentials in the GCP dashboard and
 adding those credentials in a file called GOOGLE-credentials.js.
 
-Then just npm install and node app.js!
+Then just call 'npm install' and call 'node app.js'!
 
 ### SIGNING IN
+
+The application can be reached at this [link](https://softwarecustomquiz.herokuapp.com/login).
 
 Two sign in options exist:
 1) Using your Google (Gmail) account
@@ -31,7 +33,7 @@ categories
 Quiz Name: The name of the quiz
 
 Category: Setting the cateogry the quiz will fall into.
-EX: C++, C#, Javascript, Networking, IT Help Desk etc.
+E.g., C++, C#, Javascript, Networking, IT Help Desk etc.
 
 Time Limit (minutes): A set amount of time the quiz recipient 
 (job candidate) will have to take the quiz. 
@@ -52,12 +54,14 @@ all that apply. Regardless of which type of question you choose
 you will be then prompted to enter a question. 
 
 ##### True/False
+
 True and False choices will be displayed for you 
 under the question you entered. Please choose which answer is
 the CORRECT answer. 
 
 
 ##### Multiple Choice
+
 Initially you will have only one answer input available. You 
 can add another by clicking the plus symbol (+) or remove an 
 answer option by clicking the subtraction symbol(-). You must 
@@ -66,6 +70,7 @@ quiz. Add the desired amount of answers and click the circle
 next to which answer is the correct answer. 
 
 ##### Fill in the blank
+
 You will have two parts to your question here the section 
 before the blank and the section of the question after the 
 blank. An example is given below.
@@ -84,6 +89,7 @@ quiz taker's answer does not match the answer that you put in
 exactly it will be graded as incorrect.
 
 ##### ALL THAT APPLY
+
 Initially you will have only one answer input available. You 
 can add another by clicking the plus symbol (+) or remove an 
 answer option by clicking the subtraction symbol(-). You can 

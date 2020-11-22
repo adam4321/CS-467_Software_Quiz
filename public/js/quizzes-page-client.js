@@ -348,7 +348,7 @@ function uploadFile(e) {
                         let rowMsg = document.createElement('p');
                         let italic = document.createElement('i');
                         rowMsg.id  = 'row-msg';
-                        italic.textContent = 'Click a row to view the submissions';
+                        italic.textContent = 'Click a row to view the quiz';
                         rowMsg.appendChild(italic);
                         emptyContainer.appendChild(rowMsg);
 
