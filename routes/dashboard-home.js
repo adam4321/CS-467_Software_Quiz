@@ -5,7 +5,7 @@
 **
 **  Contains:   /
 **              /sendmail
-**              /
+**              /removeAccount
 **
 **  SECURED ROUTES!  --  All routes must call checkUserLoggedIn        
 ******************************************************************************/
@@ -15,39 +15,37 @@ const router = express.Router();
 const sgMail = require('@sendgrid/mail');
 const jwt = require('jwt-simple');
 const { ObjectId } = require('mongodb');
-
 const mongoose = require('mongoose');
 let CRED_ENV;
-
-// Choose credentials for dev or prod
-if (process.env.NODE_ENV === 'production'){
-    CRED_ENV = process.env;
-} else {
-    CRED_ENV = require('../credentials.js');
-}
-
-sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
-
-// Debug Flag
-var DEBUG = 0;
-const DEBUG_REMOVE = 1;
-const DEBUG_EMAIL = 0;
 
 // Get schemas
 const JobPosting = require('../models/jobposting.js');
 const Employer = require('../models/employer.js');
 const Candidate = require('../models/candidate.js');
 const Quiz = require('../models/quiz.js');
-const { remove } = require('../models/jobposting.js');
+
+// Choose credentials for dev or prod
+if (process.env.NODE_ENV === 'production') {
+    CRED_ENV = process.env;
+} 
+else {
+    CRED_ENV = require('../credentials.js');
+}
+
+// Set up sendgrid
+sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
+
+// Debug Flag
+let DEBUG = 0;
 
 
-/* Middleware - Function to Check user is Logged in ------------------------ */
+/* Middleware - Function to Check user is Logged in --------------------------------- */
 const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
 
-/* FIND QUIZZES - Function to query schema that is used more than once on the main dashboard --------------- */
+/* FIND QUIZZES - Function to query schema that is used more than once on the main dashboard ----------- */
 function renderPageFromQuery(req, res, next, context, user_id, emp_new) {
     // Find only job postings for current user (employer)
     JobPosting.find({}).lean().where('employer_id').equals(user_id).exec()
@@ -73,16 +71,15 @@ function renderPageFromQuery(req, res, next, context, user_id, emp_new) {
             console.error(err);
             res.status(500).render("dashboard-home", context);
         });
-
     })
     .catch(err => {
         console.error(err);
         res.status(404).render("dashboard-home", context);
-    });   
+    });
 }
 
 
-/* RENDER DASHBOARD - Function to render the main dashboard ---------------- */
+/* RENDER DASHBOARD / REGISTER USER - Function to render the main dashboard ---------------- */
 function renderDashboard(req, res, next) {
     let context = {};
 
@@ -107,12 +104,12 @@ function renderDashboard(req, res, next) {
     });
 
     // Check if email is already registered in collection/employers
-    var query = Employer.find({});
-    query.where('email').equals(req.user.email);
-    query.exec()
+    Employer.find({}).where('email').equals(context.email).exec()
     .then(result => {
         // TODO: missedmessages from employer
         context.missedMessages = 1;
+
+        
         // No email found
         if (result[0] == undefined) {
             emp.save()
@@ -140,28 +137,24 @@ function renderDashboard(req, res, next) {
 /* SEND LINK - Function send quiz link email to the candidate using SendGrid on the main dashboard --------------- */
 function sendQuizLinkEmail(req, res, next, msg) {
     console.log(msg);
-    if (DEBUG_EMAIL === 0) {
-        sgMail.send(msg)
-        .then(() => {
-            console.log('Email sent')
-            res.status(200).redirect('/dashboard');
-        })
-        .catch((error) => {
-            console.error(error)
-            res.status(500).redirect('/dashboard');
-        });
-    }
-    else{
+
+    sgMail.send(msg)
+    .then(() => {
+        console.log('Email sent')
         res.status(200).redirect('/dashboard');
-    }
+    })
+    .catch((error) => {
+        console.error(error)
+        res.status(500).redirect('/dashboard');
+    });
 }
 
-/* GENERATE MESSAGE - Function to generate the msg object*/
-function generateMessage(email, cand_id, jobposting_id, quiz, title, message_header){
+
+/* GENERATE MESSAGE - Function to generate the msg object ------------------ */
+function generateMessage(email, cand_id, jobposting_id, quiz, title, message_header, first, last) {
     var payload = { email: email, cand_id: cand_id, jobposting: jobposting_id, quiz: quiz};
     var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
     let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
-    //let quiz_link = 'http://localhost:3500/take_quiz/'+token;
     let message = first + ' ' + last + ',' +' Please click the following to take the employer quiz '+ quiz_link +' ';
     let html_message = '<p>' + message_header + '</p></br><strong>' + message + '</strong>';
     let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
@@ -178,7 +171,7 @@ function generateMessage(email, cand_id, jobposting_id, quiz, title, message_hea
 }
 
 
-/* SUBMIT EMAIL - Function to process quiz parameters and store candidate details in database on the main dashboard */
+/* SUBMIT EMAIL - Function to process quiz parameters and store candidate details in database on the main dashboard -- */
 function readEmailForm(req, res, next) {
     let first = req.body.first;
     let last = req.body.last;
@@ -188,7 +181,6 @@ function readEmailForm(req, res, next) {
     let title = job_arr[1];
     let message_header = job_arr[2];
     let quiz = job_arr[3];
-    
 
     // Save new object to database collection
     const cand = new Candidate({
@@ -201,16 +193,14 @@ function readEmailForm(req, res, next) {
 
     if (DEBUG === 0){
         // Check if email is already registered in collection/candidate for jobposting
-        var query = Candidate.find({});
-        query.where('email').equals(email);
-        query.exec()
+        Candidate.find({}).where('email').equals(email).exec()
         .then(cand_result => {
             // No email found, add candidate
             if (cand_result[0] == undefined) {
                 cand.save()
                 .then(result => {
                     let cand_id = cand._id;
-                    var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header);
+                    var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header, first, last);
                     sendQuizLinkEmail(req, res, next, msg);
                 })
                 .catch(err => {
@@ -218,7 +208,7 @@ function readEmailForm(req, res, next) {
                     res.status(500).render("dashboard-home", context);
                 });
             }
-            else{
+            else {
                 var query = JobPosting.findOne(
                     {"quizResponses.candidate_id": ObjectId(cand_result[0]._id)}, 
                     {"quizResponses.$": 1} 
@@ -235,7 +225,7 @@ function readEmailForm(req, res, next) {
                             cand.save()
                             .then(result => {
                                 let cand_id = cand._id;
-                                var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header);
+                                var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header, first, last);
                                 sendQuizLinkEmail(req, res, next, msg);
                             })
                             .catch(err => {
@@ -244,7 +234,7 @@ function readEmailForm(req, res, next) {
                             });
 
                     }
-                    else{
+                    else {
                         // Email already exists and for this job posting and has submitted response
                         let cand_id = cand_result[0]._id
                         var msg = generateMessage(email, cand_id, jobposting_id, quiz, title, message_header);
@@ -262,7 +252,7 @@ function readEmailForm(req, res, next) {
             res.status(500).render("dashboard-home", context);
         });
     }
-    else{
+    else {
         // Email already exists
         sendQuizLinkEmail(req, res, next, msg);
     }
@@ -271,84 +261,58 @@ function readEmailForm(req, res, next) {
 
 /* DELETE USER - Function to remove a user --------------------------------- */
 function removeUser(req, res, next) {
-
     // Check if email for employer then remove all associated jobpostings quizzes and candiates connected to jobpostings
-    var query = Employer.find({});
-    query.where('email').equals(req.user.email);
-    query.exec()
+    Employer.find({}).where('email').equals(req.user.email).exec()
     .then(result => {
-        if (DEBUG_REMOVE === 0) {
+
         // Query JobPosting for associations to Candidates
         JobPosting.find({employer_id: ObjectId(result[0]._id)}).exec()
-            .then(job_data => {
-                // Return only unique candidate ids
-                function removeDuplicates(data) {
-                    return data.filter((value, index) => data.indexOf(value) === index);
-                };
-                var job_delete = [];
-                var candidate_delete = [];
-                for (let i = 0; i < job_data.length; i++) {
-                    job_delete.push((job_data[i]._id).toString());
+        .then(job_data => {
+            // Return only unique candidate ids
+            function removeDuplicates(data) {
+                return data.filter((value, index) => data.indexOf(value) === index);
+            };
 
-                    JobPosting.deleteOne({'_id': ObjectId(job_data[i]._id)});
-                    for (let j = 0; j < job_data[i].quizResponses.length; j++) {
-                        if (job_data[i].quizResponses[j].candidate_id != undefined) {
-                            candidate_delete.push((job_data[i].quizResponses[j].candidate_id).toString());
-                        }
+            var job_delete = [];
+            var candidate_delete = [];
+
+            for (let i = 0; i < job_data.length; i++) {
+                job_delete.push((job_data[i]._id).toString());
+
+                JobPosting.deleteOne({'_id': ObjectId(job_data[i]._id)});
+                for (let j = 0; j < job_data[i].quizResponses.length; j++) {
+                    if (job_data[i].quizResponses[j].candidate_id != undefined) {
+                        candidate_delete.push((job_data[i].quizResponses[j].candidate_id).toString());
                     }
                 }
-                var candidate_delete_reduced = removeDuplicates(candidate_delete);
-                // Remove job postings  
-                JobPosting.deleteMany({
-                      _id: {
-                        $in: job_delete }
-                    }).exec()
+            }
+
+            var candidate_delete_reduced = removeDuplicates(candidate_delete);
+
+            // Remove job postings  
+            JobPosting.deleteMany({_id: {$in: job_delete }}).exec()
+            .then(() => {
+
+                // Remove associated candidates with job postings  
+                Candidate.deleteMany({_id: {$in: candidate_delete_reduced }}).exec()
                 .then(() => {
-                    // Remove associated candidates with job postings  
-                    Candidate.deleteMany({
-                        _id: {
-                          $in: candidate_delete_reduced }
-                      }).exec()
+
+                    // Remove quizzes
+                    Quiz.deleteMany({ employer_id: ObjectId(result[0]._id)}).exec()
                     .then(() => {
-                        // Remove quizzes
-                        Quiz.deleteMany({ employer_id: ObjectId(result[0]._id)}).exec()
-                        .then(() =>{
-                            // Finally remove employer
-                            Employer.deleteOne({ '_id': ObjectId(result[0]._id)}).exec()
-                            .then(emp_remove =>{
-                                // Removal complete
-                                console.log("User removed");
-                                res.status(204).json(emp_remove).end();
-                            })
-                            .catch(err => {
-                                console.error(err);
-                                res.status(500).end();
-                            })
+
+                        // Finally remove employer
+                        Employer.deleteOne({ '_id': ObjectId(result[0]._id)}).exec()
+                        .then(emp_remove =>{
+                            // Removal complete
+                            console.log("User removed\n");
+                            res.status(204).json(emp_remove).end();
                         })
-                        .catch(err => {
-                            console.error(err);
-                            res.status(500).end();
-                        })                 
-                  })
-                  .catch(err =>{
-                      console.error(err);
-                      res.status(500).end();
-                  })
-                })
-                .catch(err =>{
-                    console.error(err);
-                    res.status(500).end();
+                    })
                 })
             })
-            .catch(err => {
-                console.error(err);
-                res.status(500).end();
-            })
-        }
-        else{
-            res.redirect('/dashboard.home');
-        }
         })
+    })
     .catch(err => {
         console.error(err);
         res.status(500).render("dashboard-home", context);
@@ -360,6 +324,6 @@ function removeUser(req, res, next) {
 
 router.get('/', checkUserLoggedIn, renderDashboard);
 router.post('/sendmail', checkUserLoggedIn, readEmailForm);
-router.post('/', checkUserLoggedIn, removeUser);
+router.post('/removeAccount', checkUserLoggedIn, removeUser);
 
 module.exports = router;

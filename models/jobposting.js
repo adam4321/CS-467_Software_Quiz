@@ -1,11 +1,10 @@
-const { ObjectID, Int32 } = require('mongodb');
-const mongoose = require('mongoose');
-const Quiz = require('./quiz.js');
-
-
 /******************************************************************************
 **  Description:  Mongodb / Mongoose data model for the Job Posting entity
 ******************************************************************************/
+
+const { ObjectId, Int32 } = require('mongodb');
+const mongoose = require('mongoose');
+const Quiz = require('./quiz.js');
 
 const jobpostingSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
