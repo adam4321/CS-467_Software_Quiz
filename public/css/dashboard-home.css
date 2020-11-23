@@ -17,8 +17,8 @@
 #account-container {
     width: 730px;
     min-height: min-content;
-    height: 125px;
-    margin: 8px auto 0px auto;
+    height: 150px;
+    margin: 8px auto 80px auto;
     position: relative;
 }
 
@@ -73,7 +73,7 @@
     background-color: rgb(219, 41, 41);
     color: white;
     width: 180px;
-    margin: -10px 20px 0 -5px;
+    margin: 0px 20px 3px -3px;
     justify-content: center;
 }
 
