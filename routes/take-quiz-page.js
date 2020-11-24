@@ -27,8 +27,8 @@ if (process.env.NODE_ENV === 'production'){
 sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
-var DEBUG = 0;
-var DEBUG_EMAIL = 0;
+var DEBUG = 1;
+var DEBUG_EMAIL = 1;
 
 // Get Schema
 const Quiz = require('../models/quiz.js');
@@ -39,6 +39,27 @@ const Employer = require('../models/employer.js');
 // Get Scoring Algorithm
 var calc_score =  require('../score.js');
 
+/* START QUIZ - Function to render the start quiz button that candidate clicks ----------------------------- */
+function renderStart(req, res, next) {
+    var token = req.params.token;
+    var decoded = jwt.decode(token, CRED_ENV.HASH_SECRET);
+    let taker_jobposting= decoded.jobposting;
+    let context = {};
+    JobPosting.findById(ObjectId(taker_jobposting)).lean()
+    .exec()
+    .then(job_obj => {
+        // No candidate response for this quiz yet
+        context = job_obj.associatedQuiz[0].quiz;
+        // Set layout with paths to css
+        context.layout = 'quiz';
+        res.status(200).render("start-quiz-page", context);
+    })
+    .catch((err) => {
+        console.log(err);
+            res.status(404).render("404", context);
+    });
+
+};
 
 /* TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
@@ -146,7 +167,6 @@ function scoreQuiz(req, res, next) {
             let total_time = parseInt(total_time_sec / 60);
             // Place time taken in context
             context.total_time = total_time;
-            console.log(total_time);
             console.log();
             console.log(candidate_answers);
             console.log(req.session.taker_jobposting);
@@ -263,10 +283,16 @@ function scoreQuiz(req, res, next) {
 
 };
 
+/* GENERATE TIME STAMP - Function to generate time stamp and put in session from page refresh to track how long page was refreshed ---------------------- */
+function generateTimeStamp(req, res, next) {
+    req.session.time_stamp = req.body.time_stamp;
+}
 
 /* QUIZZES PAGE ROUTES ----------------------------------------------------- */
 
-router.get('/:token', renderQuiz);
+router.get('/:token', renderStart);
+router.get('/:token/quiz', renderQuiz);
 router.post('/', scoreQuiz);
+router.post('/time_stamp', generateTimeStamp);
 
 module.exports = router;
