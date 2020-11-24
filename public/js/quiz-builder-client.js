@@ -1146,10 +1146,21 @@ checkAllBtn.addEventListener('click', (e) => {
         let answerArray = [];
         let keyArray = [];
 
+        // Variable to hold whether all answer fields are filled
+        let answerFieldsEmpty = true;
+
         // Iterate over the inputs and set them as required and pull the answers strings
         for (let i = 1; i <= ANSWER_COUNT; i++) {
             let requireBox = document.getElementById('ansLine_' + i);
             requireBox.children[1].required = 'true';
+
+            // Check if the answer fields are filled
+            if (requireBox.children[1].value !== '') {
+                answerFieldsEmpty = false;
+            }
+            else {
+                answerFieldsEmpty = true
+            }
 
             // Pull the answer strings
             answerArray.push(requireBox.children[1].value);
@@ -1161,46 +1172,39 @@ checkAllBtn.addEventListener('click', (e) => {
         }
 
         // Check if the required fields are filled
-        for (let i = 1; i < ANSWER_COUNT; i++) {
-            let requireBox = document.getElementById('ansLine_' + i);
-
-            // Exit the submission if a required field is empty
-            if (requireBox.children[1].value === '') {
-                return;
+        if (questionBox.value !== '' && answerFieldsEmpty === false) {
+            // Create question object
+            let obj = {
+                quizQuestion: questionBox.value,
+                quizAnswers: answerArray,
+                quizKey: keyArray,
+                quizType: 'check-all'
             }
-        }
         
-        // Create question object
-        let obj = {
-            quizQuestion: questionBox.value,
-            quizAnswers: answerArray,
-            quizKey: keyArray,
-            quizType: 'check-all'
+            // Insert the question object into the quiz object
+            quiz.questions.push(obj);
+            console.log(quiz);
+
+            // Remove the question setup from DOM and display the question type buttons
+            createBox.remove();
+            questionPrompt.style.display = 'block';
+            for (let el of document.querySelectorAll('.question-btn')) el.style.display = 'inline-block';
+
+            // Increment question count
+            questionCount.textContent = ++QUESTION_COUNT;
+
+            // Display saved question
+            displayQuizHandler(QUESTION_COUNT, quiz.questions);
+
+            // Display submit button
+            line.style.display      = 'block';
+            submitBtn.style.display = 'block';
+            quiz_form.appendChild(line);
+            quiz_form.appendChild(submitBtn);
+
+            // Scroll the window to the bottom
+            scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
         }
-    
-        // Insert the question object into the quiz object
-        quiz.questions.push(obj);
-        console.log(quiz);
-
-        // Remove the question setup from DOM and display the question type buttons
-        createBox.remove();
-        questionPrompt.style.display = 'block';
-        for (let el of document.querySelectorAll('.question-btn')) el.style.display = 'inline-block';
-
-        // Increment question count
-        questionCount.textContent = ++QUESTION_COUNT;
-
-        // Display saved question
-        displayQuizHandler(QUESTION_COUNT, quiz.questions);
-
-        // Display submit button
-        line.style.display      = 'block';
-        submitBtn.style.display = 'block';
-        quiz_form.appendChild(line);
-        quiz_form.appendChild(submitBtn);
-
-        // Scroll the window to the bottom
-        scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
     });
 
     // Event handler for the cancel button
