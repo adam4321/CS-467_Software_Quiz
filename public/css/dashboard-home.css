@@ -94,6 +94,11 @@
     margin-left: 47%;
 }
 
+.mdl-badge[data-badge]:after {
+    background-color: red !important;
+    color: white !important;
+  }
+
 
 /* MAIL MODAL -------------------------------------------------------------- */
 
