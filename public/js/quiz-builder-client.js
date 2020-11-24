@@ -253,9 +253,6 @@ function renderQuestionTF(question_num, question_text, tfValue) {
                 row.children[0].childNodes[0].innerText = `Q${i + 1}`;
             }
         }
-
-        // Display for testing and REMOVE FOR DEPLOYMENT
-        console.log(quiz);
     })
 };
 
@@ -341,9 +338,6 @@ function renderQuestionMultChoice(question_num, question_text, question_key, que
                 row.children[0].childNodes[0].innerText = `Q${i + 1}`;
             }
         }
-
-        // Display for testing and REMOVE FOR DEPLOYMENT
-        console.log(quiz);
     })
 };
 
@@ -421,9 +415,6 @@ function renderQuestionFillBlank(question_num, question_text, question_key) {
                 row.children[0].childNodes[0].innerText = `Q${i + 1}`;
             }
         }
-
-        // Display for testing and REMOVE FOR DEPLOYMENT
-        console.log(quiz);
     })
 };
 
@@ -515,9 +506,6 @@ function renderQuestionCheckAll(question_num, question_text, question_key, quest
                 row.children[0].childNodes[0].innerText = `Q${i + 1}`;
             }
         }
-
-        // Display for testing and REMOVE FOR DEPLOYMENT
-        console.log(quiz);
     })
 };
 
@@ -628,7 +616,6 @@ trueFalseBtn.addEventListener('click', (e) => {
         
             // Insert the question object into the quiz object
             quiz.questions.push(obj);
-            console.log(quiz);
 
             // Remove the question setup from DOM and display the question type buttons
             createBox.remove();
@@ -815,7 +802,6 @@ multBtn.addEventListener('click', (e) => {
         
             // Insert the question object into the quiz object
             quiz.questions.push(obj);
-            console.log(quiz);
 
             // Remove the question setup from DOM and display the question type buttons
             createBox.remove();
@@ -944,7 +930,6 @@ fillInBtn.addEventListener('click', (e) => {
         
             // Insert the question object into the quiz object
             quiz.questions.push(obj);
-            console.log(quiz);
 
             // Remove the question setup from DOM and display the question type buttons
             createBox.remove();
@@ -1183,7 +1168,6 @@ checkAllBtn.addEventListener('click', (e) => {
         
             // Insert the question object into the quiz object
             quiz.questions.push(obj);
-            console.log(quiz);
 
             // Remove the question setup from DOM and display the question type buttons
             createBox.remove();
