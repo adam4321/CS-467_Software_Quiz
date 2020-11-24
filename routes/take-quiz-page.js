@@ -27,8 +27,8 @@ if (process.env.NODE_ENV === 'production'){
 sgMail.setApiKey(CRED_ENV.SENDGRID_API_KEY);
 
 // Debug Flag
-var DEBUG = 1;
-var DEBUG_EMAIL = 1;
+var DEBUG = 0;
+var DEBUG_EMAIL = 0;
 
 // Get Schema
 const Quiz = require('../models/quiz.js');
@@ -97,7 +97,7 @@ function renderQuiz(req, res, next) {
                         // No candidate response for this quiz yet
                         context = job_obj.associatedQuiz[0].quiz;
                         // Set layout with paths to css
-                        context.layout = 'quiz';
+                        context.layout = 'take_quiz';
                         res.status(200).render("take-quiz-page", context);
                     })
                     .catch((err) => {
@@ -107,7 +107,7 @@ function renderQuiz(req, res, next) {
                 }
                 else{
                     // Set layout with paths to css
-                    context.layout = 'quiz';
+                    context.layout = 'take_quiz';
                     res.status(404).render("quiz-taken-error-page", context);
                 }
             })
