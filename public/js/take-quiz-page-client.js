@@ -9,8 +9,15 @@
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function(e) {
     e.preventDefault();
-    localStorage.setItem('refresh_quiz_semaphore', true);
-
+    let refresh_check = localStorage.getItem('refresh_quiz_semaphore');
+    if (refresh_check !== null){
+        refresh_check += 1;
+        console.log(refresh_check);
+        localStorage.setItem('refresh_quiz_semaphore', refresh_check);
+    }
+    else{
+        localStorage.setItem('refresh_quiz_semaphore', 1);
+    }
     // Remove navigation prompt on form submission
     window.onbeforeunload = null;
 
@@ -21,9 +28,7 @@ window.onbeforeunload = function(e) {
 /* Remove item on browser or tab close ------------------------------------------- */
 window.onunload = function() {
     // Clear the local storage
-    localStorage.removeItem('time_stamp');
     localStorage.removeItem('start_quiz_semaphore');
-    localStorage.removeItem('refresh_quiz_semaphore');
  }
 
 /* =================== QUIZ DISPLAY FUNCTIONS ======================== */
@@ -31,34 +36,37 @@ window.onunload = function() {
 window.onload = function(e) {
     e.preventDefault();
     // Set timerText to be actual time by finding the difference between start and return after refreshed time.
-    let refresh_check = localStorage.getItem('refresh_quiz_semaphore');
+    var refresh_check = localStorage.getItem('refresh_quiz_semaphore');
     let timerText = document.getElementById('timer-text').textContent.split(':');
-    let TIME_LIMIT = 0;
-    if (refresh_check === true){
-        var secondsTimeStampEpoch = moment.utc().valueOf(); 
-        var old_val = localStorage.getItem('time_stamp');
-        var timer_actual = secondsTimeStampEpoch - old_val;
-        if (timer_actual <= 0){
+    let timerElement = document.getElementById('timer-text');
+    let TIME_LIMIT = timerText[0] * 60000;
+    if (refresh_check !== null){
+        let secondsTimeStampEpoch = moment.utc().valueOf(); 
+        let old_val = localStorage.getItem('time_stamp');
+        let timer_diff = Math.round((secondsTimeStampEpoch - old_val)/1000);
+        if (timer_diff < 0){
+            // Error, UTC capture error
+            alert("UTC time stamping error");
             TIME_LIMIT = 0;
         }
         else{
-            
-            var TIME_seconds = timerText[0] * 60;
-            var time_check = TIME_seconds - timer_actual;
+            let TIME_seconds = timerText[0] * 60;
+            let time_check = TIME_seconds - timer_diff;
+            console.log(TIME_seconds, " ",time_check);
             if (time_check <= 0){
+                // Error ran out of time
                 TIME_LIMIT = 0;
             }
             else{
-                timerText.textContent = Math.round(time_check/60)+':00';
-                TIME_LIMIT = timerText[0] * 60000;
+                let resume_time_str = ((time_check/60).toFixed(2).toString()).split('.');
+                let seconds = (parseInt(resume_time_str[1]) * 0.6).toFixed(0); 
+                timerElement.textContent = Math.floor(time_check/60)+':'+seconds;
+                timerText = document.getElementById('timer-text').textContent.split(':');
+                TIME_LIMIT = (timerText[0] * 60000) + (timerText[1] * 600);
             }
         }
     }
-    else{
-        // Auto-submit the quiz when time runs out
-        let timerText = document.getElementById('timer-text').textContent.split(':');
-        TIME_LIMIT = timerText[0] * 60000;
-    }
+
 
     setTimeout(() => {
         document.getElementById('timer-text').textContent = `00:00`;
