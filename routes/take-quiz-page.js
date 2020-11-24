@@ -59,7 +59,7 @@ function renderStart(req, res, next) {
             res.status(404).render("404", context);
     });
 
-}
+};
 
 /* TAKE QUIZ - Function to render quiz that candidate takes ----------------------------- */
 function renderQuiz(req, res, next) {
@@ -72,11 +72,13 @@ function renderQuiz(req, res, next) {
     req.session.taker_jobposting = taker_jobposting;
     let taker_quiz = decoded.quiz
     req.session.taker_quiz = taker_quiz;
+    let candidate_id = decoded.cand_id;
     var context = {};
+
     // Find if the hashed quiz exists already for the hashed job posting and hashed candidate id, 
     // then display already taken if true
     var cand_query = Candidate.find({});
-    cand_query.where('email').equals(taker_email);
+    cand_query.where('_id').equals(candidate_id);
     cand_query.exec()
     .then(cand_result => {
         if (cand_result[0] !== undefined){
@@ -88,22 +90,26 @@ function renderQuiz(req, res, next) {
             query.where('_id').equals( ObjectId(taker_jobposting) );
             query.exec()            
             .then(job_result => {
-
+                if (job_result === null) {
                     JobPosting.findById(ObjectId(taker_jobposting)).lean()
                     .exec()
                     .then(job_obj => {
                         // No candidate response for this quiz yet
                         context = job_obj.associatedQuiz[0].quiz;
                         // Set layout with paths to css
-                        context.layout = 'take_quiz';
+                        context.layout = 'quiz';
                         res.status(200).render("take-quiz-page", context);
                     })
                     .catch((err) => {
                         console.log(err);
                          res.status(404).render("404", context);
                     });
-
-
+                }
+                else{
+                    // Set layout with paths to css
+                    context.layout = 'quiz';
+                    res.status(404).render("quiz-taken-error-page", context);
+                }
             })
             .catch((err) => {
                 console.log(err);
