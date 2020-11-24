@@ -159,7 +159,9 @@ var verifyResponses = function() {
 
   // Remove navigation prompt on form submission
   window.onbeforeunload = null;
-
+  // Set timer output to zero
+  document.getElementById('timer-text').textContent = `00:00`;
+  
   // Clear the local storage
   localStorage.removeItem('time_stamp');
   localStorage.removeItem('start_quiz_semaphore');

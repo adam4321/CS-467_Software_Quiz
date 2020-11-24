@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'production'){
 }
 
 // Create database url using credentials
-const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/test`;
+const url = `mongodb+srv://${credentials.MONGO_USER}:${credentials.MONGO_PASSWORD}@cluster0.log5a.gcp.mongodb.net/dev`;
 
 // Connect to Atlas remote database
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, function (err, res) {
