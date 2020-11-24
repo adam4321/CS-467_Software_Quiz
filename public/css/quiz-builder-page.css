@@ -109,6 +109,7 @@
 
 .answer_input {
     margin-bottom: 5px;
+    align-items: center;
 }
 
 .ansBoxCheckAll {
