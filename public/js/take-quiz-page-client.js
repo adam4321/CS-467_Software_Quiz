@@ -9,36 +9,56 @@
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function(e) {
     e.preventDefault();
+    localStorage.setItem('refresh_quiz_semaphore', true);
 
-       
-        let secondsTimeStampEpoch = moment.utc().valueOf(); 
-        let myName = localStorage.getItem('time_stamp');
-        console.log(myName);
-            console.log(secondsTimeStampEpoch);
-        localStorage.setItem('time_stamp', secondsTimeStampEpoch);
-        // Remove navigation prompt on form submission
-        window.onbeforeunload = null;
-        //refresh page post a timestamp
-        let el_time_display = document.getElementById('timer-text');
+    // Remove navigation prompt on form submission
+    window.onbeforeunload = null;
+
         
-        return true;
+    return true;
 };
 
+/* Remove item on browser or tab close ------------------------------------------- */
+window.onunload = function() {
+    // Clear the local storage
+    localStorage.removeItem('time_stamp');
+    localStorage.removeItem('start_quiz_semaphore');
+    localStorage.removeItem('refresh_quiz_semaphore');
+ }
 
 /* =================== QUIZ DISPLAY FUNCTIONS ======================== */
 
 window.onload = function(e) {
     e.preventDefault();
-
-    // Display the quiz and hide the start button
-    let el_quiz = document.getElementById('quiz_elements');
-    let el_start_quiz_div = document.getElementById('start_quiz_div');
-    el_quiz.style.display = "block";
-    el_start_quiz_div.style.display = "none";
-
-    // Auto-submit the quiz when time runs out
+    // Set timerText to be actual time by finding the difference between start and return after refreshed time.
+    let refresh_check = localStorage.getItem('refresh_quiz_semaphore');
     let timerText = document.getElementById('timer-text').textContent.split(':');
-    let TIME_LIMIT = timerText[0] * 60000;
+    let TIME_LIMIT = 0;
+    if (refresh_check === true){
+        var secondsTimeStampEpoch = moment.utc().valueOf(); 
+        var old_val = localStorage.getItem('time_stamp');
+        var timer_actual = secondsTimeStampEpoch - old_val;
+        if (timer_actual <= 0){
+            TIME_LIMIT = 0;
+        }
+        else{
+            
+            var TIME_seconds = timerText[0] * 60;
+            var time_check = TIME_seconds - timer_actual;
+            if (time_check <= 0){
+                TIME_LIMIT = 0;
+            }
+            else{
+                timerText.textContent = Math.round(time_check/60)+':00';
+                TIME_LIMIT = timerText[0] * 60000;
+            }
+        }
+    }
+    else{
+        // Auto-submit the quiz when time runs out
+        let timerText = document.getElementById('timer-text').textContent.split(':');
+        TIME_LIMIT = timerText[0] * 60000;
+    }
 
     setTimeout(() => {
         document.getElementById('timer-text').textContent = `00:00`;
@@ -131,6 +151,11 @@ var verifyResponses = function() {
 
   // Remove navigation prompt on form submission
   window.onbeforeunload = null;
+
+  // Clear the local storage
+  localStorage.removeItem('time_stamp');
+  localStorage.removeItem('start_quiz_semaphore');
+  localStorage.removeItem('refresh_quiz_semaphore');
   
   alert("The quiz was submitted");
 };
