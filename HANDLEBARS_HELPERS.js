@@ -16,6 +16,14 @@ module.exports = {
             return false;
         }
     },
+    'eq_str_num_all_cases': function(arg1, arg2) {
+        if (arg1.toLowerCase() == arg2.toLowerCase()) {
+            return true;
+        } 
+        else {
+            return false;
+        }
+    },
     'eq_arr': function(a, b) {
         return Array.isArray(a) &&
         Array.isArray(b) &&

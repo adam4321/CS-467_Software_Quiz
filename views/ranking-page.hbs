@@ -159,7 +159,7 @@
                                                         disabled
                                                         value = "{{../this.[0]}}"
                                                     /></br>
-                                                    {{#if (eq_str_num ../this.[0] this.quizKey.[0])}}
+                                                    {{#if (eq_str_num_all_cases ../this.[0] this.quizKey.[0])}}
                                                         <p class="correct">Correct!</p>
                                                     {{else}}
                                                         <p class="incorrect">Incorrect! The answser is 
