@@ -688,6 +688,7 @@ multBtn.addEventListener('click', (e) => {
     minusBtn.style.display  = 'inline-block';
     minusBtn.onclick        = removeAnswerOnClick;
     let breakDiv            = document.createElement('br');
+    let breakParagraph      = document.createElement('p');
     let answerBox           = document.createElement('input');
     let answerLabel         = document.createElement('label');
     let answerInput         = document.createElement('textarea');
@@ -716,7 +717,7 @@ multBtn.addEventListener('click', (e) => {
     minusBtn.appendChild(minusSign);
     btnContainer.appendChild(addBtn);
     btnContainer.appendChild(minusBtn);
-    createBox.appendChild(breakDiv);
+    createBox.appendChild(breakParagraph);
     createBox.appendChild(answerBox);
     createBox.appendChild(answerLabel);
     answerLabel.appendChild(answerInput);
