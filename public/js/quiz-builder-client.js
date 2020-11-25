@@ -91,9 +91,6 @@ function addAnswerOnClick(event) {
         // Scroll the window to the bottom
         scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
     }
-    else {
-        checkAnswerLimit();
-    }
 };
 
 
@@ -107,23 +104,7 @@ function removeAnswerOnClick(event) {
         document.getElementById("answerBreak"+MC_ANSWER_COUNT).outerHTML = "";
         MC_ANSWER_COUNT--;
     }
-    else {
-        checkAnswerMinimum();
-    }
 };
-
-
-/* Alert that too many choices have been added ----------------------------- */
-function checkAnswerLimit() { 
-    alert("Too many answers");
-}
-
-
-/* Alert that need a minimum of at least one answer option ----------------- */
-function checkAnswerMinimum() { 
-    alert("Must have at least one answer");
-}
-
 
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function() {
