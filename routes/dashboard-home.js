@@ -100,21 +100,19 @@ function renderDashboard(req, res, next) {
         _id: new mongoose.Types.ObjectId,
         email: context.email,
         name: context.name,
+        missedMessages: 0,
         jobPostings: []
     });
 
     // Check if email is already registered in collection/employers
     Employer.find({}).where('email').equals(context.email).exec()
     .then(result => {
-        // TODO: missedmessages from employer
-        context.missedMessages = 1;
-
-        
         // No email found
         if (result[0] == undefined) {
             emp.save()
             .then(emp_result => {
                 console.log(emp_result);
+                context.missedMessages = 0;
                 renderPageFromQuery(req, res, next, context, emp_result._id, 1);
             })
             .catch(err => {
@@ -124,6 +122,7 @@ function renderDashboard(req, res, next) {
         }
         else {
             // Email already exists
+            context.missedMessages = result[0].missedMessages;
             renderPageFromQuery(req, res, next, context, result[0]._id, 0);
         }
     })

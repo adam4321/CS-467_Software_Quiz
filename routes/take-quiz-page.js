@@ -209,8 +209,7 @@ function scoreQuiz(req, res, next) {
                         }
                         let cand_email = cand_obj.email;
                         // Email employer after finished with quiz
-                        Employer.findById(req.session.employer_id)
-                        .exec()
+                        Employer.findByIdAndUpdate(req.session.employer_id, {$inc : {'missedMessages' : 1}} ).exec()
                         .then(emp_obj => {
                             let cand_name = req.session.cand_name;
                             let emp_email = emp_obj.email;

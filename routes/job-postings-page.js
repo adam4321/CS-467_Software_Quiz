@@ -42,14 +42,23 @@ function renderPostings(req, res, next) {
 
     // Query the user's quizzes and add them to the context object
     Employer.findOne({email: context.email}).exec((err, user) => {
+        let emp_id = user._id;
+        // Update the missedMessages attribute of the document, when rendering the job posting route
+        user.missedMessages = 0;
+        user.save()
+        .then(emp_result => {
+            // Find all quizzes for the currently logged in user
+            JobPosting.find({}).lean().where('employer_id').equals(emp_id).exec()
+            .then(postings => {
+                // Assign the quiz properties to the context object
+                context.postings = postings;
 
-        // Find all quizzes for the currently logged in user
-        JobPosting.find({}).lean().where('employer_id').equals(user._id).exec()
-        .then(postings => {
-            // Assign the quiz properties to the context object
-            context.postings = postings;
-
-            res.status(200).render("job-postings-page", context);
+                res.status(200).render("job-postings-page", context);
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).render("job-postings-page", context);
+            });
         })
         .catch(err => {
             console.error(err);
