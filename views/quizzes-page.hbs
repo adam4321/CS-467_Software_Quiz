@@ -79,8 +79,8 @@
                                     <span class="close">&times;</span>
                                     <fieldset>
                                         <h5><b>Quiz Name: </b>{{name}}</h5>
-                                        <h6><b>Quiz Category: </b>{{category}} minutes</h6>
-                                        <h6><b>Time Limit: </b>{{timeLimit}}</h6>
+                                        <h6><b>Quiz Category: </b>{{category}}</h6>
+                                        <h6><b>Time Limit: </b>{{timeLimit}} minutes</h6>
                                         <h6><b>Number of questions: </b>{{questions.length}}</h6>
                                     </fieldset>
                                     <hr>
@@ -93,20 +93,20 @@
                                             <p>   
                                                 {{#if (quiz_type_expose this "mult-choice")}}
                                                     <label><i>{{quiz_question_expose this 0}}</i></label></br>
-                                                    {{#each_answer this}}                                         
+                                                    {{#each this.quizAnswers}}                                         
                                                         <input type = "radio"
                                                             id = "Q{{@q_index}}_{{this.a_index}}"
                                                             class = "mult-choice"
-                                                            value = "{{this.a_index}}"
+                                                            value = "{{this}}"
                                                             disabled
                                                             {{#with ../quizKey}}
-                                                                {{#if (eq_str_num this.[0] ../this.a_index)}}
+                                                                {{#if (eq_str_num this @index)}}
                                                                     checked
                                                                 {{/if}}
                                                             {{/with}}
                                                         />
-                                                        <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
-                                                    {{/each_answer}}
+                                                        <label for = "Q{{@q_index}}_{{this.a_index}}">{{this}}</label></br>
+                                                    {{/each}}
                                                     <input type="radio" style="display:none;" name="{{@q_index}}" id="default-mult-choice" class="mult-choice" value=""/>
                                                 {{/if}}
 
