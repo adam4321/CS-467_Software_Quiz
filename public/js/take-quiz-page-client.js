@@ -68,17 +68,12 @@ window.onload = function(e) {
     }
 
 
-    setTimeout(() => {
-        document.getElementById('timer-text').textContent = `00:00`;
-        document.getElementById('submit-btn').click();
-    }, TIME_LIMIT);
-
     // Count down on the timer display
     let minutes = parseInt(timerText[0]);
     let seconds = parseInt(timerText[1]);
     
-    setInterval(() => {
-        // Update the time and render the new time to the screen
+    // Update the time and render the new time to the screen
+    let timerInterval = setInterval(() => {
         if (seconds == 0) {
             seconds = 59
             minutes--;
@@ -111,6 +106,19 @@ window.onload = function(e) {
             }
         }        
     }, 1000);
+
+
+    // Manage the automatic submission when time runs out
+    setTimeout(() => {
+        // Turn off the timer
+        clearInterval(timerInterval);
+
+        // Display no time
+        document.getElementById('timer-text').textContent = `00:00`;
+
+        // Click the submit button
+        document.getElementById('submit-btn').click();
+    }, TIME_LIMIT);
 };
 
 
