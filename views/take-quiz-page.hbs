@@ -43,14 +43,14 @@
                                 <p>   
                                 {{#if (quiz_type_expose this "mult-choice")}}
                                     <label><i>{{quiz_question_expose this 0}}</i></label></br>
-                                    {{#each_answer this}}                                         
+                                    {{#each this.quizAnswers}}                                         
                                         <input type = "radio"
                                             name = "{{@q_index}}"
-                                            id = "Q{{@q_index}}_{{this.a_index}}"
+                                            id = "Q{{@q_index}}_{{@index}}"
                                             class = "mult-choice"
-                                            value = "{{this.a_index}}" />
-                                        <label for = "Q{{@q_index}}_{{this.a_index}}">{{this.[0]}}</label></br>
-                                    {{/each_answer}}
+                                            value = "{{@index}}" />
+                                        <label for = "Q{{@q_index}}_{{@index}}">{{this}}</label></br>
+                                    {{/each}}
                                     <input type="radio" style="display:none;" name="{{@q_index}}" id="default-mult-choice" class="mult-choice" value="" checked="checked"/>
                                 {{/if}}
                                 {{#if (quiz_type_expose this "true-false")}}
