@@ -44,7 +44,7 @@ function renderGraphic(req, res, next) {
             ((a.quizEpochTime > b.quizEpochTime) ? 1 : -1) : -1
         );
 
-        //context.rankings = temp;
+        context.rankings = temp;
 
         res.render("graphic-page", context);
     })
