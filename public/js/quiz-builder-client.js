@@ -64,7 +64,9 @@ const MC_ANSWER_LIMIT = 8;
 /* Multiple choice adds another answerBox ---------------------------------- */
 function addAnswerOnClick(event) { 
     event.preventDefault();
+
     let anchorNode = document.getElementById("appendBefore");
+    
     if (MC_ANSWER_COUNT < MC_ANSWER_LIMIT){
         MC_ANSWER_COUNT++;
 
@@ -559,17 +561,17 @@ trueFalseBtn.addEventListener('click', (e) => {
     createBox.appendChild(labelFalse);
     createBox.appendChild(newline);
 
-    // Show the question cancel button
-    let cancelBtn = document.createElement('button');
-    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
-    cancelBtn.textContent = 'Cancel Question';
-    createBox.appendChild(cancelBtn);
-
     // Show the question complete button
     let completeBtn = document.createElement('button');
     completeBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     completeBtn.textContent = 'Complete Question';
     createBox.appendChild(completeBtn);
+
+    // Show the question cancel button
+    let cancelBtn = document.createElement('button');
+    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
+    cancelBtn.textContent = 'Cancel Question';
+    createBox.appendChild(cancelBtn);
 
     // Event handler to register the new question
     completeBtn.addEventListener('click', (e) => {
@@ -728,17 +730,17 @@ multBtn.addEventListener('click', (e) => {
     document.getElementById("answerBox1").checked = true;
     MC_ANSWER_COUNT++;
 
-    // Show the question cancel button
-    let cancelBtn         = document.createElement('button');
-    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
-    cancelBtn.textContent = 'Cancel Question';
-    createBox.appendChild(cancelBtn);
-
     // Show the question complete button
     let completeBtn         = document.createElement('button');
     completeBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     completeBtn.textContent = 'Complete Question';
     createBox.appendChild(completeBtn);
+
+    // Show the question cancel button
+    let cancelBtn         = document.createElement('button');
+    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
+    cancelBtn.textContent = 'Cancel Question';
+    createBox.appendChild(cancelBtn);
 
     // Scroll the window to the bottom
     scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
@@ -872,24 +874,24 @@ fillInBtn.addEventListener('click', (e) => {
     createBox.appendChild(instructions);
 
     // Create the answer in the blank input
-    let answerBox         = document.createElement('input');
+    let answerBox         = document.createElement('textarea');
     answerBox.placeholder = 'Answer in blank';
     answerBox.id          = 'answerBox';
     answerBox.className   = 'answer_input';
     answerBox.setAttribute('data-lpignore','true');
     createBox.appendChild(answerBox);
 
-    // Show the question cancel button
-    let cancelBtn         = document.createElement('button');
-    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
-    cancelBtn.textContent = 'Cancel Question';
-    createBox.appendChild(cancelBtn);
-
     // Show the question complete button
     let completeBtn         = document.createElement('button');
     completeBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     completeBtn.textContent = 'Complete Question';
     createBox.appendChild(completeBtn);
+
+    // Show the question cancel button
+    let cancelBtn         = document.createElement('button');
+    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
+    cancelBtn.textContent = 'Cancel Question';
+    createBox.appendChild(cancelBtn);
 
     // Scroll the window to the bottom
     scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
@@ -1089,17 +1091,17 @@ checkAllBtn.addEventListener('click', (e) => {
         }
     });
 
-    // Show the question cancel button
-    let cancelBtn         = document.createElement('button');
-    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
-    cancelBtn.textContent = 'Cancel Question';
-    createBox.appendChild(cancelBtn);
-
     // Show the question complete button
     let completeBtn         = document.createElement('button');
     completeBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
     completeBtn.textContent = 'Complete Question';
     createBox.appendChild(completeBtn);
+
+    // Show the question cancel button
+    let cancelBtn         = document.createElement('button');
+    cancelBtn.className   = 'mdl-button mdl-js-button mdl-button--raised  mdl-button--colored complete-button';
+    cancelBtn.textContent = 'Cancel Question';
+    createBox.appendChild(cancelBtn);
 
     // Scroll the window to the bottom
     scrollDiv.scrollIntoView({behavior: "smooth", block: "center"});
