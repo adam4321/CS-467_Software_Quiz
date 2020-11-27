@@ -111,7 +111,7 @@
                                                     {{#if (eq_str_num ../this.[0] this.quizKey.[0])}}
                                                         <p class="correct">Correct!</p>
                                                     {{else}}
-                                                        <p class="incorrect">Incorrect! The answser is 
+                                                        <p class="incorrect">Incorrect! The answer is 
                                                             {{lookup this.quizAnswers this.quizKey.[0]}}
                                                         </p>
                                                     {{/if}}
@@ -142,7 +142,7 @@
                                                     {{#if (eq_str_num ../this.[0] this.quizKey.[0])}}
                                                         <p class="correct">Correct!</p>
                                                     {{else}}
-                                                        <p class="incorrect">Incorrect! The answser is 
+                                                        <p class="incorrect">Incorrect! The answer is 
                                                             {{capitalize this.quizKey.[0]}}
                                                         </p>
                                                     {{/if}}
@@ -162,7 +162,7 @@
                                                     {{#if (eq_str_num_all_cases ../this.[0] this.quizKey.[0])}}
                                                         <p class="correct">Correct!</p>
                                                     {{else}}
-                                                        <p class="incorrect">Incorrect! The answser is 
+                                                        <p class="incorrect">Incorrect! The answer is 
                                                             {{this.quizKey.[0]}}
                                                         </p>
                                                     {{/if}}
@@ -186,11 +186,23 @@
                                                     {{#if (eq_arr ../this this.quizKey)}}
                                                         <p class="correct">Correct!</p>
                                                     {{else}}
-                                                        <p class="incorrect">Incorrect! The answser is 
-                                                            {{#each this.quizKey}}
-                                                                {{lookup ../this.quizAnswers this}}
-                                                            {{/each}}
-                                                        </p>
+                                                        {{#if (eq_str_num this.quizKey.length 1)}}
+                                                            <p class="incorrect">Incorrect! The answer is
+                                                                {{#each this.quizKey}}
+                                                                    {{lookup ../this.quizAnswers this}}
+                                                                {{/each}}
+                                                            </p>
+                                                        {{else}}
+                                                            <p class="incorrect">Incorrect! The answers are
+                                                                {{#each this.quizKey}}
+                                                                    {{#if (eq_str_num @index (dec ../this.quizKey.length))}}
+                                                                        and {{lookup ../this.quizAnswers this}}
+                                                                    {{else}}
+                                                                        {{lookup ../this.quizAnswers this}},
+                                                                    {{/if}}
+                                                                {{/each}}
+                                                            </p>
+                                                        {{/if}}
                                                     {{/if}}
                                                 {{/if}}
 

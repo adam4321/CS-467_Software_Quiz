@@ -35,6 +35,9 @@ module.exports = {
         let index = args[0];
             return index + 1;
     },
+    'dec': function(length) {
+        return length - 1;
+    },
     'round': function(num) {
         return Math.round(parseFloat(num));
     },
