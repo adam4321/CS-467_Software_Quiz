@@ -53,6 +53,9 @@ function renderGraphic(req, res, next) {
         // Send initial rankings to context
         context.rankings = doc.quizResponses;
 
+        // Send total number of responses to context
+        context.num_of_rankings = Object.keys(doc.quizResponses).length;
+
         res.render("graphic-page", context);
     })
     .catch(err => {
