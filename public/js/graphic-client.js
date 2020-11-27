@@ -3,6 +3,7 @@
 **                the dynamic behavior for the page
 **
 **  Contains:     goBack
+**                buildGraphics
 ******************************************************************************/
 
 /* GO BACK - Function to go back to last page ------------------------------ */
@@ -10,10 +11,25 @@ function goBack() {
     window.history.back();
 }
 
-window.onload = function() {
+/* BUILD GRAPHICS - Function to build graphics from job posting responses -- ******************
+** 
+**  JSON object details where the value of the property for times is the time in minutes
+**  and the value of the property for scores is the score percentage
+**  corresponding to the details of each, <percentage> and <frequency> for times and
+**  scores respectively
+**  ... indicates more unique properties in the below example.
+**  e.g.
+**  data: { times: { 0: <percentage>, 1: <percentage>, ... },
+**         scores: { 90: <frequency>, 80: <frequency>, ... },
+**         total_responses: 5 }
+**********************************************************************************************/
+function buildGraphics(data) {
+    console.log(data.times);
+    console.log(data.scores);
+    console.log(data.total_responses);
     // set the dimensions and margins of the graph
-    var width = 450
-        height = 450
+    var width = 320
+        height = 320
         margin = 40
 
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
@@ -28,7 +44,7 @@ window.onload = function() {
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     // Create dummy data
-    var data = {a: 9, b: 20, c:30, d:8, e:12}
+    var data = data.times
 
     // set the color scale
     var color = d3.scaleOrdinal()
@@ -64,9 +80,38 @@ window.onload = function() {
     .data(data_ready)
     .enter()
     .append('text')
-    .text(function(d){ return "grp " + d.data.key})
+    .text(function(d){ return d.data.key + " min"})
     .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
     .style("text-anchor", "middle")
     .style("font-size", 17)
+}
 
+/* =================== GRAPHIC DATA FETCH FUNCTION ======================== */
+
+window.onload = function() {
+
+    // Capture the id from the url
+    const params = new URL(location.href).searchParams;
+    const job_id_param = params.get('id');
+    let rankings_check = document.getElementById("no-posting-txt");
+    //If rankings are available generate graphics through fetch API
+    if (rankings_check.innerText === ""){
+        // String that holds the form data
+        let data = {job_id: job_id_param}
+        
+        // submit a POST request
+        fetch('/graphic', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'},
+        })
+        .then(response => response.json())
+        .then(data => {
+        
+        // Use d3 to build the graphics based on responses
+        buildGraphics(data.graphic_data);
+        
+    });
+  }
+    
 }

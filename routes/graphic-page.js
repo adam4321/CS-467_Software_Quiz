@@ -22,6 +22,17 @@ const checkUserLoggedIn = (req, res, next) => {
     req.user ? next(): res.status(401).render('unauthorized-page', {layout: 'login'});
 }
 
+/* GENERATE BINS - Function to return an object of frequencies of unique properties from raw data array --------------- */
+function generateBins(data) {
+    let result = {};
+    //calculate frequencies of each unique property in array
+    for(let j = 0; j < data.length; ++j) {
+        if(!result[data[j]])
+            result[data[j]] = 0;
+        ++result[data[j]];
+    };    
+    return result;
+};
 
 /* GRAPHIC PAGE - Function to render user's ranking page ------------------- */
 function renderGraphic(req, res, next) {
@@ -36,15 +47,8 @@ function renderGraphic(req, res, next) {
         // Add the Job Posting _id to context
         context._id = doc._id;
 
-        // Sort the candidate's quiz responses by score and time to break ties
-        let temp = doc.quizResponses;
-
-        temp.sort((a, b) => (parseFloat(a.quizScore) < parseFloat(b.quizScore)) ? 1 : 
-            (parseFloat(a.quizScore) === parseFloat(b.quizScore)) ?
-            ((a.quizEpochTime > b.quizEpochTime) ? 1 : -1) : -1
-        );
-
-        context.rankings = temp;
+        // Send initial rankings to context
+        context.rankings = doc.quizResponses;
 
         res.render("graphic-page", context);
     })
@@ -54,9 +58,48 @@ function renderGraphic(req, res, next) {
     });
 };
 
+/* COMPILE DATA FROM RESPONSES - Function to render user's ranking page ------------------- */
+function compileResponses(req, res, next) {
+    let job_id = req.body.job_id;
+
+    // Query job posting again to develop the JSON object of responses (time and scores for each user)
+    JobPosting.findOne({'_id': ObjectId(job_id)}).lean().exec()
+    .then(doc => {
+
+        // Capture data values from each response and put into arrays
+        let parsed_time_data = [];
+        let parsed_score_data = [];
+        let parsed_data = {};
+        let raw_data = doc.quizResponses;
+        let raw_data_length = Object.keys(raw_data).length;
+        for (let i = 0; i < raw_data_length; i++){
+            parsed_time_data.push(raw_data[i].quizTotalTime);
+            parsed_score_data.push(Math.round(raw_data[i].quizScore));
+        };
+
+        // Calculate frequencies for each data
+        let time_obj = generateBins(parsed_time_data);
+        let score_obj =  generateBins(parsed_score_data);
+        
+        // Build the data object to pass to the client
+        parsed_data.times = time_obj;
+        parsed_data.scores = score_obj;
+        parsed_data.total_responses = raw_data_length;
+
+        //Send data to the client
+        const candidate_data = parsed_data;
+        res.send({ graphic_data: candidate_data})
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).render("graphic-page", context);
+    });
+};
 
 /* RANKING PAGE ROUTES ---------------------------------------------------- */
 
 router.get('/', checkUserLoggedIn, renderGraphic);
+
+router.post('/', checkUserLoggedIn, compileResponses);
 
 module.exports = router;
