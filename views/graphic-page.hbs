@@ -1,0 +1,35 @@
+{{!-- Settings view - using express handlebars --}}
+
+<title>Quiz Soft | Ranking</title>
+<link type="text/css" rel="stylesheet" href="css/ranking-page.css">
+
+{{!-- Container for the dashboard --}}
+<div id="top-row-container">
+
+        {{!-- No quizzes --}}
+        <div id="dashboard-container" class="mdl-card mdl-shadow--2dp">
+
+            <div class="mdl-card__title mdl-color-text--white dashboard-top-bar">
+                <h2 class="mdl-card__title-text">Graphic</h2>
+            </div>
+
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600 no-posting-content">
+                <p id="title-div">{{title}}</p>
+
+                <div id="back-div">
+                    <p id="back-txt">Ranking</p>
+                    <button id="back-btn" class="btn-style" onclick="goBack()">Back</button>
+                </div>
+
+                <hr id="no-posting-break">
+                <div id="no-posting-div">
+                    <img id="question-logo" src="images/logo.png"/>
+                    <p id="no-posting-txt">No Rankings Yet</p>
+                </div>
+
+            </div>
+        </div>
+
+</div>
+
+<script src="js/graphic-client.js"></script>

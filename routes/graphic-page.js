@@ -1,7 +1,7 @@
 /******************************************************************************
-**  Description: RANKING PAGE - server side node.js routes
+**  Description: GRAPHIC PAGE - server side node.js routes
 **
-**  Root path:  localhost:3500/ranking
+**  Root path:  localhost:3500/graphic
 **
 **  Contains:   /
 **  
@@ -23,8 +23,8 @@ const checkUserLoggedIn = (req, res, next) => {
 }
 
 
-/* RANKING PAGE - Function to render user's ranking page ------------------- */
-function renderRanking(req, res, next) {
+/* GRAPHIC PAGE - Function to render user's ranking page ------------------- */
+function renderGraphic(req, res, next) {
     let context = {};
 
     // Find object with id from jobpostings data model
@@ -44,22 +44,19 @@ function renderRanking(req, res, next) {
             ((a.quizEpochTime > b.quizEpochTime) ? 1 : -1) : -1
         );
 
-        context.rankings = temp;
+        //context.rankings = temp;
 
-        // Add the Quiz questions and answers into the context object
-        context.associatedQuiz = doc.associatedQuiz[0];
-
-        res.render("ranking-page", context);
+        res.render("graphic-page", context);
     })
     .catch(err => {
         console.error(err);
-        res.status(500).render("ranking-page", context);
+        res.status(500).render("graphic-page", context);
     });
 };
 
 
 /* RANKING PAGE ROUTES ---------------------------------------------------- */
 
-router.get('/', checkUserLoggedIn, renderRanking);
+router.get('/', checkUserLoggedIn, renderGraphic);
 
 module.exports = router;
