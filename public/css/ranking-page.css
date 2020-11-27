@@ -87,6 +87,45 @@ td:hover {
 }
 
 
+.pi-link {
+    background-color: #ebb54b;
+    color: rgb(66,66,66);
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    width: 20px;
+    margin: 5px 0 8px 0;
+    padding: 1px;
+    display: inline-block;
+}
+
+.pi-link:hover .tooltiptext {
+    visibility: visible;
+}
+
+.pi-link:hover {
+    background-color: #c7942d;
+}
+
+#pi-image {
+    scale: 100%;
+}
+
+.tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 2;
+}
+
+
 /* Table styling ----------------------------------------------------------- */
 
 #row-msg {
@@ -299,6 +338,15 @@ td:hover {
 
     .quiz-rank {
         text-align: center;
+    }
+
+    .pi-link {
+        width: 15px;
+        padding: 1px;
+    }
+
+    #pi-image {
+        scale: 90%;
     }
 }
 

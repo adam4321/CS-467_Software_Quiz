@@ -3,12 +3,18 @@
 **                the dynamic behavior for the page
 **
 **  Contains:     goBack
+**                graphicLink
 **                createModals
 ******************************************************************************/
 
 /* GO BACK - Function to go back to last page ------------------------------ */
 function goBack() {
     window.history.back();
+}
+
+/* NAVIGATE TO GRAPHIC VISUALIZATION - Function to move to graphic page ------------------ */
+function graphicLink(id) {
+    window.location.href = `/graphic?id=${id}`;
 }
 
 

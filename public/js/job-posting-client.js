@@ -13,10 +13,9 @@ function navigateToBuilder() {
 }
 
 /* NAVIGATE TO RANKING - Function to move to ranking page ------------------ */
-function folowLink(id) {
+function followLink(id) {
     window.location.href = `/ranking?id=${id}`;
 }
-
 
 /* DELETE POSTING - Function to delete a posting and update the table ------ */
 function deletePosting(tbl, curRow, quizId, event) {
