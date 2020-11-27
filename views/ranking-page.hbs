@@ -17,12 +17,18 @@
 
             <div class="mdl-card__supporting-text mdl-color-text--grey-600 posting-content">
                 <p id="title-div">{{title}}</p>
-                <div class="pi-link" class="material-icons" onclick="graphicLink(`{{_id}}`)"><img  id="pi-image" src="/images/pie_chart.svg" alt="email logo"><span class="tooltiptext">Visualize Responses</span></div>
+
+
                 <div id="back-div">
                     <p id="back-txt">Job Postings</p>
                     <button id="back-btn" class="btn-style" onclick="goBack()">Back</button>
                 </div>
 
+                <div id="graphic-div">
+                    <p id="graphic-txt">Graphic</p>
+                    <div class="pi-link" class="material-icons" onclick="graphicLink(`{{_id}}`)"><img  id="pi-image" src="/images/pie_chart.svg" alt="email logo"><span class="tooltiptext">Visualize Responses</span></div>
+                </div>
+                
                 <p id="row-msg"><i>Click a row to display the quiz</i></p>
         
                 {{!-- Display No postings OR Table that displays the user's postings --}}

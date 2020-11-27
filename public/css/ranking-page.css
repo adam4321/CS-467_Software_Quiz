@@ -36,6 +36,58 @@ td:hover {
     font-family: "Helvetica","Arial",sans-serif;
 }
 
+/* Graphic Division  ------------------------------------------------------------- */
+
+#graphic-div {
+    float: right;
+    margin: 5px 0 8px 0;
+    padding-right: 20px;
+}
+
+#graphic-txt {
+    margin: 5px 0 0 0;
+    font-size: medium; 
+    font-weight: bold; 
+    display: inline-block;
+}
+
+.pi-link {
+    background-color: #ebb54b;
+    color: rgb(66,66,66);
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    width: 20px;
+    margin: 5px 0 8px 0;
+    padding: 1px;
+    display: inline-block;
+}
+
+.pi-link:hover .tooltiptext {
+    visibility: visible;
+}
+
+.pi-link:hover {
+    background-color: #c7942d;
+}
+
+#pi-image {
+    scale: 100%;
+}
+
+.tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 2;
+}
 
 /* Back button ------------------------------------------------------------- */
 
@@ -87,43 +139,6 @@ td:hover {
 }
 
 
-.pi-link {
-    background-color: #ebb54b;
-    color: rgb(66,66,66);
-    border: none;
-    cursor: pointer;
-    border-radius: 2px;
-    width: 20px;
-    margin: 5px 0 8px 0;
-    padding: 1px;
-    display: inline-block;
-}
-
-.pi-link:hover .tooltiptext {
-    visibility: visible;
-}
-
-.pi-link:hover {
-    background-color: #c7942d;
-}
-
-#pi-image {
-    scale: 100%;
-}
-
-.tooltiptext {
-    visibility: hidden;
-    width: 140px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
-    position: absolute;
-    z-index: 2;
-}
 
 
 /* Table styling ----------------------------------------------------------- */
@@ -276,6 +291,12 @@ td:hover {
         margin: 10px auto 15px auto;
     }
 
+    #graphic-div {
+        float: none;
+        width: 190px;
+        margin: 10px auto 15px auto;
+    }
+
     #quiz-comment {
         min-height: 160px;
         max-width:220px
@@ -341,12 +362,12 @@ td:hover {
     }
 
     .pi-link {
-        width: 15px;
+        width: 20px;
         padding: 1px;
     }
 
     #pi-image {
-        scale: 90%;
+        scale: 85%;
     }
 }
 
