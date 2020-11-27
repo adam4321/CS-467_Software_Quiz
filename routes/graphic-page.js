@@ -47,6 +47,9 @@ function renderGraphic(req, res, next) {
         // Add the Job Posting _id to context
         context._id = doc._id;
 
+        // Add the quiz name to context
+        context.quiz_name = doc.associatedQuiz[0].quiz.name;
+
         // Send initial rankings to context
         context.rankings = doc.quizResponses;
 

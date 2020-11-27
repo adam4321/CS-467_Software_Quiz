@@ -16,16 +16,19 @@
             </div>
 
             <div class="mdl-card__supporting-text mdl-color-text--grey-600 no-posting-content">
-                <p id="title-div"><b>Job Posting: </b>{{title}}</p>
 
                 <div id="back-div">
                     <p id="back-txt">Rankings</p>
                     <button id="back-btn" class="btn-style" onclick="goBack()">Back</button>
                 </div>
 
-                <p id="no-posting-txt"></p>
+                <p id="title-div"><b>Job Posting: </b>{{title}}</p>
+                </br>
+                <p id="title-div"><b>Quiz: </b>{{quiz_name}}</p>
+                </br>
                 <hr>
-                <b id="pie-chart-txt">Time taken to complete the quiz in minutes</b>
+                <p id="no-posting-txt"></p>
+                <b id="pie-chart-txt">Graphic for time taken to submit in minutes</b>
                 <!-- Div for the pie chart of time taken to complete -->
                 <div id="my_dataviz"></div>
             </div>
@@ -41,7 +44,7 @@
             </div>
 
             <div class="mdl-card__supporting-text mdl-color-text--grey-600 no-posting-content">
-                <b id="histogram-chart-txt">Score histogram</b>
+                <b id="histogram-chart-txt">Graphic for scores and histogram of frequency</b>
                 <!-- Div for the histogram of scores -->
                 <div id="score_viz"></div>
             </div>
