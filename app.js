@@ -91,6 +91,9 @@ app.use('/job_postings_builder', require('./routes/job-postings-builder-page.js'
 // RANKING PAGE ROUTES
 app.use('/ranking', require('./routes/ranking-page.js'));
 
+// GRAPHIC PAGE ROUTES
+app.use('/graphic', require('./routes/graphic-page.js'));
+
 // QUIZ SETUP PAGE ROUTES
 app.use('/quiz_builder', require('./routes/quiz-setup-page.js'));
 

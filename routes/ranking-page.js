@@ -33,6 +33,9 @@ function renderRanking(req, res, next) {
         // Add the Job Posting title to context
         context.title = doc.title;
 
+        // Add the Job Posting _id to context
+        context._id = doc._id;
+
         // Sort the candidate's quiz responses by score and time to break ties
         let temp = doc.quizResponses;
 
