@@ -112,7 +112,7 @@ function buildPieGraphic(data) {
     .append("circle")
     .attr("cx", 100)
     .attr("cy", function(d,i){ return 10 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
-    .attr("r", 7)
+    .attr("r", 5)
     .style("fill", function(d){ return color2(d)})
 
     // Add one dot in the legend for each name.
