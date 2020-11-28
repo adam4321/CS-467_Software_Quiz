@@ -132,8 +132,8 @@ function buildPieGraphic(data) {
 function buildHistogramGraphic(data) {
     // Set the dimensions and margins of the graph
     var margin = {top: 10, right: 30, bottom: 30, left: 40},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        width = 360 - margin.left - margin.right,
+        height = 300 - margin.top - margin.bottom;
 
     // Append the svg object to the body of the page
     var svg = d3.select("#score_viz")
@@ -141,22 +141,11 @@ function buildHistogramGraphic(data) {
     // Container class to make it responsive.
     .classed("svg-container", true) 
     .append("svg")
-    // Responsive SVG needs these 2 attributes and no width and height attr.
-    .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("viewBox", "0 0 600 400")
-    // Class to make it responsive.
-    .classed("svg-content-responsive", true)
-    // Fill with a rectangle for visualization.
-    .append("rect")
-    .classed("rect", true)
-    .attr("width", 600)
-    .attr("height", 400);
-    .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
     .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
 
     // Get the data
     var data = data.scores
