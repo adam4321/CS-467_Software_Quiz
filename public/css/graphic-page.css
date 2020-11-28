@@ -188,21 +188,6 @@ td:hover {
         width: 210px;
         margin: 10px auto 15px auto;
     }
-
-    #graphic-div {
-        float: none;
-        width: 190px;
-        margin: 10px auto 15px auto;
-    }
-
-    #quiz-comment {
-        min-height: 160px;
-        max-width:220px
-    }
-
-    #quiz-comment-container {
-        width: 95%;
-    }
 }
 
 
@@ -246,35 +231,8 @@ td:hover {
     .mdl-data-table__cell--non-numeric {
         font-size: 9px;
     }
-
-    #table-body {
-        font-size: 8px;
-    }
-
-    .email-txt {
-        width: 105px;
-    }
-
-    .quiz-rank {
-        text-align: center;
-    }
-
-    .pi-link {
-        width: 20px;
-        padding: 1px;
-    }
-
-    #pi-image {
-        scale: 85%;
-    }
 }
 
 @media only screen and (max-width: 500px) {
-    #quiz-comment {
-        width: 95%;
-    }
 
-    #quiz-comment-container {
-        width: 100%;
-    }
 }
