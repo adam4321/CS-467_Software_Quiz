@@ -61,7 +61,6 @@ function buildPieGraphic(data) {
     var pie = d3.pie()
     .value(function(d) {return d.value; })
     var data_ready = pie(d3.entries(data))
-    // Now I know that group A goes from 0 degrees to x degrees and so on.
 
     // shape helper to build arcs:
     var arcGenerator = d3.arc()
@@ -75,7 +74,7 @@ function buildPieGraphic(data) {
     .enter()
     .append('path')
         .attr('d', arcGenerator)
-        .attr('fill', function(d){ return(color(d.data.key)) })
+        .attr('fill', function(d){ return color( ( (parseInt(d.data.key)>0) ? (parseInt(d.data.key)+1) : d.data.key) ) })
         .attr("stroke", "black")
         .style("stroke-width", "2px")
         .style("opacity", 0.7)
@@ -97,8 +96,8 @@ function buildPieGraphic(data) {
     
     let keys = []; 
     for (prop in data) {
-        let percent_val = Math.floor(data[prop] / data_length);
-        keys.push(prop + " minutes: " + percent_val * 100 + "%");
+        let percent_val = (data[prop] / data_length);
+        keys.push(prop + " minutes: " + parseInt(percent_val * 100).toFixed(0) + "%");
     }
 
     // Reset the color scale
@@ -138,6 +137,20 @@ function buildHistogramGraphic(data) {
 
     // Append the svg object to the body of the page
     var svg = d3.select("#score_viz")
+    .append("div")
+    // Container class to make it responsive.
+    .classed("svg-container", true) 
+    .append("svg")
+    // Responsive SVG needs these 2 attributes and no width and height attr.
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 600 400")
+    // Class to make it responsive.
+    .classed("svg-content-responsive", true)
+    // Fill with a rectangle for visualization.
+    .append("rect")
+    .classed("rect", true)
+    .attr("width", 600)
+    .attr("height", 400);
     .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -150,7 +163,7 @@ function buildHistogramGraphic(data) {
     
     // X axis: scale and draw:
     var x = d3.scaleLinear()
-        .domain([0, 100])     
+        .domain([0, 110])     
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
