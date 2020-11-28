@@ -15,13 +15,14 @@ function goBack() {
 /* BUILD GRAPHICS - Function to build graphics from job posting responses -- ******************
 ** 
 **  JSON object details where the value of the property for times is the time in minutes
-**  and the value of the property for scores is the score percentage
-**  corresponding to their respective value, <frequency> for both times and scores.
+**  and the value of the property for scores is just the property score
+**  corresponding to their respective value, <frequency> for times
+**  and <percent> for scores.
 **
 **  ... indicates more unique properties in the below example.
 **  e.g.
 **  data: { times: { 0: <frequency>, 2: <frequency>, ... },
-**         scores: { 90: <frequency>, 80: <frequency>, ... },
+**         scores: { score: <percent>, score: <percent>, ... },
 **         total_responses: 5 }
 **********************************************************************************************/
 function buildPieGraphic(data) {
@@ -47,12 +48,13 @@ function buildPieGraphic(data) {
     svg.append("g")
         .attr("class", "lines");
 
-    // Create dummy data
+    // Get data
     var data = data.times
 
-    // set the color scale
+    // Set the color scale
+    var color_set = ['1', '2', '3', '4', '7', '8', '9', '10'];
     var color = d3.scaleOrdinal()
-    .domain(data)
+    .domain(color_set)
     .range(d3.schemeSet2);
 
     // Compute the position of each group on the pie:
@@ -91,7 +93,7 @@ function buildPieGraphic(data) {
     .style("font-size", 17)
 
     // select the svg area
-    var Svg = d3.select("#legend_viz")
+    var legend = d3.select("#legend_viz")
     
     let keys = []; 
     for (prop in data) {
@@ -101,26 +103,26 @@ function buildPieGraphic(data) {
 
     // Reset the color scale
     var color2 = d3.scaleOrdinal()
-    .domain(data)
+    .domain(color_set)
     .range(d3.schemeSet2);
 
     // Add one dot in the legend for each name.
-    Svg.selectAll("mydots")
+    legend.selectAll("mydots")
     .data(keys)
     .enter()
     .append("circle")
     .attr("cx", 100)
-    .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("cy", function(d,i){ return 10 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
     .attr("r", 7)
     .style("fill", function(d){ return color2(d)})
 
     // Add one dot in the legend for each name.
-    Svg.selectAll("mylabels")
+    legend.selectAll("mylabels")
     .data(keys)
     .enter()
     .append("text")
     .attr("x", 120)
-    .attr("y", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("y", function(d,i){ return 10 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
     .style("fill", function(d){ return color2(d)})
     .text(function(d){ return d})
     .attr("text-anchor", "left")
@@ -129,29 +131,26 @@ function buildPieGraphic(data) {
 };
 
 function buildHistogramGraphic(data) {
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 40},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    // Set the dimensions and margins of the graph
+    var margin = {top: 10, right: 30, bottom: 30, left: 40},
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-var svg = d3.select("#score_viz")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-          var data = {6: 9, 7: 20, 3:30, 2:8, 1:12}
-    // get the data
-   // var bins = data;
+    // Append the svg object to the body of the page
+    var svg = d3.select("#score_viz")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
 
-    // get the data
-d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/1_OneNum.csv", function(data) {
-
+    // Get the data
+    var data = data.scores
+    
     // X axis: scale and draw:
     var x = d3.scaleLinear()
-        .domain([0, 1000])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+        .domain([0, 100])     
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -159,20 +158,12 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
   
     // set the parameters for the histogram
     var histogram = d3.histogram()
-        .value(function(d) { return d.price; })   // I need to give the vector of value
+        .value(function(d) { return d.score; })   // I need to give the vector of value
         .domain(x.domain())  // then the domain of the graphic
         .thresholds(x.ticks(70)); // then the numbers of bins
   
     // And apply this function to data to get the bins
     var bins = histogram(data);
-console.log(bins);
-    // X axis: scale and draw:
-   /* var x = d3.scaleLinear()
-        .domain([0, 100])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-        .range([0, width]);
-    svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));*/
 
     // Y axis: scale and draw:
     var y = d3.scaleLinear()
@@ -191,7 +182,6 @@ console.log(bins);
             .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#69b3a2")
-});
 }
 
 /* =================== GRAPHIC DATA FETCH FUNCTION ======================== */

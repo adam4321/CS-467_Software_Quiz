@@ -80,16 +80,15 @@ function compileResponses(req, res, next) {
         let raw_data_length = Object.keys(raw_data).length;
         for (let i = 0; i < raw_data_length; i++){
             parsed_time_data.push(raw_data[i].quizTotalTime);
-            parsed_score_data.push(Math.round(raw_data[i].quizScore));
+            parsed_score_data.push(JSON.parse('{"score": '+Math.round(raw_data[i].quizScore)+'}'));
         };
 
-        // Calculate frequencies for each data
+        // Calculate frequencies for time
         let time_obj = generateBins(parsed_time_data);
-        let score_obj =  generateBins(parsed_score_data);
         
         // Build the data object to pass to the client
         parsed_data.times = time_obj;
-        parsed_data.scores = score_obj;
+        parsed_data.scores = parsed_score_data;
         parsed_data.total_responses = raw_data_length;
 
         //Send data to the client
