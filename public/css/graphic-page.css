@@ -23,7 +23,7 @@ td:hover {
 #title-div {
     display: inline-block;
     max-width: 100%;
-    margin: 10px 0 10px 7px;
+    margin: 10px 0 0px 7px;
     font-size: medium;
     font-weight: bold;
     font-size: 17px;
@@ -48,15 +48,7 @@ td:hover {
 
 #back-btn {
     display: inline-block;
-    margin: 0 0 0 14px;
-    width: 81px;
-    height: 27px;
-    text-align: center;
-}
-
-#back-btn-new {
-    display: inline-block;
-    margin: 7px 0px 0 23px;
+    margin: 0 0 0 19px;
     width: 81px;
     height: 27px;
     text-align: center;
@@ -112,14 +104,14 @@ td:hover {
 
 @media only screen and (max-width: 575px) {
     .mdl-card__supporting-text {
-        padding-top: 5px !important;
+        padding-top: 0 !important;
     }
 
     #title-div {
         display: block;
         text-align: center;
         position: relative;
-        margin: 5px auto 5px auto;
+        margin: 0 auto 5px auto;
         padding-right: 25px;
     }
 
@@ -142,6 +134,7 @@ td:hover {
     #dashboard-container {
         width: 100%;
         margin-bottom: 0;
+        padding-left: 10px;
     }
 
     #scores-container {
@@ -155,15 +148,7 @@ td:hover {
         padding: 0px 0px 0px 3px !important;
     }
 
-    #title-div {
-        display: block;
-        text-align: center;
-        position: relative;
-        margin: 0 auto 5px auto;
-        padding-right: 25px;
-    }
-
     .posting-content {
-        margin: 15px auto 10px auto;
+        margin: 5px auto 10px auto;
     }
 }
