@@ -125,14 +125,12 @@ window.onload = function(e) {
     }
     else{
         // Hide the timer and form
-        var timerToHide = document.getElementsById("timer-text");
+        var timerToHide = document.getElementById("timer-text");
         timerToHide[y].style.visibility = "hidden"; 
         timerToHide[y].style.display = "none"; 
-        var formToHide = document.getElementsById("take_quiz");
-        for(let y = 0; y < divsToHide.length; y++){
-            formToHide[y].style.visibility = "hidden"; 
-            formToHide[y].style.display = "none"; 
-        }
+        var formToHide = document.getElementById("take_quiz");
+        formToHide[y].style.visibility = "hidden"; 
+        formToHide[y].style.display = "none"; 
     }
 };
 
