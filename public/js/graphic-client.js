@@ -53,9 +53,7 @@ function buildPieGraphic(data) {
     var data = data.times
 
     // Set the color scale
-    var color_set = ['1', '2', '3', '4', '7', '8', '9', '10'];
     var color = d3.scaleOrdinal()
-    .domain(color_set)
     .range(d3.schemeSet2);
 
     // Compute the position of each group on the pie:
@@ -103,7 +101,6 @@ function buildPieGraphic(data) {
 
     // Reset the color scale
     var color2 = d3.scaleOrdinal()
-    .domain(color_set)
     .range(d3.schemeSet2);
 
     // Add one dot in the legend for each name.
