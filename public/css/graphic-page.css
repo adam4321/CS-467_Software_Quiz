@@ -11,55 +11,24 @@ td:hover {
     max-width: 730px;
 }
 
-#dashboard-container-empty {
+#scores-container {
     width: 730px;
-    margin: auto;
-    padding-right: 0;
+    margin: 30px auto 60px auto;
 }
 
 .posting-content {
     width: 93%;
 }
 
-.no-posting-content {
-    width: 93%;
-}
-
 #title-div {
     display: inline-block;
     max-width: 100%;
-    margin: 10px 0 0 7px;
+    margin: 10px 0 10px 7px;
     font-size: medium;
     font-weight: bold;
     font-size: 17px;
     color: #757575;
     font-family: "Helvetica","Arial",sans-serif;
-}
-
-.svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
-    vertical-align: top;
-    overflow: hidden;
-  }
-
-
-/* Graphic division  ------------------------------------------------------------- */
-
-#pie-chart-txt {
-    font-weight: 50;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-size: 40px;
-    margin: 5px auto 5px 5px;
-}
-
-#histogram-chart-txt {
-    font-weight: 50;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-size: 40px;
-    margin: 5px auto 5px 5px;
 }
 
 
@@ -113,57 +82,19 @@ td:hover {
 }
 
 
+/* Data Viz ---------------------------------------------------------------- */
 
-
-/* Table styling ----------------------------------------------------------- */
-
-#row-msg {
-    margin: 25px 0 -20px 100px;
-    font-size: 12px;
-}
-
-#recordTable {
-    margin-top: 20px;
-    width: 200px;
-}
-
-.user-numbers {
-    text-align: center;
-}
-
-.quiz-rank {
+.svg-container {
+    display: inline-block;
+    position: relative;
     width: 100%;
-    padding-right: 0 !important;
-}
-
-.email-txt {
-    width: 160px;
+    /* padding-bottom: 100%; aspect ratio */
+    vertical-align: top;
     overflow: hidden;
 }
 
-
-/* Style tables with no quizzes -------------------------------------------- */
-
-#no-posting-div {
-    width: 270px;
-    margin: 70px auto 40px auto;
-}
-
-#no-posting-break {
-    margin-top: 32px;
-}
-
-#question-logo {
-    height: 50px;
-    display: inline-block;
-    margin-top: -10px;
-    margin-left: 15px;
-}
-
-#no-posting-txt {
-    display: inline-block;
-    font-size: 22px;
-    color: #ebb54b;
+#s-percent {
+    margin: 0 0 0 120px;
 }
 
 
@@ -174,15 +105,14 @@ td:hover {
         width: 95%;
     }
 
-    .modal-content {
-        width: 60%;
+    #scores-container {
+        width: 95%;
     }
 }
 
 @media only screen and (max-width: 575px) {
-    #row-msg {
-        font-size: 10px;
-        margin-top: 25px;
+    .mdl-card__supporting-text {
+        padding-top: 5px !important;
     }
 
     #title-div {
@@ -195,57 +125,45 @@ td:hover {
 
     #back-div {
         float: none;
-        width: 210px;
+        width: 180px;
         margin: 10px auto 15px auto;
+    }
+
+    #pie-break {
+        margin: 0 auto 20px auto;
+        width: 90%;
     }
 }
 
 
 /* Media queries for vertical mobile phones -------------------------------- */
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 400px) {
     #dashboard-container {
         width: 100%;
+        margin-bottom: 0;
+    }
+
+    #scores-container {
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 20px;
     }
 
     .mdl-card__supporting-text {
         width: 100%;
-        padding: 0px 0px 5px 3px !important;
+        padding: 0px 0px 0px 3px !important;
     }
 
     #title-div {
         display: block;
         text-align: center;
         position: relative;
-        margin: 5px auto 5px auto;
+        margin: 0 auto 5px auto;
         padding-right: 25px;
     }
 
-    #no-posting-div {
-        margin: 60px auto 30px auto;
-    }
-
     .posting-content {
-        margin: 15px auto 0px auto;
-    }
-
-    .no-posting-content {
         margin: 15px auto 10px auto;
-    }
-
-    #no-posting-break {
-        width: 88%;
-        margin-left: 5%;
-    }
-
-    .mdl-data-table__cell--non-numeric {
-        font-size: 9px;
-    }
-}
-
-@media only screen and (max-width: 500px) {
-    svg{
-        width: 200px;
-        height: 200px;
     }
 }

@@ -12,6 +12,7 @@ function goBack() {
     window.history.back();
 }
 
+
 /* BUILD GRAPHICS - Function to build graphics from job posting responses -- ******************
 ** 
 **  JSON object details where the value of the property for times is the time in minutes
@@ -111,8 +112,8 @@ function buildPieGraphic(data) {
     .enter()
     .append("circle")
     .attr("cx", 100)
-    .attr("cy", function(d,i){ return 10 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
-    .attr("r", 5)
+    .attr("cy", function(d,i){ return 5 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("r", 4)
     .style("fill", function(d){ return color2(d)})
 
     // Add one dot in the legend for each name.
@@ -120,7 +121,7 @@ function buildPieGraphic(data) {
     .data(keys)
     .enter()
     .append("text")
-    .attr("x", 120)
+    .attr("x", 115)
     .attr("y", function(d,i){ return 10 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
     .style("fill", function(d){ return color2(d)})
     .text(function(d){ return d})
@@ -129,9 +130,10 @@ function buildPieGraphic(data) {
 
 };
 
+
 function buildHistogramGraphic(data) {
     // Set the dimensions and margins of the graph
-    var margin = {top: 10, right: 30, bottom: 30, left: 40},
+    var margin = {top: 35, right: 30, bottom: 30, left: 40},
         width = 360 - margin.left - margin.right,
         height = 300 - margin.top - margin.bottom;
 
@@ -186,35 +188,30 @@ function buildHistogramGraphic(data) {
             .style("fill", "#69b3a2")
 }
 
+
 /* =================== GRAPHIC DATA FETCH FUNCTION ======================== */
 
 window.onload = function() {
-
     // Capture the id from the url
     const params = new URL(location.href).searchParams;
     const job_id_param = params.get('id');
-    let rankings_check = document.getElementById("no-posting-txt");
-    //If rankings are available generate graphics through fetch API
-    if (rankings_check.innerText === ""){
-        // String that holds the form data
-        let data = {job_id: job_id_param}
-        
-        // submit a POST request
-        fetch('/graphic', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then(response => response.json())
-        .then(data => {
-        
+    let rankings_check = document.getElementById("posting-txt");
+
+    // String that holds the form data
+    let data = {job_id: job_id_param}
+    
+    // submit a POST request
+    fetch('/graphic', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
         // Use d3 to build the time taken pie chart based on responses
         buildPieGraphic(data.graphic_data);
 
         // Use d3 to build the score histogram based on responses
         buildHistogramGraphic(data.graphic_data);
-        
     });
-  }
-    
 }

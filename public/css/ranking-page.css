@@ -40,12 +40,12 @@ td:hover {
 
 #graphic-div {
     float: right;
-    margin: 5px 0 8px 0;
-    padding-right: 20px;
+    width: 204.433px;
+    margin: 10px 0px 8px 450px;
 }
 
 #graphic-txt {
-    margin: 5px 0 0 0;
+    margin: 10px 0 0 0px;
     font-size: medium; 
     font-weight: bold; 
     display: inline-block;
@@ -57,9 +57,9 @@ td:hover {
     border: none;
     cursor: pointer;
     border-radius: 2px;
-    width: 20px;
-    margin: 5px 0 8px 0;
-    padding: 1px;
+    width: 81px;
+    height: 27px;
+    margin: 0px 0px -7px 23px;
     display: inline-block;
 }
 
@@ -73,21 +73,28 @@ td:hover {
 
 #pi-image {
     scale: 100%;
+    opacity: .75;
+    width: 18px;
+    margin: 4px 0 0 32px;
 }
 
 .tooltiptext {
     visibility: hidden;
-    width: 140px;
-    background-color: black;
+    width: 170px;
+    height: 35px;
+    background-color: rgb(41, 41, 41);
     color: #fff;
     text-align: center;
-    padding: 5px 0;
+    padding-top: 15px;
     border-radius: 6px;
 
     /* Position the tooltip text - see examples below! */
     position: absolute;
+    top: 85px;
+    left: 490px;
     z-index: 2;
 }
+
 
 /* Back button ------------------------------------------------------------- */
 
@@ -139,17 +146,17 @@ td:hover {
 }
 
 
-
-
 /* Table styling ----------------------------------------------------------- */
 
 #row-msg {
-    margin: 25px 0 -20px 100px;
+    float: left;
+    width: 200px;
+    margin: -25px 0 0px 100px;
     font-size: 12px;
 }
 
 #recordTable {
-    margin-top: 20px;
+    /* margin-top: -30px; */
     width: 200px;
 }
 
@@ -281,25 +288,28 @@ td:hover {
         display: block;
         text-align: center;
         position: relative;
-        margin: 5px auto 5px auto;
+        margin: 0px auto 5px auto;
         padding-right: 25px;
     }
 
     #back-div {
         float: none;
         width: 210px;
-        margin: 10px auto 15px auto;
+        margin: 25px auto 15px auto;
     }
 
     #graphic-div {
         float: none;
-        width: 190px;
-        margin: 10px auto 15px auto;
+        margin: 0 auto 0 auto;
+    }
+
+    .pi-link {
+        margin-top: 0;
     }
 
     #quiz-comment {
         min-height: 160px;
-        max-width:220px
+        max-width: 220px;
     }
 
     #quiz-comment-container {
@@ -324,7 +334,7 @@ td:hover {
         display: block;
         text-align: center;
         position: relative;
-        margin: 5px auto 5px auto;
+        margin: 5px auto 10px auto;
         padding-right: 25px;
     }
 
@@ -359,15 +369,6 @@ td:hover {
 
     .quiz-rank {
         text-align: center;
-    }
-
-    .pi-link {
-        width: 20px;
-        padding: 1px;
-    }
-
-    #pi-image {
-        scale: 85%;
     }
 }
 
