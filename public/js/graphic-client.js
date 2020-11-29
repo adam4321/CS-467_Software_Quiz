@@ -99,6 +99,9 @@ function buildPieGraphic(data) {
         keys.push(prop + " minutes: " + parseInt(percent_val * 100).toFixed(0) + "%");
     }
 
+    // Set legend height
+    legend.attr('height', 25 * keys.length)
+
     // Reset the color scale
     var color2 = d3.scaleOrdinal()
     .range(d3.schemeSet2);
@@ -123,7 +126,7 @@ function buildPieGraphic(data) {
     .style("fill", function(d){ return color2(d)})
     .text(function(d){ return d})
     .attr("text-anchor", "left")
-    .style("alignment-baseline", "middle")
+    // .style("alignment-baseline", "middle")
 
 };
 
