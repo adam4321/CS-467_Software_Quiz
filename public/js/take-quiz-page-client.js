@@ -2,7 +2,7 @@
 **  Description: TAKE QUIZ PAGE - client side javascript file that creates
 **               a verifies quiz responses, handles POST and times the quiz
 **
-**  Contains:    1 function that veririfes check-box is checked if not leave
+**  Contains:    1 function that verifies check-box is checked if not leave
 **               default value. Also timing functionality for client.
 ******************************************************************************/
 
@@ -169,11 +169,6 @@ var verifyResponses = function() {
   window.onbeforeunload = null;
   // Set timer output to zero
   document.getElementById('timer-text').textContent = `00:00`;
-  
-  // Clear the local storage
-  localStorage.removeItem('time_stamp');
-  localStorage.removeItem('start_quiz_semaphore');
-  localStorage.removeItem('refresh_quiz_semaphore');
   
   alert("The quiz was submitted");
 };
