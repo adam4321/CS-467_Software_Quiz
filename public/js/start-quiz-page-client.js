@@ -18,6 +18,7 @@ document.getElementById("start-btn").addEventListener('click', (e) => {
         let secondsTimeStampEpoch = moment.utc().valueOf(); 
         localStorage.setItem('time_stamp', secondsTimeStampEpoch);
         localStorage.setItem('start_quiz_semaphore', 1);
+        localStorage.removeItem('submit_quiz_semaphore');
         let path = window.location.pathname;
         // Route the candidate to the quiz page
         window.location.href = `${path}/quiz`;
