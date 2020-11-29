@@ -126,11 +126,11 @@ window.onload = function(e) {
     else{
         // Hide the timer and form
         var timerToHide = document.getElementById("timer-text");
-        timerToHide[y].style.visibility = "hidden"; 
-        timerToHide[y].style.display = "none"; 
+        timerToHide.style.visibility = "hidden"; 
+        timerToHide.style.display = "none"; 
         var formToHide = document.getElementById("take_quiz");
-        formToHide[y].style.visibility = "hidden"; 
-        formToHide[y].style.display = "none"; 
+        formToHide.style.visibility = "hidden"; 
+        formToHide.style.display = "none"; 
     }
 };
 
