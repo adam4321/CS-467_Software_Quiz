@@ -4,6 +4,13 @@
 **               closed.
 **
 ******************************************************************************/
+/* Set Semaphore to show that quiz is submitted a back button will not generate the page ----*/
+window.onload = function(e) {
+    e.preventDefault();
+    // Set the sumbit quiz semaphore to disable page upon retry with the back button
+    localStorage.setItem('submit_quiz_semaphore', 1);
+}
+
 /* Remove item on browser or tab close ------------------------------------------- */
 window.onunload = function() {
     // Clear the local storage

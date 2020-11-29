@@ -35,90 +35,105 @@ window.onunload = function() {
 
 window.onload = function(e) {
     e.preventDefault();
-    // Set timerText to be actual time by finding the difference between start and return after refreshed time.
-    var refresh_check = localStorage.getItem('refresh_quiz_semaphore');
-    let timerText = document.getElementById('timer-text').textContent.split(':');
-    let timerElement = document.getElementById('timer-text');
-    let TIME_LIMIT = timerText[0] * 60000;
-    if (refresh_check !== null){
-        let secondsTimeStampEpoch = moment.utc().valueOf(); 
-        let old_val = localStorage.getItem('time_stamp');
-        let timer_diff = Math.round((secondsTimeStampEpoch - old_val)/1000);
-        if (timer_diff < 0){
-            // Error, UTC capture error
-            alert("UTC time stamping error");
-            TIME_LIMIT = 0;
-        }
-        else{
-            let TIME_seconds = timerText[0] * 60;
-            let time_check = TIME_seconds - timer_diff;
-            console.log(TIME_seconds, " ",time_check);
-            if (time_check <= 0){
-                // Error ran out of time
+    // Verify that the user has not attempted to return to quiz page after submission
+    let back_button_check = localStorage.getItem('submit_quiz_semaphore');
+    if (back_button_check === null){
+        // Set timerText to be actual time by finding the difference between start and return after refreshed time.
+        var refresh_check = localStorage.getItem('refresh_quiz_semaphore');
+        let timerText = document.getElementById('timer-text').textContent.split(':');
+        let timerElement = document.getElementById('timer-text');
+        let TIME_LIMIT = timerText[0] * 60000;
+        if (refresh_check !== null){
+            let secondsTimeStampEpoch = moment.utc().valueOf(); 
+            let old_val = localStorage.getItem('time_stamp');
+            let timer_diff = Math.round((secondsTimeStampEpoch - old_val)/1000);
+            if (timer_diff < 0){
+                // Error, UTC capture error
+                alert("UTC time stamping error");
                 TIME_LIMIT = 0;
             }
             else{
-                let resume_time_str = ((time_check/60).toFixed(2).toString()).split('.');
-                let seconds = (parseInt(resume_time_str[1]) * 0.6).toFixed(0); 
-                timerElement.textContent = Math.floor(time_check/60)+':'+seconds;
-                timerText = document.getElementById('timer-text').textContent.split(':');
-                TIME_LIMIT = (timerText[0] * 60000) + (timerText[1] * 600);
+                let TIME_seconds = timerText[0] * 60;
+                let time_check = TIME_seconds - timer_diff;
+                console.log(TIME_seconds, " ",time_check);
+                if (time_check <= 0){
+                    // Error ran out of time
+                    TIME_LIMIT = 0;
+                }
+                else{
+                    let resume_time_str = ((time_check/60).toFixed(2).toString()).split('.');
+                    let seconds = (parseInt(resume_time_str[1]) * 0.6).toFixed(0); 
+                    timerElement.textContent = Math.floor(time_check/60)+':'+seconds;
+                    timerText = document.getElementById('timer-text').textContent.split(':');
+                    TIME_LIMIT = (timerText[0] * 60000) + (timerText[1] * 600);
+                }
             }
+        }
+
+
+        // Count down on the timer display
+        let minutes = parseInt(timerText[0]);
+        let seconds = parseInt(timerText[1]);
+        
+        // Update the time and render the new time to the screen
+        let timerInterval = setInterval(() => {
+            if (seconds == 0) {
+                seconds = 59
+                minutes--;
+
+                if (minutes < 10) {
+                    document.getElementById('timer-text').textContent = `0${minutes}:${seconds}`;
+                }
+                else {
+                    document.getElementById('timer-text').textContent = `${minutes}:${seconds}`;
+                }
+            }
+            else if (seconds <= 10) {
+                seconds--;
+
+                if (minutes < 10) {
+                    document.getElementById('timer-text').textContent = `0${minutes}:0${seconds}`;
+                }
+                else {
+                    document.getElementById('timer-text').textContent = `${minutes}:0${seconds}`;
+                }
+            }
+            else {
+                seconds--;
+
+                if (minutes < 10) {
+                    document.getElementById('timer-text').textContent = `0${minutes}:${seconds}`;
+                }
+                else {
+                    document.getElementById('timer-text').textContent = `${minutes}:${seconds}`;
+                }
+            }        
+        }, 1000);
+
+
+        // Manage the automatic submission when time runs out
+        setTimeout(() => {
+            // Turn off the timer
+            clearInterval(timerInterval);
+
+            // Display no time
+            document.getElementById('timer-text').textContent = `00:00`;
+
+            // Click the submit button
+            document.getElementById('submit-btn').click();
+        }, TIME_LIMIT);
+    }
+    else{
+        // Hide the timer and form
+        var timerToHide = document.getElementsById("timer-text");
+        timerToHide[y].style.visibility = "hidden"; 
+        timerToHide[y].style.display = "none"; 
+        var formToHide = document.getElementsById("take_quiz");
+        for(let y = 0; y < divsToHide.length; y++){
+            formToHide[y].style.visibility = "hidden"; 
+            formToHide[y].style.display = "none"; 
         }
     }
-
-
-    // Count down on the timer display
-    let minutes = parseInt(timerText[0]);
-    let seconds = parseInt(timerText[1]);
-    
-    // Update the time and render the new time to the screen
-    let timerInterval = setInterval(() => {
-        if (seconds == 0) {
-            seconds = 59
-            minutes--;
-
-            if (minutes < 10) {
-                document.getElementById('timer-text').textContent = `0${minutes}:${seconds}`;
-            }
-            else {
-                document.getElementById('timer-text').textContent = `${minutes}:${seconds}`;
-            }
-        }
-        else if (seconds <= 10) {
-            seconds--;
-
-            if (minutes < 10) {
-                document.getElementById('timer-text').textContent = `0${minutes}:0${seconds}`;
-            }
-            else {
-                document.getElementById('timer-text').textContent = `${minutes}:0${seconds}`;
-            }
-        }
-        else {
-            seconds--;
-
-            if (minutes < 10) {
-                document.getElementById('timer-text').textContent = `0${minutes}:${seconds}`;
-            }
-            else {
-                document.getElementById('timer-text').textContent = `${minutes}:${seconds}`;
-            }
-        }        
-    }, 1000);
-
-
-    // Manage the automatic submission when time runs out
-    setTimeout(() => {
-        // Turn off the timer
-        clearInterval(timerInterval);
-
-        // Display no time
-        document.getElementById('timer-text').textContent = `00:00`;
-
-        // Click the submit button
-        document.getElementById('submit-btn').click();
-    }, TIME_LIMIT);
 };
 
 
