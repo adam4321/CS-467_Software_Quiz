@@ -151,8 +151,8 @@ function generateMessage(email, cand_id, jobposting_id, quiz, title, message_hea
     var payload = { email: email, cand_id: cand_id, jobposting: jobposting_id, quiz: quiz};
     var token = jwt.encode(payload, CRED_ENV.HASH_SECRET);
     let quiz_link = 'https://softwarecustomquiz.herokuapp.com/take_quiz/'+token;
-    let message = first + ' ' + last + ',' +' Please click the following to take the employer quiz '+ quiz_link +' ';
-    let html_message = '<p>' + message_header + '</p></br><strong>' + message + '</strong>';
+    let message = `<strong>Please click the following link to take the quiz</strong><br>${quiz_link}`;
+    let html_message = `Hello ${first} ${last},<br><br>${message_header}<br><br>${message}`;
     let name = 'Invitation to Take ' + title + ' Aptitude Quiz';
 
     const msg = {
