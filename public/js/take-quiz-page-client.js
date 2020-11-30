@@ -9,27 +9,45 @@
 /* Confirm back button page exit ------------------------------------------- */
 window.onbeforeunload = function(e) {
     e.preventDefault();
+    
     let refresh_check = localStorage.getItem('refresh_quiz_semaphore');
-    if (refresh_check !== null){
+    if (refresh_check !== null) {
         refresh_check += 1;
         console.log(refresh_check);
         localStorage.setItem('refresh_quiz_semaphore', refresh_check);
     }
-    else{
+    else {
         localStorage.setItem('refresh_quiz_semaphore', 1);
     }
+
     // Remove navigation prompt on form submission
     window.onbeforeunload = null;
 
-        
     return true;
 };
+
 
 /* Remove item on browser or tab close ------------------------------------------- */
 window.onunload = function() {
     // Clear the local storage
     localStorage.removeItem('start_quiz_semaphore');
- }
+}
+
+// Force a page reload when using the back button
+if (window.history.state != null && window.history.state.hasOwnProperty('historic')) {
+    if (window.history.state.historic == true) {
+        document.body.style.display = 'none';
+        window.history.replaceState({historic: false}, '');
+        window.location.reload();
+    } 
+    else {
+        window.history.replaceState({historic  : true}, '');
+    }
+} 
+else {
+    window.history.replaceState({historic  : true}, '');
+}
+
 
 /* =================== QUIZ DISPLAY FUNCTIONS ======================== */
 
