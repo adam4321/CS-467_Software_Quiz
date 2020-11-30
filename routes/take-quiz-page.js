@@ -210,8 +210,8 @@ function scoreQuiz(req, res, next) {
                         let emp_email = emp_obj.email;
                         let emp_name = emp_obj.name;
                         let subject = "Quiz Soft Notification: Response Submitted";
-                        let message = "Hello, " + emp_name + " a quiz has been submitted by user " + cand_name + " , with email contact: " + cand_email  + ", visit our website to view the results.";
-                        let html_message = '<strong>' + message + '</strong></br><p> QuizSoft Link: https://softwarecustomquiz.herokuapp.com/login</p>';
+                        let message = `Hello ${emp_name},<br><br>A quiz has been submitted by user ${cand_name} with email contact: ${cand_email}. Visit our website to view the results.`;
+                        let html_message = `${message}<br><br><strong>QuizSoft Link:</strong> https://softwarecustomquiz.herokuapp.com/login`;
                         
                         const msg = {
                             to: `${emp_email}`, // Recipient
