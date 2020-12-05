@@ -195,7 +195,7 @@ click the hashed link to take a quiz on QuizSoft.
 #### Start Quiz
 
 Clicking START will begin the countdown timer for the quiz 
-and take you to the quiz page with the list of questions and options. 
+and take you to the Quiz page with the list of questions and options. 
 
 #### Take Quiz
 
@@ -203,18 +203,19 @@ The Quiz page display a countdown timer that updates each second.
 When the timer reaches zero (00:00) the quiz is automatically submitted. 
 Refreshing the page will not reset the timer but will reset the data entered 
 for each question. 
-You can choose not to answer all questions, but are encouraged to and the 
+You can choose to answer as many questions, as you want and the 
 final field is for optional comments that are used for sending a message 
-to the grader of the quiz or assumptions and explanations. 
-Clicking SUBMIT the quiz and all the data entered on the page.  
-Navigating off the page will also not reset the timer and the quiz cannot be 
+to the grader of the quiz or assumptions orexplanations. 
+
+Clicking the SUBMIT button will post all the data entered on the Quiz page. 
+Navigating off the page will also not reset the timer. The quiz cannot be 
 taken more than once for a given quiz link.  
 
 #### Quiz Submitted
 
 After submitting the quiz, a page will display that says Quiz 
 Submitted. Additionally, the time taken in minutes will be displayed 
-inside the card. 
+below. 
 
 ## Released under MIT License
 
