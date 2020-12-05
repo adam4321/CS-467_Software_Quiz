@@ -203,9 +203,9 @@ The Quiz page display a countdown timer that updates each second.
 When the timer reaches zero (00:00) the quiz is automatically submitted. 
 Refreshing the page will not reset the timer but will reset the data entered 
 for each question. 
-You can choose to answer as many questions, as you want and the 
+You can choose to answer as many questions as you want, and the 
 final field is for optional comments that are used for sending a message 
-to the grader of the quiz or assumptions orexplanations. 
+to the grader of the quiz. 
 
 Clicking the SUBMIT button will post all the data entered on the Quiz page. 
 Navigating off the page will also not reset the timer. The quiz cannot be 
@@ -213,7 +213,7 @@ taken more than once for a given quiz link.
 
 #### Quiz Submitted
 
-After submitting the quiz, a page will display that says Quiz 
+After submitting the quiz by clicking the SUBMIT button, a page will display that says Quiz 
 Submitted. Additionally, the time taken in minutes will be displayed 
 below. 
 
